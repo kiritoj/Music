@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="user" type="com.example.music.bean.User"/>
+        <variable name="viewmodel" type="com.example.music.viewmodel.LoginVM"/>
+    </data>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".activity.LoginActivity"
+    >
+
+        <LinearLayout
+                android:id="@+id/ll_top_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center_horizontal"
+        >
+
+            <ImageView android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:src="@drawable/vector_drawable_music_note_yellow"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="登录/注册"
+                      android:textColor="#000000"
+                      android:textSize="25dp"
+                      android:layout_gravity="center_vertical"
+            />
+        </LinearLayout>
+        <com.example.music.customveiw.MyEditView
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:hint="用户名"
+                android:maxLength="10"
+                android:text="@={user.name}"
+                android:layout_below="@id/ll_top_parent"
+                android:drawableRight="@drawable/vector_drawable_edittext_clean"
+                android:background="@drawable/edittext_background"/>
+
+        <com.example.music.customveiw.MyEditView
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:hint="密码"
+                android:maxLength="15"
+                android:text="@={user.password}"
+                android:layout_below="@id/et_name"
+                android:drawableRight="@drawable/vector_drawable_edittext_clean"
+                android:background="@drawable/edittext_background"/>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="40dp"
+        >
+            <Button
+                    android:id="@+id/bt_login"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:text="登录"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/button_background_yellow"
+                    android:onClick="@{()->viewmodel.login(user.name,user.password)}"/>
+            <Button
+                    android:id="@+id/bt_register"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:text="注册"
+                    android:textColor="@color/yellow"
+                    android:background="@drawable/button_background_white"
+                    android:onClick="@{()->viewmodel.register(user.name,user.password)}"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

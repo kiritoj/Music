@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+    <data>
+        <variable name="viewmodel" type="com.example.music.viewmodel.MineFragmentVM"/>
+
+    </data>
+    <ScrollView
+            android:id="@+id/sl_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="20dp"
+                    imageUrl="@{viewmodel.mUserAvatar}"
+
+                    />
+            <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:paddingLeft="3dp"
+                    android:text="@{viewmodel.mUserName}"
+                    android:textColor="@color/black"
+                    android:layout_toRightOf="@id/iv_user_avatar"
+                    android:layout_alignTop="@id/iv_user_avatar"/>
+            <Button android:id="@+id/bt_edit_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:text="编辑资料"
+                    android:textColor="@color/yellow"
+                    android:layout_below="@id/tv_user_name"
+                    android:layout_alignLeft="@id/tv_user_name"
+                    android:background="@drawable/button_edit_data_tellow"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_music_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/iv_user_avatar">
+                <LinearLayout
+                        android:id="@+id/ll_local_music"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+                    <ImageView android:layout_width="40dp"
+                               android:layout_height="50dp"
+                               android:src="@drawable/vector_drawable_local_music__"/>
+                    <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="本地音乐"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="5dp"/>
+                    <TextView
+                            android:id="@+id/tv_local_music_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14"
+                    />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/ll_my_collect"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+                    <ImageView android:layout_width="40dp"
+                               android:layout_height="50dp"
+                               android:src="@drawable/vector_drawable_my_collect"/>
+                    <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的收藏"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="5dp"/>
+                    <TextView
+                            android:id="@+id/tv_local_music_collect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14"
+                    />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/ll_download_music"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+                    <ImageView android:layout_width="40dp"
+                               android:layout_height="50dp"
+                               android:src="@drawable/vector_drawable_music_downloaded"/>
+                    <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="已下载"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="5dp"/>
+                    <TextView
+                            android:id="@+id/tv_local_music_download_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14"
+                    />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View android:id="@+id/divider"
+                  android:layout_width="match_parent"
+                  android:layout_height="8dp"
+                  android:layout_marginTop="5dp"
+                  android:layout_marginBottom="5dp"
+                  android:layout_below="@id/ll_music_parent"
+                  android:background="@color/gray"/>
+
+            <!--创建的歌单-->
+            <RelativeLayout
+                    android:id="@+id/rl_create_songlist_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/divider"
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="10dp"
+            >
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="创建的歌单"
+                          android:textSize="17sp"
+                          android:layout_marginLeft="10dp"
+                          android:layout_toRightOf="@id/iv_songList_more"
+                          android:textColor="@color/black"
+
+                />
+                <ImageView
+                        android:id="@+id/iv_songList_more"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/vector_drawable_open_more"
+                />
+                <ImageView
+                        android:id="@+id/iv_add_songlist"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/vector_drawable_add"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_created_songlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_create_songlist_parent"
+                    android:visibility="gone"
+            >
+            </android.support.v7.widget.RecyclerView>
+
+            <!--收藏的歌单-->
+            <RelativeLayout
+                    android:id="@+id/rl_collect_songlist_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rv_created_songlist"
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="10dp"
+            >
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="收藏的歌单"
+                          android:textSize="17sp"
+                          android:layout_marginLeft="10dp"
+                          android:layout_toRightOf="@id/iv_collect_songList_more"
+                          android:textColor="@color/black"
+
+                />
+                <ImageView
+                        android:id="@+id/iv_collect_songList_more"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/vector_drawable_open_more"
+                />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_collect_songlist_parent"
+                    android:visibility="gone">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+</layout>

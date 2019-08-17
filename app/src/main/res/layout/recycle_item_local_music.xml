@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="localmusic" type="com.example.music.bean.LocalMusic"/>
+    </data>
+    <LinearLayout
+            android:id="@+id/ll_local_music_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/item_pressed"
+            android:orientation="horizontal"
+            android:clickable="true">
+
+        <ImageView
+                android:id="@+id/iv_playing"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/vector_drawable_horn"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+        />
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="9"
+                      android:orientation="vertical"
+
+                      >
+            <TextView
+                    android:id="@+id/tv_local_music_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{localmusic.songName}"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/black"/>
+            <TextView
+                    android:id="@+id/tv_local_music_singer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:text="@{localmusic.singerName}"/>
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/iv_pop_more"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:src="@drawable/vector_drawable_local_music_fun"
+                android:layout_gravity="center_vertical"
+        />
+
+
+    </LinearLayout>
+</layout>
