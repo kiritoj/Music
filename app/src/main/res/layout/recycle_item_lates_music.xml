@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="song" type="com.example.music.bean.LastMusicBean.DataBean.SongBean"/>
+    </data>
+    <LinearLayout
+            android:id="@+id/ll_latest_song_root"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_pressed">
+
+        <LinearLayout
+                android:id="@+id/ll_creat_songlist_root"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+        >
+
+            <com.shehuan.niv.NiceImageView
+                    android:id="@+id/iv_songlist_cover"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:corner_radius="5dp"
+                    imageUrl="@{song.album.picUrl}"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="15sp">
+
+                <TextView
+                        android:id="@+id/tv_songlist_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{song.name}"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+                <TextView
+                        android:id="@+id/tv_songlist_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{song.artists[0].name}"
+                        android:textSize="13sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/iv_creat_songList_nav"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/item_pressed"
+                android:src="@drawable/vector_drawable_local_music_fun"/>
+
+
+    </LinearLayout>
+</layout>

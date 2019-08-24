@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="music" type="com.example.music.db.table.LocalMusic"/>
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/pop_window_background"
+    >
+        <!--音乐顶部信息-->
+        <include layout="@layout/include_music_info"
+                 bind:music="@{music}"/>
+        <LinearLayout
+                android:id="@+id/ll_local_music_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/item_pressed"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_marginTop="20dp">
+            <ImageView android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:src="@drawable/vector_drawable_delete"
+            />
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="从列表删除"
+                      android:textColor="@color/deepGray"
+                      android:textSize="17sp"
+                      android:layout_marginLeft="10dp"
+
+            />
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/ll_local_music_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/item_pressed"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+        >
+            <ImageView android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:src="@drawable/vector_drawable_add_with_block"
+            />
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="添加到歌单"
+                      android:textSize="17sp"
+                      android:textColor="@color/deepGray"
+                      android:layout_marginLeft="10dp"
+            />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

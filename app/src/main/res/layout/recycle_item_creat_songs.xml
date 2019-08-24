@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="song" type="com.example.music.db.table.LocalMusic"/>
+    </data>
+    <LinearLayout
+            android:id="@+id/ll_song_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/item_pressed"
+    >
+
+        <ImageView
+                android:id="@+id/iv_playing"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/vector_drawable_horn"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+        />
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_weight="9"
+                      android:orientation="vertical"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textSize="16sp"
+                      android:maxLines="1"
+                      android:ellipsize="end"
+                      android:textColor="@color/black"
+                      android:text="@{song.songName}"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:textSize="13sp"
+                      android:text="@{song.singerName}"/>
+
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/iv_pop_more"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/item_pressed"
+                android:src="@drawable/vector_drawable_local_music_fun"
+                android:layout_height="match_parent"/>
+
+    </LinearLayout>
+</layout>

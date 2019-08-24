@@ -8,7 +8,7 @@ import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.music.R
-import com.example.music.bean.User
+import com.example.music.db.table.User
 import com.example.music.viewmodel.LoginVM
 import com.example.music.databinding.ActivityLoginBinding
 import org.jetbrains.anko.toast
@@ -63,8 +63,8 @@ class LoginActivity : AppCompatActivity() {
         })
         mViewModel.isRegisterSuccess.observe(this, Observer {
             if (it!!){
-                startActivity(Intent(this,MainActivity::class.java))
-                finish()
+//                startActivity(Intent(this,MainActivity::class.java))
+//                finish()
             }else{
                 toast("注册失败")
             }

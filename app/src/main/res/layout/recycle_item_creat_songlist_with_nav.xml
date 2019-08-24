@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="songlist" type="com.example.music.db.table.SongList"/>
+    </data>
+    <LinearLayout
+            android:id="@+id/ll_songlist_root_view"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <include
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                layout="@layout/recycle_item_created_songlist"
+                bind:songlist="@{songlist}"/>
+
+        <ImageView
+                android:id="@+id/iv_creat_songList_nav"
+                android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:padding="10dp"
+                   android:background="@drawable/item_pressed"
+                   android:src="@drawable/vector_drawable_local_music_fun"/>
+
+
+    </LinearLayout>
+</layout>

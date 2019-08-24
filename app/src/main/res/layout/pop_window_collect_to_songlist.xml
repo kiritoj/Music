@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="500dp"
+              android:paddingTop="20dp"
+              android:background="@drawable/pop_window_background">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="收藏到下列歌单"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:padding="10dp"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_collect_to_songlist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

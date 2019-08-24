@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="songlist" type="com.example.music.db.table.SongList"/>
+    </data>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@drawable/pop_window_background">
+        <include layout="@layout/include_songlist_info"
+                 bind:songlist="@{songlist}"/>
+
+        <LinearLayout
+                android:id="@+id/ll_download_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/item_pressed"
+                android:padding="10dp">
+            <ImageView android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginLeft="10dp"
+                       android:src="@drawable/vector_drawable_download_gray"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:textColor="#515151"
+                      android:text="下载"
+                      android:textSize="16sp"
+                      android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/ll_edit_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/item_pressed"
+                android:padding="10dp">
+            <ImageView android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginLeft="10dp"
+                       android:src="@drawable/vector_drawable_edit"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:textColor="#515151"
+                      android:text="编辑歌单"
+                      android:textSize="16sp"
+                      android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/ll_delete_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/item_pressed"
+                android:padding="10dp"
+                >
+            <ImageView android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginLeft="10dp"
+                       android:src="@drawable/vector_drawable_delete"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:textColor="@color/deepGray"
+                      android:text="删除歌单"
+                      android:textSize="16sp"
+                      android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

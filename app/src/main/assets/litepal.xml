@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value = "Music"></dbname>
-    <version value = "1"></version>
+    <version value = "12"></version>
     <list>
         <!--添加本地音乐表-->
-        <mapping class="com.example.music.bean.LocalMusic"></mapping>
+        <mapping class="com.example.music.db.table.LocalMusic"></mapping>
+        <mapping class="com.example.music.db.table.SongList"></mapping>
+        <mapping class="com.example.music.db.table.BannerTable"></mapping>
+        <mapping class="com.example.music.db.table.CatTable"></mapping>
+        <mapping class="com.example.music.db.table.LastPlayTable"></mapping>
     </list>
 </litepal>

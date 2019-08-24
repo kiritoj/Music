@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@drawable/pop_window_background">
+
+    <!--头部-->
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="选择分类标签"
+              android:textStyle="bold"
+              android:textColor="@color/deepGray"
+              android:textSize="16sp"
+              android:gravity="center_horizontal"/>
+    <!--语种-->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="语种"
+              android:textColor="@color/black"
+              android:textSize="14sp"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_lunguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="10dp"
+            >
+    </android.support.v7.widget.RecyclerView>
+
+    <!--风格-->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="风格"
+              android:textSize="14sp"
+              android:textColor="@color/black"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="10dp">
+    </android.support.v7.widget.RecyclerView>
+
+    <!--场景-->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="场景"
+              android:textSize="14sp"
+              android:textColor="@color/black"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="10dp"
+            >
+    </android.support.v7.widget.RecyclerView>
+
+    <!--情感-->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="情感"
+              android:textSize="14sp"
+              android:textColor="@color/black"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_enotion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="10dp"
+           >
+    </android.support.v7.widget.RecyclerView>
+
+    <!--主题-->
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="主题"
+              android:textSize="14sp"
+              android:textColor="@color/black"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="10dp"
+            >
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
+
+</ScrollView>

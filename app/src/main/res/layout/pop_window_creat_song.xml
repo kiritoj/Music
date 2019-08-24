@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pop_window_background"
+        android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:background="@drawable/item_pressed"
+                  android:padding="10dp"
+                  android:gravity="center_vertical">
+        <ImageView android:layout_width="20dp"
+                   android:layout_height="20dp"
+                   android:src="@drawable/vector_drawable_playall"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="下一首播放"
+
+                  android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+            android:id="@+id/ll_delete_from_songlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/item_pressed"
+            android:padding="10dp"
+            android:gravity="center_vertical">
+        <ImageView android:layout_width="25dp"
+                   android:layout_height="25dp"
+                   android:src="@drawable/vector_drawable_delete"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="删除"
+                  android:textColor="@color/deepGray"
+                  android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:background="@drawable/item_pressed"
+                  android:padding="10dp"
+                  android:gravity="center_vertical">
+        <ImageView android:layout_width="25dp"
+                   android:layout_height="25dp"
+                   android:src="@drawable/vector_drawable_download_gray"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="下载"
+                  android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

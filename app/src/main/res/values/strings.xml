@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Music</string>
-    <string name="url">http://ww1.sinaimg.cn/large/006nwaiFly1g2lw2ys8r9j31z4140grd.jpg</string>
+    <string name="shou">首</string>
+    <string name="image_base_url">https://v1.itooi.cn/netease/pic?id=</string>
 </resources>

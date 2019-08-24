@@ -52,6 +52,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/item_pressed"
                         android:gravity="center_horizontal">
                     <ImageView android:layout_width="40dp"
                                android:layout_height="50dp"
@@ -67,7 +68,7 @@
                             android:id="@+id/tv_local_music_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14"
+                            android:text="@{String.valueOf(viewmodel.mLocalMusicNum)}"
                     />
 
                 </LinearLayout>
@@ -78,6 +79,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/item_pressed"
                         android:gravity="center_horizontal">
                     <ImageView android:layout_width="40dp"
                                android:layout_height="50dp"
@@ -104,6 +106,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/item_pressed"
                         android:gravity="center_horizontal">
                     <ImageView android:layout_width="40dp"
                                android:layout_height="50dp"
@@ -130,8 +133,7 @@
             <View android:id="@+id/divider"
                   android:layout_width="match_parent"
                   android:layout_height="8dp"
-                  android:layout_marginTop="5dp"
-                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="20dp"
                   android:layout_below="@id/ll_music_parent"
                   android:background="@color/gray"/>
 
@@ -142,19 +144,22 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/divider"
                     android:paddingLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="10dp"
+                    android:background="@drawable/item_pressed"
+                    android:onClick="@{()->viewmodel.controlCreatedList()}"
             >
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="创建的歌单"
                           android:textSize="17sp"
                           android:layout_marginLeft="10dp"
-                          android:layout_toRightOf="@id/iv_songList_more"
+                          android:layout_toRightOf="@id/iv_creat_songList_more"
                           android:textColor="@color/black"
 
                 />
                 <ImageView
-                        android:id="@+id/iv_songList_more"
+                        android:id="@+id/iv_creat_songList_more"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_centerVertical="true"
@@ -162,11 +167,13 @@
                 />
                 <ImageView
                         android:id="@+id/iv_add_songlist"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:padding="5dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="20dp"
+                        android:background="@drawable/item_pressed"
                         android:src="@drawable/vector_drawable_add"/>
 
             </RelativeLayout>
@@ -176,7 +183,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rl_create_songlist_parent"
-                    android:visibility="gone"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
             >
             </android.support.v7.widget.RecyclerView>
 
@@ -187,7 +195,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rv_created_songlist"
                     android:paddingLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/item_pressed"
+                    android:onClick="@{()->viewmodel.controlCollectList()}"
             >
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
@@ -209,10 +219,13 @@
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_collect_songlist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rl_collect_songlist_parent"
-                    android:visibility="gone">
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    >
 
             </android.support.v7.widget.RecyclerView>
 

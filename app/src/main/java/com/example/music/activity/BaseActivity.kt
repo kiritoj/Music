@@ -1,6 +1,7 @@
 package com.example.music.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.DrawableRes
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+
 import kotlinx.android.synthetic.main.toolbar_with_search.*
 import com.example.music.R
 import org.greenrobot.eventbus.EventBus
@@ -22,7 +24,8 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         //注册eventbus
-        EventBus.getDefault().register(this)
+        //EventBus.getDefault().register(this)
+
     }
 
     val toolbar get() = toolbar_with_search
@@ -60,6 +63,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        EventBus.getDefault().unregister(this)
+       // stopService(Intent(this,PlayService::class.java))
+        //EventBus.getDefault().unregister(this)
     }
 }

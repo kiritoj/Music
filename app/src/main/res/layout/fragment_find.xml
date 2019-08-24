@@ -1,6 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+<android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <!--轮播图-->
+            <com.example.music.customveiw.AutoScrollLayout
+                    android:id="@+id/auto_scroll_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_margin="10dp">
+            </com.example.music.customveiw.AutoScrollLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:paddingTop="15dp">
+                <!--歌单-->
+                <LinearLayout
+                        android:id="@+id/ll_songlist"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_pressed"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+                    <ImageView android:layout_width="50dp"
+                               android:layout_height="50dp"
+
+                               android:src="@drawable/vector_drawable_songlist"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="歌单"
+                              android:layout_marginTop="10dp"
+                              android:textColor="@color/deepGray"/>
+
+                </LinearLayout>
+                <!--排行榜-->
+                <LinearLayout
+                        android:id="@+id/ll_top"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_pressed"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+                    <ImageView android:layout_width="50dp"
+                               android:layout_height="50dp"
+                               android:src="@drawable/vector_drawable_top"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="排行榜"
+                              android:layout_marginTop="10dp"
+                              android:textColor="@color/deepGray"/>
+                    <!--mv-->
+
+
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/ll_mv"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/item_pressed"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+                    <ImageView android:layout_width="50dp"
+                               android:layout_height="50dp"
+
+                               android:src="@drawable/vector_drawable_mv"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="mv"
+                              android:layout_marginTop="10dp"
+                              android:textColor="@color/deepGray"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="热门歌单"
+                      android:textStyle="bold"
+                      android:textColor="@color/black"
+                      android:padding="10dp"
+                      android:layout_marginTop="10dp"
+                      android:textSize="17sp"/>
+
+            <!--热门歌单-->
+
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_hot_songlist_limit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+            </android.support.v7.widget.RecyclerView>
+
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="最新单曲"
+                      android:textStyle="bold"
+                      android:textColor="@color/black"
+                      android:padding="10dp"
+                      android:textSize="17sp"
+            />
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_latest_song"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false">
+            </android.support.v7.widget.RecyclerView>
+
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

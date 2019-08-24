@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="data" type="com.example.music.bean.SongListBean.DataBean"/>
+    </data>
+    <RelativeLayout
+            android:id="@+id/rl_songlist_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+    >
+
+        <com.shehuan.niv.NiceImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                imageUrl="@{data.coverImgUrl}"
+                app:corner_radius="5dp"/>
+
+        <ImageView
+                android:id="@+id/iv_playing_flag"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/vector_drawable_play"/>
+
+        <TextView
+                android:id="@+id/tv_play_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                playcount="@{data.playCount}"
+                android:textColor="@color/white"
+                android:layout_alignTop="@id/iv_playing_flag"
+                android:layout_toRightOf="@id/iv_playing_flag"
+        />
+
+        <TextView
+                android:id="@+id/tv_list_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@{data.name}"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_below="@id/iv_cover"/>
+
+    </RelativeLayout>
+</layout>

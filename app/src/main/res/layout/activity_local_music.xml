@@ -2,6 +2,7 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_local_music_root_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -13,11 +14,10 @@
             android:layout_height="0dp"
             android:layout_weight="9">
     </android.support.v7.widget.RecyclerView>
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-             android:layout_weight="1" >
-    </FrameLayout>
+    <include
+            android:id="@+id/local_song_bottom"
+            layout="@layout/song_info_button"
+             android:visibility="gone"/>
 
 
 </LinearLayout>

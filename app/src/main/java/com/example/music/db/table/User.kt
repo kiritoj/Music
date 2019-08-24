@@ -1,4 +1,4 @@
-package com.example.music.bean
+package com.example.music.db.table
 
 import android.databinding.BaseObservable
 

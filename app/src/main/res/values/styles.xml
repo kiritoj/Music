@@ -8,6 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TransparentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#00FFFFFF</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/yellow</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="NoTitleFullscreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
 
@@ -20,4 +34,8 @@
         <item name="android:windowExitAnimation">@anim/pop_exit_to_buttom</item>
     </style>
 
+    <style name="popwindowCenter">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_from_center</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_to_center</item>
+    </style>
 </resources>

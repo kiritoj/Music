@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app = "http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="songlist" type="com.example.music.db.table.SongList"/>
+    </data>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+    >
+        <com.shehuan.niv.NiceImageView
+                android:id="@+id/iv_songlist_info_cover"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:corner_radius="5dp"
+                imageUrl="@{songlist.coverUrl}"/>
+
+        <TextView
+                android:id="@+id/tv_songlist_info_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{songlist.name}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"/>
+    </LinearLayout>
+</layout>

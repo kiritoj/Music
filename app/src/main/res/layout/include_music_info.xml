@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--弹出的popwindow歌曲顶部通用布局-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="music" type="com.example.music.db.table.LocalMusic"/>
+    </data>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <!--专辑图-->
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                albumId="@{music.albumID}"
+                />
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:paddingLeft="20dp"
+                      android:layout_gravity="center_vertical">
+
+            <!--歌曲名-->
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@{music.songName}"
+                      android:textColor="@color/black"
+                      android:textSize="16sp"
+                      android:maxLines="1"
+                      android:ellipsize="end"/>
+
+            <!--歌手-->
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{music.singerName}"
+                    android:textSize="13sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
