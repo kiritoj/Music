@@ -11,6 +11,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/item_pressed">
 
+        <ImageView
+                android:id="@+id/iv_playing"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/vector_drawable_horn"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+        />
         <LinearLayout
                 android:id="@+id/ll_creat_songlist_root"
                 android:orientation="horizontal"

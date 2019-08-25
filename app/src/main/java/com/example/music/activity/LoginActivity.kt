@@ -13,6 +13,9 @@ import com.example.music.viewmodel.LoginVM
 import com.example.music.databinding.ActivityLoginBinding
 import org.jetbrains.anko.toast
 
+/**
+ * 登录activity
+ */
 class LoginActivity : AppCompatActivity() {
 
 
@@ -63,8 +66,7 @@ class LoginActivity : AppCompatActivity() {
         })
         mViewModel.isRegisterSuccess.observe(this, Observer {
             if (it!!){
-//                startActivity(Intent(this,MainActivity::class.java))
-//                finish()
+                //注册成功后会直接使用注册信息登录
             }else{
                 toast("注册失败")
             }

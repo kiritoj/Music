@@ -11,7 +11,7 @@ class LoadingVM {
     var time = MutableLiveData<Boolean>()
 
     fun startTiming(){
-        Handler().sendEmptyMessageDelayed(1,2000)
+        Handler().sendEmptyMessageDelayed(1,1000)
     }
 
     inner class Handler : android.os.Handler(){

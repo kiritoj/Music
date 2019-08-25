@@ -22,7 +22,9 @@ import com.example.music.db.table.LocalMusic
 import com.example.music.db.table.SongList
 import com.example.music.event.RefreshEvent
 import com.example.music.event.SongEvent
+import com.example.music.viewmodel.BottomStateBarVM
 import com.example.music.viewmodel.SongsVM
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_song_list.*
 import kotlinx.android.synthetic.main.activity_song_list_detail.*
 import kotlinx.android.synthetic.main.pop_window_collect_to_songlist.view.*
@@ -39,25 +41,36 @@ import org.jetbrains.anko.startActivity
  */
 class SongListDetailActivity : AppCompatActivity() {
     val TAG = "SongListDetailActivity"
+    //其他活动传来的歌单对象，通过该对象获得该歌单里的全部歌曲
     lateinit var mSonglist: SongList
+    //歌曲recycleview适配器
     lateinit var mAdapter: SongsAdapter
+    //正在添加歌单对话框
     val procesDialog by lazy { ProgressDialog(this) }
+
     lateinit var viewmodel: SongsVM
+    //添加到已有歌单，已有歌单的recycleview适配器
     val collectAdapter by lazy { CollectToSongListAdapter(ArrayList(), this) }
+
+    //底部播放栏的VM
+    val mViewModel = BottomStateBarVM.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivitySongListDetailBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_song_list_detail)
+        //注册eventbus
         EventBus.getDefault().register(this)
-        //初始化recycleview
+        //绑定底部导航栏VM
+        binding.mViewModel = mViewModel
+        //初始化recycleview，防止skip layout
         mAdapter = SongsAdapter(ArrayList(), this)
         binding.rvSongs.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@SongListDetailActivity)
         }
 
-        //绑定
+        //绑定接收到的歌单对象
         mSonglist = intent.getSerializableExtra("songlist") as SongList
         viewmodel = SongsVM(mSonglist)
         observe()
@@ -89,6 +102,11 @@ class SongListDetailActivity : AppCompatActivity() {
         iv_collect.setOnClickListener {
             viewmodel.addSongList()
         }
+        //点击底部播放栏跳转至播放活动
+        detail_song_bottom.setOnClickListener {
+            startActivity<PlayingActivity>("song" to mViewModel?.song?.get())
+        }
+
     }
 
     fun observe() {
@@ -122,6 +140,19 @@ class SongListDetailActivity : AppCompatActivity() {
             collectAdapter.list.clear()
             collectAdapter.list.addAll(it!!)
 
+        })
+
+        //底部播放栏可见性控制
+        mViewModel?.isDisplay?.observe(this, Observer {
+            if (it!!){
+                detail_song_bottom.visibility = View.VISIBLE
+            }
+        })
+        //更改adapter的当前播放位置
+        mViewModel?.index?.observe(this, Observer {
+            if (it!! > -1){
+                mAdapter.refreshPlayId(it)
+            }
         })
     }
 
@@ -181,32 +212,7 @@ class SongListDetailActivity : AppCompatActivity() {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun update(event: RefreshEvent){
-        detail_song_bottom.visibility = View.VISIBLE
-        detail_song_bottom.setOnClickListener { startActivity<PlayingActivity>("song" to event.song) }
-        mAdapter.refreshPlayId(event.position)
-        if (event.song.albumID!=null){
-            iv_song_cover.setImageBitmap(getAlbumArt(event.song.albumID!!,this))
-        }else{
-            Glide.with(this).load(event.song.coverUrl).into(iv_song_cover)
-        }
-        tv_song_name.text = event.song.songName
-        tv_singer_name.text = event.song.singerName
-        //暂停
-        var pause: Boolean = false
-        iv_pause.setOnClickListener {
-            if (pause){
-                EventBus.getDefault().post(PlayManger.State.PLAY)
-                iv_pause.setImageResource(R.drawable.vector_drawable_play_black)
-                pause = false
-            }else{
-                EventBus.getDefault().post(PlayManger.State.PAUSE)
-                iv_pause.setImageResource(R.drawable.vector_drawable_pause_black)
-                pause = true
-            }
-        }
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -24,4 +24,5 @@ class LocalMusic : LitePalSupport(),Serializable {
     var flag: Int = 0
     var coverUrl: String = DEFAULT_COVER
     var objectID: String?=null
+    var isLocalMusic: Boolean = false
 }

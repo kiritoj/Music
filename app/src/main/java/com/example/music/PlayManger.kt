@@ -63,8 +63,8 @@ object PlayManger {
      */
     fun play(song: LocalMusic){
         player.reset()
-        if (!TextUtils.isEmpty(song.path)){
-            //path不为空则是本地音乐
+        if (song.isLocalMusic){
+            //本地音乐
             player.apply {
                 setDataSource(song.path)
 
@@ -82,14 +82,20 @@ object PlayManger {
 
                 it.start()
                 Log.d(TAG,"播放")
-
             }
         }
 
         //通知其他活动更改底部的音乐信息
         EventBus.getDefault().post(RefreshEvent(song, index))
 
-
+        //开始是更新进度条
+//        timer = Timer()
+//        timer.schedule(object : TimerTask(){
+//            override fun run() {
+//               EventBus.getDefault().post(ProcessEvent(player.currentPosition, player.duration))
+//                //Log.d(TAG,"cnm")
+//            }
+//        },0,1000)
 
     }
 

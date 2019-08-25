@@ -8,7 +8,9 @@ import android.os.Bundle
 import com.example.music.R
 import com.example.music.viewmodel.LoadingVM
 
-
+/**
+ * app启动页
+ */
 class LoadingActivity : AppCompatActivity() {
 
     val mViewModel = LoadingVM()

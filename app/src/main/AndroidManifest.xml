@@ -39,8 +39,6 @@
         </activity>
         <activity android:name=".activity.BinnerActivity">
         </activity>
-        <activity android:name=".activity.SongsActivity">
-        </activity>
         <activity android:name=".activity.PlayingActivity"
                   android:theme="@style/TransparentTheme"
                   android:label="@null">

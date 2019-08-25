@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="data" type="com.example.music.db.table.SongList"/>
+        <variable name="viewmodel" type="com.example.music.viewmodel.BottomStateBarVM"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_songlist_detail_root"
@@ -136,6 +139,7 @@
         <include
                 android:id="@+id/creat_song_bottom"
                 layout="@layout/song_info_button"
-                 android:visibility="gone"/>
+                bind:viewmodel="@{viewmodel}"
+                android:visibility="gone"/>
     </LinearLayout>
 </layout>

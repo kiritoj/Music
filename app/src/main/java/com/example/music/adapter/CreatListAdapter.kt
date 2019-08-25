@@ -9,17 +9,16 @@ import android.view.ViewGroup
 import com.example.music.R
 import com.example.music.activity.PlayingActivity
 import com.example.music.databinding.RecycleItemCreatSongsBinding
-import com.example.music.databinding.RecycleItemLocalMusicBinding
 import com.example.music.db.table.LocalMusic
 import com.example.music.event.QueneEvent
 import com.example.music.event.SongEvent
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.startActivity
 
-//
-///**
-// * Created by tk on 2019/8/24
-// */
+
+/**
+ * Created by tk on 2019/8/24
+ */
 class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
     RecyclerView.Adapter<CreatListAdapter.ViewHolder>() {
 
@@ -28,7 +27,7 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
     var playingId = -1
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val binding: RecycleItemCreatSongsBinding= DataBindingUtil.inflate(
+        val binding: RecycleItemCreatSongsBinding = DataBindingUtil.inflate(
             LayoutInflater.from(p0.context)
             , R.layout.recycle_item_creat_songs
             , p0
@@ -63,26 +62,27 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
                 playingId = p1
                 notifyItemChanged(playingId)
                 notifyItemChanged(lastPlayingId)
-                EventBus.getDefault().post(QueneEvent(list,p1))
+                EventBus.getDefault().post(QueneEvent(list, p1))
             }
         }
 
         //点击右边的弹出更多操作，删除，或添加到歌单
         p0.itembinding.ivPopMore.setOnClickListener {
-            EventBus.getDefault().post(SongEvent("creat",creatSong = list[p1],position = p1))
+            EventBus.getDefault().post(SongEvent("creat", creatSong = list[p1], position = p1))
         }
     }
 
-    fun refreshPlayId(newPlayId: Int){
+    fun refreshPlayId(newPlayId: Int) {
         val lastId = playingId
         playingId = newPlayId
         notifyItemChanged(playingId)
         notifyItemChanged(lastId)
     }
+
     /**
      * 删除某一项
      */
-    fun delete(position: Int){
+    fun delete(position: Int) {
         list.removeAt(position)
         notifyItemRemoved(position)
     }

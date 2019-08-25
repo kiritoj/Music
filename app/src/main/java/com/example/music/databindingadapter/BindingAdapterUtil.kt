@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,6 +16,7 @@ import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
 import com.example.music.MusicApp
 import com.example.music.R
+import com.example.music.db.table.LocalMusic
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -53,7 +55,44 @@ object BackgroundBindAdapter{
 }
 
 
+/**
+ *
+ */
+object SongAlbumAdapter{
+    @BindingAdapter("song")
+    @JvmStatic
+    fun setImag(view: ImageView,song: LocalMusic?){
+        if (song != null) {
+            if (song.isLocalMusic){
+                //如果是本地歌曲。直接设置专辑bitmap
+                view.setImageBitmap(song.albumID?.let { getAlbumArt(it,MusicApp.context) })
+            }else{
+                //否则从网络加载
+                Glide.with(MusicApp.context)
+                    .load(song.coverUrl)
+                    .placeholder(R.drawable.ic_loading)
+                    .error(R.drawable.ic_loading_error)
+                    .into(view)
+            }
+        }
+    }
+}
 
+/**
+ * imageview通过资源id设置图片
+ */
+object ImageAdapter{
+    @BindingAdapter("id")
+    @JvmStatic
+    fun setImageById(view: ImageView,id: Int){
+        if (id == 0){
+            view.setImageResource(R.drawable.vector_drawable_play_black)
+        }else {
+            view.setImageResource(id)
+        }
+
+    }
+}
 
 
 /**

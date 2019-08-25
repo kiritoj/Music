@@ -33,31 +33,47 @@ class LatestSongAdapter(val list: ArrayList<LastMusicBean.DataBean>,val context:
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
+        if (playingId == p1) {
+            p0.binding.ivPlaying.visibility = View.VISIBLE
+
+        } else {
+            p0.binding.ivPlaying.visibility = View.GONE
+
+        }
         p0.binding.song = list[p1].song
         //点击整体播放
         p0.binding.llLatestSongRoot.setOnClickListener {
-            val quene =  ArrayList<LocalMusic>()
+            val quene = ArrayList<LocalMusic>()
             list.forEach {
                 val music = LocalMusic()
                 music.apply {
                     songName = it.name
                     singerName = it.song?.name
-                    url = SONG_PLAY_BASE_URL +it.id
-                    coverUrl = IMAGE_BASE_URL +it.id
+                    url = SONG_PLAY_BASE_URL + it.id
+                    coverUrl = IMAGE_BASE_URL + it.id
                 }
                 quene.add(music)
             }
             if (playingId == p1) {
                 //第二次点击跳转至详情页
                 context.startActivity<PlayingActivity>("song" to quene[p1])
-            }else{
+            } else {
                 val lastPlayingId = playingId
                 playingId = p1
-//                notifyItemChanged(playingId)
-//                notifyItemChanged(lastPlayingId)
+                notifyItemChanged(playingId)
+                notifyItemChanged(lastPlayingId)
 
-                EventBus.getDefault().post(QueneEvent(quene,p1))
+                EventBus.getDefault().post(QueneEvent(quene, p1))
             }
+        }
+    }
+
+        //更新播放位置
+        fun refreshPlayId(newPlayId: Int){
+            val lastId = playingId
+            playingId = newPlayId
+            notifyItemChanged(playingId)
+            notifyItemChanged(lastId)
         }
 
 //        //点击右边的弹出更多操作，删除，或添加到歌单
@@ -65,7 +81,7 @@ class LatestSongAdapter(val list: ArrayList<LastMusicBean.DataBean>,val context:
 //            listener?.onPopMoreClick(list[p0.adapterPosition],p0.adapterPosition)
 //        }
 
-    }
+
 
 
     class ViewHolder(val binding: RecycleItemLatesMusicBinding): RecyclerView.ViewHolder(binding.root) {

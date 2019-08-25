@@ -7,55 +7,71 @@ import android.arch.lifecycle.Observer
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.bumptech.glide.Glide
 import com.example.music.*
 import com.example.music.adapter.CollectToSongListAdapter
 import com.example.music.adapter.LocalMusicAdapter
-
+import com.example.music.databinding.ActivityLocalMusicBinding
 import com.example.music.db.table.SongList
 import com.example.music.databinding.PopWindowLocalMusicBinding
-import com.example.music.databindingadapter.getAlbumArt
 import com.example.music.db.table.LocalMusic
-import com.example.music.event.RefreshEvent
+import com.example.music.viewmodel.BottomStateBarVM
 import com.example.music.viewmodel.LocalMusicVM
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_local_music.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.pop_window_collect_to_songlist.view.*
 import kotlinx.android.synthetic.main.pop_window_delete_with_checkbox.view.*
-import kotlinx.android.synthetic.main.song_info_button.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
+/**
+ * 展示本地音乐
+ */
 class LocalMusicActivity : BaseActivity() {
 
-
+    //处理本地歌曲avtivity的VM
     val viewModel = LocalMusicVM()
+    //本地歌曲recycleview adapter
     lateinit var adapter: LocalMusicAdapter
-    val mAdapter by lazy { CollectToSongListAdapter(ArrayList(), this) }
+    //本地歌曲item右侧多功能键点击listener
     lateinit var mListener: LocalMusicAdapter.OnPopMoreClickListener
+    //弹出收藏到歌单，歌单recycleview适配器
+    val mAdapter by lazy { CollectToSongListAdapter(ArrayList(), this) }
+    //添加中dialog
     val processDialog by lazy { ProgressDialog(this) }
+    //弹出已有歌单
     val popupWindow by lazy { PopupWindow() }
-    val builder by lazy { AlertDialog.Builder(this) }
+    //底部播放栏的VM
+    val mViewModel = BottomStateBarVM.get()
     lateinit var alertDialog: AlertDialog
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_local_music)
-        EventBus.getDefault().register(this)
+        val binding: ActivityLocalMusicBinding =
+            DataBindingUtil.setContentView(this,R.layout.activity_local_music)
+
+        //绑定底部播放栏VM
+        binding.viewmodel = mViewModel
+        //检查播放栏可见性
+        mViewModel?.checkMusicPlaying()
+
         toolbar.init("本地音乐")
+
         observe()
+        //oncreat初始化recycleview，防止skip layout异常
         initRecycle()
+        //请求读写权限
         requestPermission()
+        //底部播放栏点击跳转至播放活动
+        local_song_bottom.setOnClickListener {
+            startActivity<PlayingActivity>("song" to mViewModel?.song?.get())
+        }
     }
 
     fun showProgressDialog() {
@@ -95,6 +111,19 @@ class LocalMusicActivity : BaseActivity() {
             toast(it!!)
         })
 
+        //底部播放栏
+        mViewModel?.isDisplay?.observe(this, Observer {
+            if (it!!){
+                local_song_bottom.visibility = View.VISIBLE
+            }
+        })
+        //更新adapter中正在播放的位置
+        mViewModel?.index?.observe(this, Observer {
+            if (it!! > -1){
+                adapter.refreshPlayId(it)
+            }
+        })
+
     }
 
 
@@ -116,12 +145,12 @@ class LocalMusicActivity : BaseActivity() {
     }
 
     /**
-     * 歌曲右侧导航button弹出，选择删除or添加到歌单
+     * 歌曲右侧多功能popwindow弹出，选择删除or添加到歌单
      */
     fun initListener() {
         mListener = object : LocalMusicAdapter.OnPopMoreClickListener {
             override fun onPopMoreClick(music: LocalMusic, position: Int) {
-                //数据绑定
+                //与popwindow布局绑定
                 val binding: PopWindowLocalMusicBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(this@LocalMusicActivity),
                     R.layout.pop_window_local_music,
@@ -129,6 +158,7 @@ class LocalMusicActivity : BaseActivity() {
                     false
                 )
                 binding.music = music
+                //popwindow弹出减低屏幕透明度(变暗)
                 reduceTransparency()
                 popupWindow.apply {
                     contentView = binding.root
@@ -140,7 +170,7 @@ class LocalMusicActivity : BaseActivity() {
                     showAtLocation(ll_local_music_root_view, Gravity.BOTTOM, 0, 0)
                 }
 
-                //删除，弹出确认对话框
+                //删除该歌曲，弹出确认对话框
                 binding.llLocalMusicDelete.setOnClickListener {
                     popupWindow.dismiss()
                     reduceTransparency()
@@ -205,7 +235,7 @@ class LocalMusicActivity : BaseActivity() {
     }
 
     /**
-     * 重新扫描
+     * 重新扫描本地音乐
      */
     override fun onSearch() {
         super.onSearch()
@@ -214,39 +244,7 @@ class LocalMusicActivity : BaseActivity() {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun update(event:RefreshEvent){
-        local_song_bottom.visibility = View.VISIBLE
-        adapter.refreshPlayId(event.position)
-        local_song_bottom.setOnClickListener { startActivity<PlayingActivity>("song" to event.song) }
-        if (event.song.albumID!=null){
-            iv_song_cover.setImageBitmap(getAlbumArt(event.song.albumID!!,this))
-        }else{
-            Glide.with(this).load(event.song.coverUrl).into(iv_song_cover)
-        }
-        tv_song_name.text = event.song.songName
-        tv_singer_name.text = event.song.singerName
 
-        //暂停
-        var pause: Boolean = false
-        iv_pause.setOnClickListener {
-            if (pause){
-                EventBus.getDefault().post(PlayManger.State.PLAY)
-                iv_pause.setImageResource(R.drawable.vector_drawable_play_black)
-                pause = false
-            }else{
-                EventBus.getDefault().post(PlayManger.State.PAUSE)
-                iv_pause.setImageResource(R.drawable.vector_drawable_pause_black)
-                pause = true
-            }
-        }
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
 
 
 }

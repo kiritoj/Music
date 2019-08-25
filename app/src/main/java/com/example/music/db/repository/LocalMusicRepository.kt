@@ -1,9 +1,13 @@
 package com.example.music.db.repository
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.util.Log
+import cn.leancloud.AVFile
 import com.example.music.MusicApp
+import com.example.music.databindingadapter.getAlbumArt
 import com.example.music.db.table.LocalMusic
 import com.example.music.event.MusicNumEvene
 import io.reactivex.Observable
@@ -13,6 +17,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.litepal.LitePal
+import java.io.ByteArrayOutputStream
 
 
 /**
@@ -59,6 +64,7 @@ class LocalMusicRepository {
     /**
      * 从内容提供器中获取本地歌曲
      */
+    @SuppressLint("CheckResult")
     fun getLocalMusicFromCursor() {
         val list = ArrayList<LocalMusic>()
         disposable = Observable.create(ObservableOnSubscribe<ArrayList<LocalMusic>> {
@@ -81,14 +87,15 @@ class LocalMusicRepository {
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
                     music.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                     music.length = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
-                    music.albumID = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+                    music.albumID = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
+                    music.isLocalMusic = true
 
                     list.add(music)
                     //添加进数据库
                     music.save()
+
                 }
                 it.onNext(list)
-                Log.d(TAG, list[0].path)
                 // 释放资源
                 cursor.close()
                 PreferenceManager.getDefaultSharedPreferences(MusicApp.context).edit().apply {

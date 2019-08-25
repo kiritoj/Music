@@ -16,8 +16,11 @@ import com.example.music.activity.SongListActivity
 import com.example.music.adapter.BinnerAdapter
 import com.example.music.adapter.LatestSongAdapter
 import com.example.music.adapter.SongListAdapter
+import com.example.music.event.RefreshEvent
 import com.example.music.viewmodel.FindFragmentVM
 import kotlinx.android.synthetic.main.fragment_find.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 
 /**
@@ -34,6 +37,7 @@ class FindFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_find, container, false)
+        EventBus.getDefault().register(this)
         return view
     }
 
@@ -96,6 +100,19 @@ class FindFragment : Fragment() {
         })
 
 
+    }
+
+    @Subscribe
+            /**
+             * 播放其他歌曲时计时刷新UI
+             */
+    fun refresh(event: RefreshEvent){
+        latestSongAdapter.refreshPlayId(event.position)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
 

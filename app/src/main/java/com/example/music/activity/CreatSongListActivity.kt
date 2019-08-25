@@ -24,6 +24,7 @@ import com.example.music.event.RefreshEvent
 import com.example.music.event.SongEvent
 import com.example.music.reduceTransparency
 import com.example.music.resetTransparency
+import com.example.music.viewmodel.BottomStateBarVM
 import com.example.music.viewmodel.CreatListVM
 import kotlinx.android.synthetic.main.activity_creat_song_list.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -41,14 +42,26 @@ class CreatSongListActivity : AppCompatActivity() {
     lateinit var mSonglist: SongList
     lateinit var mAdapter: CreatListAdapter
     lateinit var viwmodel: CreatListVM
+    val mViewmodel = BottomStateBarVM.get() //底部播放栏的VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityCreatSongListBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_creat_song_list)
-        EventBus.getDefault().register(this)
+
+
+
+        //接收歌单
         mSonglist = intent.getSerializableExtra("songlist") as SongList
+
+        //绑定
         binding.data = mSonglist
+        binding.viewmodel = mViewmodel
+
+        //检查音乐播放情况，加载底部播放栏
+        mViewmodel?.checkMusicPlaying()
+
+        //加载歌曲
         viwmodel = CreatListVM(mSonglist)
 
         //初始化recycleview
@@ -57,8 +70,15 @@ class CreatSongListActivity : AppCompatActivity() {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@CreatSongListActivity)
         }
+
+        //与viewmodel的状态绑定
         observe()
         initToolBar()
+
+        //点击底部播放栏点击跳转到播放活动
+        creat_song_bottom.setOnClickListener {
+            startActivity<PlayingActivity>("song" to mViewmodel?.song?.get())
+        }
     }
 
     /**
@@ -75,6 +95,20 @@ class CreatSongListActivity : AppCompatActivity() {
             mAdapter.list.clear()
             mAdapter.list.addAll(it!!)
             mAdapter.notifyDataSetChanged()
+        })
+
+        //底部播放栏的可见性控制
+        mViewmodel?.isDisplay?.observe(this, Observer {
+            if (it!!){
+                creat_song_bottom.visibility = View.VISIBLE
+            }
+        })
+
+        //更新播放歌曲位置
+        mViewmodel?.index?.observe(this, Observer {
+            if (it!! > -1){
+                mAdapter.refreshPlayId(it)
+            }
         })
     }
 
@@ -100,38 +134,5 @@ class CreatSongListActivity : AppCompatActivity() {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    fun update(event: RefreshEvent){
-        creat_song_bottom.visibility = View.VISIBLE
-        //更新adapter
-        mAdapter.refreshPlayId(event.position)
-        creat_song_bottom.setOnClickListener { startActivity<PlayingActivity>("song" to event.song) }
 
-        if (event.song.albumID!=null){
-            iv_song_cover.setImageBitmap(getAlbumArt(event.song.albumID!!,this))
-        }else{
-            Glide.with(this).load(event.song.coverUrl).into(iv_song_cover)
-        }
-        tv_song_name.text = event.song.songName
-        tv_singer_name.text = event.song.singerName
-        //暂停
-        var pause: Boolean = false
-        iv_pause.setOnClickListener {
-            if (pause){
-                EventBus.getDefault().post(PlayManger.State.PLAY)
-                iv_pause.setImageResource(R.drawable.vector_drawable_play_black)
-                pause = false
-            }else{
-                EventBus.getDefault().post(PlayManger.State.PAUSE)
-                iv_pause.setImageResource(R.drawable.vector_drawable_pause_black)
-                pause = true
-            }
-        }
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
 }

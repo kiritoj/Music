@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewmodel" type="com.example.music.viewmodel.BottomStateBarVM"/>
+    </data>
     <LinearLayout
             android:id="@+id/ll_song_bottom"
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:background="@color/light_gray"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="5dp">
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_song_cover"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
-                />
+                song="@{viewmodel.song}"/>
+
         <LinearLayout android:layout_width="0dp"
                       android:layout_height="wrap_content"
                       android:layout_weight="9"
@@ -21,24 +26,31 @@
                       android:orientation="vertical">
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
+                      android:maxLines="1"
+                      android:ellipsize="end"
                       android:id="@+id/tv_song_name"
                       android:textColor="@color/black"
-                      android:textSize="15sp"/>
+                      android:textSize="13sp"
+                      android:text="@{viewmodel.song.songName}"/>
             <TextView
                     android:id="@+id/tv_singer_name"
                     android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      />
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="@{viewmodel.song.singerName}"
+            />
 
         </LinearLayout>
         <ImageView
                 android:id="@+id/iv_pause"
                 android:layout_width="0dp"
-                   android:layout_height="match_parent"
-                   android:layout_weight="1.5"
-                   android:padding="7dp"
-                   android:background="@drawable/item_pressed"
-                   android:src="@drawable/vector_drawable_play_black"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:padding="7dp"
+                android:background="@drawable/item_pressed"
+                id="@{viewmodel.playIc}"
+                android:src="@drawable/vector_drawable_play_black"
+                android:onClick="@{()->viewmodel.pause()}"/>
 
     </LinearLayout>
 </layout>

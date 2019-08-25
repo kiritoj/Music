@@ -1,6 +1,7 @@
 package com.example.music.activity
 
 import android.arch.lifecycle.Observer
+import android.databinding.DataBindingUtil
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,42 +14,53 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.bumptech.glide.Glide
 import com.example.music.*
 import com.example.music.adapter.CategrayAdapter
 import com.example.music.adapter.FragmentStateAdapter
-import com.example.music.databindingadapter.getAlbumArt
-import com.example.music.db.table.LocalMusic
-import com.example.music.event.RefreshEvent
+import com.example.music.databinding.ActivitySongListBinding
 import com.example.music.fragment.SongListFragment
+import com.example.music.viewmodel.BottomStateBarVM
 import com.example.music.viewmodel.SongListActivityVM
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_song_list.*
 import kotlinx.android.synthetic.main.pop_swindow_select_catgory.view.*
-import kotlinx.android.synthetic.main.song_info_button.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.toast
-import org.jetbrains.anko.startActivity
 /**
- * 展示歌单
+ * 分类展示歌单
  */
 
 class SongListActivity : AppCompatActivity() {
 
     val TAG = "SongListActivity"
+    //分类viewpager的适配器
     lateinit var mAdapter: FragmentStateAdapter
+    //分类适配器，语种、风格、场景、心情、每个大分类用recycleview展示
     val adapterList = ArrayList<CategrayAdapter>()
+    //不同类别的fragment列表
     val list = ArrayList<Fragment>()
+    //tablayout标题
     val title = ArrayList<String>()
+
     val mViewModel by lazy { SongListActivityVM() }
+    //弹出重新选择分类popwindow
     lateinit var popwindow : PopupWindow
+
+    //底部播放栏VM
+    val viewModel = BottomStateBarVM.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_song_list)
+        val binding: ActivitySongListBinding = DataBindingUtil
+            .setContentView(this,R.layout.activity_song_list)
+        //注册EventBUs
         EventBus.getDefault().register(this)
+        binding.viewmodel = viewModel
+
+        //检查底部播放栏的可见性
+        viewModel?.checkMusicPlaying()
+
         initToolbar()
         addFragment()
         tl_songlist.setupWithViewPager(vp_songlist)
@@ -63,7 +75,7 @@ class SongListActivity : AppCompatActivity() {
 
     }
 
-    //初始化viewpager
+    //初始化viewpager，添加用户保存的5个分类fragment
     fun addFragment() {
         mAdapter = FragmentStateAdapter(list,title,supportFragmentManager)
         vp_songlist.adapter = mAdapter
@@ -95,6 +107,12 @@ class SongListActivity : AppCompatActivity() {
             }
 
         })
+        //底部播放栏可见性控制
+        viewModel?.isDisplay?.observe(this, Observer {
+            if (it!!){
+                list_song_bottom.visibility = View.VISIBLE
+            }
+        })
 
     }
 
@@ -103,38 +121,46 @@ class SongListActivity : AppCompatActivity() {
      * pop展示所有歌单种类
      */
     fun changeCategray() {
+        //屏幕变暗
         reduceTransparency()
         val view = LayoutInflater.from(this).inflate(R.layout.pop_swindow_select_catgory, null)
+        //recycleview添加分割线
         val decoration = object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 outRect.set(10, 15, 10, 15)
             }
         }
+        //按语种分类
         view.rv_lunguage.apply {
             adapter = adapterList[0]
             layoutManager = GridLayoutManager(this@SongListActivity, 4)
             addItemDecoration(decoration)
         }
+        //按风格分类
         view.rv_style.apply {
             adapter = adapterList[1]
             layoutManager = GridLayoutManager(this@SongListActivity, 4)
             addItemDecoration(decoration)
         }
+        //按场景分类
         view.rv_place.apply {
             adapter = adapterList[2]
             layoutManager = GridLayoutManager(this@SongListActivity, 4)
             addItemDecoration(decoration)
         }
+        //按心情分类
         view.rv_enotion.apply {
             adapter = adapterList[3]
             layoutManager = GridLayoutManager(this@SongListActivity, 4)
             addItemDecoration(decoration)
         }
+        //按主题分类
         view.rv_theme.apply {
             adapter = adapterList[4]
             layoutManager = GridLayoutManager(this@SongListActivity, 4)
             addItemDecoration(decoration)
         }
+        //弹出窗口
         popwindow = PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, (getScreeHeight()*0.8).toInt())
         popwindow.apply {
             isFocusable = true
@@ -166,22 +192,6 @@ class SongListActivity : AppCompatActivity() {
             popwindow.dismiss()
         }
     }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    fun update(event: RefreshEvent){
-        list_song_bottom.visibility = View.VISIBLE
-        list_song_bottom.setOnClickListener { startActivity<PlayingActivity>("song" to event.song) }
-        if (event.song.albumID!=null){
-            iv_song_cover.setImageBitmap(getAlbumArt(event.song.albumID!!,this))
-        }else{
-            Glide.with(this).load(event.song.coverUrl).into(iv_song_cover)
-        }
-        tv_song_name.text = event.song.songName
-        tv_singer_name.text = event.song.singerName
-
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()

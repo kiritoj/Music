@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/ll_local_music_root_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".activity.LocalMusicActivity">
-    <include layout="@layout/toolbar_with_search"/>
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_local_music"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <!--滴鼻播放栏的VM-->
+        <variable name="viewmodel" type="com.example.music.viewmodel.BottomStateBarVM"/>
+    </data>
+    <LinearLayout
+            android:id="@+id/ll_local_music_root_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9">
-    </android.support.v7.widget.RecyclerView>
-    <include
-            android:id="@+id/local_song_bottom"
-            layout="@layout/song_info_button"
-             android:visibility="gone"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".activity.LocalMusicActivity">
+        <include layout="@layout/toolbar_with_search"/>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_local_music"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9">
+        </android.support.v7.widget.RecyclerView>
+
+        <!--底部播放栏-->
+        <include
+                android:id="@+id/local_song_bottom"
+                layout="@layout/song_info_button"
+                bind:viewmodel="@{viewmodel}"
+                android:visibility="gone"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+</layout>
