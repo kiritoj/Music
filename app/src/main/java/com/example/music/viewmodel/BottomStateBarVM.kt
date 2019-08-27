@@ -8,6 +8,7 @@ import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.db.table.LocalMusic
 import com.example.music.event.RefreshEvent
+import com.example.music.event.StateEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -102,6 +103,19 @@ class BottomStateBarVM private constructor(): ViewModel() {
 
         playIc.set(R.drawable.vector_drawable_play_black)
 
+    }
+
+    @Subscribe
+    /**
+     * 接收音乐播放状态
+     */
+    fun receiveState(event: StateEvent){
+        Log.d(TAG,"音乐状态变化")
+        when(event.state){
+
+            PlayManger.State.PLAY -> playIc.set(R.drawable.vector_drawable_play_black)
+            PlayManger.State.PAUSE -> playIc.set(R.drawable.vector_drawable_pause_black)
+        }
     }
 
     override fun onCleared() {

@@ -110,7 +110,7 @@ class MainActivity : BaseActivity() {
     fun initClick(){
         //点击底部播放栏进入歌曲详情界面
         main_song_bottom.setOnClickListener {
-            startActivity<PlayingActivity>("song" to mViewmodel?.song?.get())
+            startActivity<PlayingActivity>()
         }
     }
 

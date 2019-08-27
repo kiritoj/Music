@@ -77,7 +77,7 @@ class CreatSongListActivity : AppCompatActivity() {
 
         //点击底部播放栏点击跳转到播放活动
         creat_song_bottom.setOnClickListener {
-            startActivity<PlayingActivity>("song" to mViewmodel?.song?.get())
+            startActivity<PlayingActivity>()
         }
     }
 

@@ -104,7 +104,7 @@ class SongListDetailActivity : AppCompatActivity() {
         }
         //点击底部播放栏跳转至播放活动
         detail_song_bottom.setOnClickListener {
-            startActivity<PlayingActivity>("song" to mViewModel?.song?.get())
+            startActivity<PlayingActivity>()
         }
 
     }

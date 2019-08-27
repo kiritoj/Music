@@ -7,6 +7,7 @@ import android.util.Log
 import com.example.music.db.table.LocalMusic
 import com.example.music.event.ProcessEvent
 import com.example.music.event.RefreshEvent
+import com.example.music.event.StateEvent
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 import kotlin.collections.ArrayList
@@ -41,7 +42,7 @@ object PlayManger {
         playMode = PreferenceManager.getDefaultSharedPreferences(MusicApp.context).getInt("playmode",0)
         player.setOnCompletionListener {
             //播放结束更新
-           // timer?.cancel()
+            timer?.cancel()
             playNext()
         }
 
@@ -79,23 +80,23 @@ object PlayManger {
         player.apply {
             prepareAsync()
             setOnPreparedListener{
-
                 it.start()
-                Log.d(TAG,"播放")
+                //准备完成发送歌曲总长度
+                EventBus.getDefault().post(ProcessEvent("duration",player.duration))
+                Log.d(TAG,"${player.duration}")
             }
         }
-
         //通知其他活动更改底部的音乐信息
         EventBus.getDefault().post(RefreshEvent(song, index))
-
         //开始是更新进度条
-//        timer = Timer()
-//        timer.schedule(object : TimerTask(){
-//            override fun run() {
-//               EventBus.getDefault().post(ProcessEvent(player.currentPosition, player.duration))
-//                //Log.d(TAG,"cnm")
-//            }
-//        },0,1000)
+        timer = Timer()
+        timer.schedule(object : TimerTask(){
+            override fun run() {
+                //每隔一秒发送当前播放进度
+                 EventBus.getDefault().post(ProcessEvent("current",player.currentPosition))
+
+            }
+        },0,1000)
 
     }
 
@@ -126,6 +127,8 @@ object PlayManger {
      */
     fun pause(){
         player.pause()
+        //通知音乐已暂停
+       EventBus.getDefault().post(StateEvent(PlayManger.State.PAUSE))
     }
 
     /**
@@ -133,6 +136,7 @@ object PlayManger {
      */
     fun resume(){
         player.start()
+       EventBus.getDefault().post(StateEvent(PlayManger.State.PLAY))
     }
 
     /**
@@ -192,6 +196,8 @@ object PlayManger {
             State.PREVIOUS -> playPreVious()
         }
     }
+
+
 
     /**
      * 结束时释放资源

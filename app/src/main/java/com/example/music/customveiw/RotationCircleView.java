@@ -18,9 +18,7 @@ import com.example.music.R;
 
 public class RotationCircleView extends android.support.v7.widget.AppCompatImageView {
     private Context mContext;
-
-
-
+    private static final String TAG = "RotationCircleView";
 
     //默认不带圆框
     private static final boolean HAS_BOX = false;
@@ -54,8 +52,7 @@ public class RotationCircleView extends android.support.v7.widget.AppCompatImage
     private AnimatorSet animatorSet;
 
 
-
-    private  boolean hasDrawBitmap = false;
+    private boolean hasDrawBitmap = false;
 
     private long currentTime = 0;
 
@@ -114,8 +111,9 @@ public class RotationCircleView extends android.support.v7.widget.AppCompatImage
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = Math.min(getWidth(), getHeight());
         mRadius = mWidth / 2;
-        if(hasbox) {
+        if (hasbox) {
             initAnimator();
+
         }
     }
 
@@ -158,24 +156,22 @@ public class RotationCircleView extends android.support.v7.widget.AppCompatImage
         //画圆形图片
 
 
-            //如果由外框，画外框,
-            if (hasbox) {
-                //给外框留下空间
+        //如果由外框，画外框,
+        if (hasbox) {
+            //给外框留下空间
 
-                    canvas.drawCircle(mRadius, mRadius, mRadius - 80-boxwidth, mbox);
-                    canvas.drawCircle(mRadius, mRadius, mRadius - 80-boxwidth, mBitmapPaint);
-                    hasDrawBitmap = true;
+            canvas.drawCircle(mRadius, mRadius, mRadius - 80 - boxwidth, mbox);
+            canvas.drawCircle(mRadius, mRadius, mRadius - 80 - boxwidth, mBitmapPaint);
+            hasDrawBitmap = true;
 
-                    canvas.drawCircle(mRadius,mRadius,mradiusAnim,mcircle);
+            canvas.drawCircle(mRadius, mRadius, mradiusAnim, mcircle);
 
-            } else {
-                canvas.drawCircle(mRadius, mRadius, mRadius, mBitmapPaint);
-            }
-
+        } else {
+            canvas.drawCircle(mRadius, mRadius, mRadius, mBitmapPaint);
+        }
 
 
     }
-
 
 
     private Bitmap drawableToBitamp(Drawable drawable) {
@@ -192,9 +188,10 @@ public class RotationCircleView extends android.support.v7.widget.AppCompatImage
         return bitmap;
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void initAnimator(){
-        boxsizeAnim = ValueAnimator.ofFloat(mRadius-80-boxwidth,mRadius-2);
+    public void initAnimator() {
+        boxsizeAnim = ValueAnimator.ofFloat(mRadius - 80 - boxwidth, mRadius - 2);
 //        boxsizeAnim.setDuration(1000);
         boxsizeAnim.setRepeatMode(ValueAnimator.RESTART);
         boxsizeAnim.setRepeatCount(ValueAnimator.INFINITE);
@@ -204,10 +201,10 @@ public class RotationCircleView extends android.support.v7.widget.AppCompatImage
             public void onAnimationUpdate(ValueAnimator animation) {
                 mradiusAnim = (float) animation.getAnimatedValue();
                 invalidate();
-                Log.d("testanim", String.valueOf((float)animation.getAnimatedValue()));
+                Log.d("testanim", String.valueOf((float) animation.getAnimatedValue()));
             }
         });
-        circleAnim  = ValueAnimator.ofArgb(boxcolor,0x00FFFFFF);
+        circleAnim = ValueAnimator.ofArgb(boxcolor, 0x00FFFFFF);
         circleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -225,19 +222,34 @@ public class RotationCircleView extends android.support.v7.widget.AppCompatImage
 
     }
     //暂停动画
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void animauseP(){
-        animatorSet.pause();
-        //currentTime = animatorSet.getCurrentPlayTime();
-    }
-    //继续动画
-    public void animcontinue(){
-        animatorSet.start();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            animatorSet.start();
-            //animatorSet.setCurrentPlayTime(currentTime);
+
+    public void animPause() {
+
+        if(animatorSet != null) {
+            animatorSet.pause();
+        }else{
+            Log.d(TAG,"animatorSet为空");
         }
+
     }
 
+    //继续动画
+    public void animcontinue() {
+
+
+        if(animatorSet != null) {
+            animatorSet.start();
+        }else{
+            Log.d(TAG,"animatorSet为空");
+        }
+
+    }
+
+    /**
+     * 停止动画
+     */
+    public void animStop() {
+        animatorSet.cancel();
+    }
 
 }

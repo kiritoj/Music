@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -24,29 +25,35 @@ import com.example.music.event.ProcessEvent
 import com.example.music.viewmodel.PlayVM
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_playing.*
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * 音乐详情界面
  */
 class PlayingActivity : AppCompatActivity() {
 
+    val TAG = "PlayingActivity"
     lateinit var mSong:LocalMusic
     lateinit var binding: ActivityPlayingBinding
     lateinit var valueAnimator: ValueAnimator//旋转动画
     var currentTime: Long = 0//动画已播放的时间
     val viewmodel by lazy { PlayVM()}
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_playing)
-        mSong = intent.getSerializableExtra("song") as LocalMusic
-        binding.song = mSong
+        EventBus.getDefault().register(this)
         binding.viewmodel = viewmodel
-        loadImage(mSong)
+        //初始化动画
         initAnim()
+        viewmodel.checkPlaying()
         initToolbar()
+        //隐藏状态栏
         hideStateBar()
+
         observe()
 
         //seekbar拖拽进度
@@ -62,6 +69,8 @@ class PlayingActivity : AppCompatActivity() {
 
     }
 
+
+
     //初始化动画
     fun initAnim() {
         //旋转动画的设置
@@ -75,17 +84,7 @@ class PlayingActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 记载旋转的大图
-     */
-    fun loadImage(song: LocalMusic){
-        if(!TextUtils.isEmpty(song.path)){
-            //本地歌曲直接设置图片
-            binding.ivSongCover.setImageBitmap(getAlbumArt(song.albumID!!,this))
-        }else{
-            Glide.with(this).load(song.coverUrl).placeholder(R.drawable.ic_loading).into(binding.ivSongCover)
-        }
-    }
+
 
     fun initToolbar(){
         setSupportActionBar(toolbar)
@@ -98,6 +97,9 @@ class PlayingActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 隐藏状态栏
+     */
     fun hideStateBar(){
         if (Build.VERSION.SDK_INT >= 21) {
 
@@ -109,35 +111,23 @@ class PlayingActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
+
     fun observe(){
-        viewmodel.isPause.observe(this, Observer {
+        viewmodel.isPlaying.observe(this, Observer {
             if (it!!){
-                //暂停时停止动画
-                iv_play.setImageResource(R.drawable.ic_play_pause)
-                iv_song_cover.animauseP()
-                valueAnimator.pause()
-                currentTime = valueAnimator.currentPlayTime
-            }else{
                 //继续动画
-                iv_play.setImageResource(R.drawable.ic_play_running)
-                iv_song_cover.animcontinue()
                 valueAnimator.start()
                 valueAnimator.currentPlayTime = currentTime
+            }else{
+                //暂停动画
+                valueAnimator.pause()
+                currentTime = valueAnimator.currentPlayTime
 
             }
-        })
-        //播放完成后更新UI
-        viewmodel.song.observe(this, Observer {
-            loadImage(it!!)
-            binding.tvSongname.text = it?.songName
-            binding.tvSingername.text = it?.singerName
-            Glide.with(this).load(it?.coverUrl)
-                .placeholder(R.drawable.ic_loading)
-                .error(R.drawable.ic_loading_error)
-                .bitmapTransform(BlurTransformation(MusicApp.context, 30, 5))
-                .into(binding.ivBackground)
-        })
+        }
+        )
+        //播放模式显示
         viewmodel.modeIndex.observe(this, Observer {
             when(it){
                 0->binding.ivMode.setImageResource(R.drawable.vector_drawable_play_order)
@@ -145,27 +135,51 @@ class PlayingActivity : AppCompatActivity() {
                 2->binding.ivMode.setImageResource(R.drawable.vector_drawable_play_repeat)
             }
         })
+        viewmodel.mDuration.observe(this, Observer {
+            //设置seekbar最大值
+            binding.seekBar.max = it!!
+            //转换格式
+            val mTime = String.format("%02d:%02d", it / 60000, (it/1000) % 60)
+            binding.tvEnd.text = mTime
+        })
 
     }
 
     /**
      * 更新进度条
      */
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun updateProcess(event: ProcessEvent){
-        binding.seekBar.max = event.end
-        binding.seekBar.progress = event.current
-        val currentTime = String.format("%02d:%02d", event.current / 60, event.current % 60)
-        val endtime = String.format("%02d:%02d", event.end / 60, event.end % 60)
-        binding.tvCurrent.text = currentTime
-        binding.tvEnd.text = endtime
+        //将数值转换为分秒的形式
+
+        val mTime = String.format("%02d:%02d", event.num / 60000, (event.num/1000) % 60)
+        when(event.tag){
+            "duration" -> {
+                //更新歌曲长度
+                binding.seekBar.max = event.num
+                binding.tvEnd.text = mTime
+            }
+
+            "current" -> {
+                //更新歌曲播放进度
+                binding.seekBar.progress = event.num
+                binding.tvCurrent.text = mTime
+            }
+        }
+
+
+
+
 
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
+        //停止动画，防止内存泄漏
+        iv_song_cover.animStop()
         valueAnimator.cancel()
+        EventBus.getDefault().unregister(this)
     }
 
 

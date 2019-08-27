@@ -1,5 +1,6 @@
 package com.example.music.event
 
+import com.example.music.PlayManger
 import com.example.music.bean.LastMusicBean
 import com.example.music.bean.SongListBean
 import com.example.music.bean.SongsBean
@@ -45,4 +46,8 @@ class ModeEvent(val mode: Int)
 class RefreshEvent(val song: LocalMusic,val position: Int)
 
 //更新进度条事件
-class ProcessEvent(val current: Int,val end: Int)
+class ProcessEvent(val tag: String,val num: Int)
+
+//播放状态事件
+class StateEvent(val state: PlayManger.State)
+

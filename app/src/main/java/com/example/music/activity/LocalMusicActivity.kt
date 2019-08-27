@@ -70,7 +70,7 @@ class LocalMusicActivity : BaseActivity() {
         requestPermission()
         //底部播放栏点击跳转至播放活动
         local_song_bottom.setOnClickListener {
-            startActivity<PlayingActivity>("song" to mViewModel?.song?.get())
+            startActivity<PlayingActivity>()
         }
     }
 
