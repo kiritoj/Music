@@ -8,4 +8,4 @@
 ## GIF
 ![](http://ww1.sinaimg.cn/mw690/006nwaiFly1g6b8vjl7t2g30a00i6kjl.gif)
 ![](http://ww1.sinaimg.cn/mw690/006nwaiFly1g6b9ldi8mmg30a00i6b2a.gif)
-![](https://github.com/kiritoj/Music/blob/master/HU%7D)XI%608ZZFXTP9X%25%5D2M%24KA.png)
+![](https://github.com/kiritoj/Music/blob/master/HU%7DXI%608ZZFXTP9X%25%5D2M%24KA.png)
