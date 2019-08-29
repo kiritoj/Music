@@ -13,6 +13,8 @@
 
 <img src="https://i.loli.net/2019/08/27/neursR2y4iKBhY8.png" height="400" width="210" >
 
+<img src="https://i.loli.net/2019/08/30/U5fQegZyW8GzouT.png" height="400" width="210">
+
  </div>
 
 ## 鸣谢
@@ -23,3 +25,5 @@
 ## 更新日志
 ### 8.29
   由于前一个Api的作者被人举报（心疼1秒），接口已失效，接下来开始苦逼的换接口
+### 8.30
+  新增滚动歌词显示
