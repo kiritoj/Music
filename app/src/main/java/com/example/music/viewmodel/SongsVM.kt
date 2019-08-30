@@ -142,17 +142,18 @@ class SongsVM(val songlist: SongList) : ViewModel() {
     }
 
     fun getUserCreatSongList(){
-        val preference = PreferenceManager.getDefaultSharedPreferences(MusicApp.context)
-        val hasGetFromHttp = preference.getBoolean("hasGetFromHttp",false)
-        if (hasGetFromHttp){
-            SongListRepository.getInstance().getUserSongListFromDB()
-        }else{
-            SongListRepository.getInstance().getUserSongListFromHttp()
-            preference.edit().apply{
-                putBoolean("hasGetFromHttp",true)
-                apply()
-            }
-        }
+//        val preference = PreferenceManager.getDefaultSharedPreferences(MusicApp.context)
+//        val hasGetFromHttp = preference.getBoolean("hasGetFromHttp",false)
+//        if (hasGetFromHttp){
+//            SongListRepository.getInstance().getUserSongListFromDB()
+//        }else{
+//            SongListRepository.getInstance().getUserSongListFromHttp()
+//            preference.edit().apply{
+//                putBoolean("hasGetFromHttp",true)
+//                apply()
+//            }
+//        }
+        SongListRepository.getInstance().getUserCollectSongList()
     }
 
     /**
@@ -174,6 +175,7 @@ class SongsVM(val songlist: SongList) : ViewModel() {
         //云端收藏
         val avMusic = AVObject("Music")
         avMusic.apply {
+            put("id",music.id)
             put("name", music.name)
             put("singer", music.artists?.get(0)?.name)
             put("albumUrl", IMAGE_BASE_URL+music.id)

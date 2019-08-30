@@ -5,6 +5,7 @@ import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
@@ -15,7 +16,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
 import com.example.music.MusicApp
+import com.example.music.PlayManger
 import com.example.music.R
+import com.example.music.customveiw.LrcView
 import com.example.music.db.table.LocalMusic
 import jp.wasabeef.glide.transformations.BlurTransformation
 
@@ -86,7 +89,7 @@ object ImageAdapter{
     @JvmStatic
     fun setImageById(view: ImageView,id: Int){
         if (id == 0){
-            view.setImageResource(R.drawable.vector_drawable_play_black)
+           // view.setImageResource(R.drawable.vector_drawable_play_black)
         }else {
             view.setImageResource(id)
         }
@@ -137,5 +140,16 @@ object PlayCount{
         }else{
             view.setText((count.toFloat()/10000f).toString().substring(0,3)+"万")
         }
+    }
+}
+
+
+//歌词控件设置
+object LrcText{
+    @BindingAdapter("text")
+    @JvmStatic
+    fun init(lrcView: LrcView,text: String?){
+        text?.let { lrcView.setLrc(it) }
+        lrcView.bindPlayer(PlayManger.player)
     }
 }

@@ -81,6 +81,7 @@ class LoginVM : ViewModel() {
                     AVObject("SongList").apply {
                         put("name", "我喜欢的音乐")
                         put("owner", it)
+                        put("creatorName",it.username)
                         saveInBackground().subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({

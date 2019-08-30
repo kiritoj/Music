@@ -41,41 +41,27 @@ class SongListRepository {
      */
     fun getUserSongList(){
         Log.d(TAG,"getUserSongList：开始获取歌单")
-        val preference = PreferenceManager.getDefaultSharedPreferences(MusicApp.context)
-        val hasGetFromHttp = preference.getBoolean("hasGetFromHttp",false)
-        if (hasGetFromHttp){
-            getUserSongListFromDB()
-        }else{
+        //首先从数据库寻找是否存在当前用户创建的歌单
+        val list = LitePal.where("isNetSongList = ? and creatorName = ?", "0",AVUser.getCurrentUser().username)
+            .find(SongList::class.java) as ArrayList
+
+        if (list.isNullOrEmpty()){
+            //如果为空，则从网络上获取
             getUserSongListFromHttp()
-            preference.edit().apply{
-                putBoolean("hasGetFromHttp",true)
-                apply()
-            }
+        }else{
+            //不为空从数据库获取
+            Log.d(TAG,"从数据库获取用户创建歌单")
+            EventBus.getDefault().post(SongListEvent("creat",list))
         }
     }
 
-    /**
-     * 从数据库获取用户创建的歌单
-     */
-    fun getUserSongListFromDB() {
-        LitePal.getDatabase()
-        val disposable = Observable.create(ObservableOnSubscribe<ArrayList<SongList>> {
-            val list = LitePal.where("isNetSongList = ?", "0").find(SongList::class.java) as ArrayList
-            it.onNext(list)
-            Log.d(TAG,"从数据库获取歌单")
-        }).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                EventBus.getDefault().post(SongListEvent("creat",it))
-            }
-    }
 
     /**
      * 从网络获取用户创建的歌单
      */
     @SuppressLint("CheckResult")
     fun getUserSongListFromHttp(){
-        Log.d(TAG,"从网络获取歌单")
+        Log.d(TAG,"从网络获取用户创建歌单")
         val query = AVQuery<AVObject>("SongList")
         query.whereEqualTo("owner",AVUser.getCurrentUser())
         query.findInBackground().subscribe ({
@@ -91,6 +77,7 @@ class SongListRepository {
                     num = it.getInt("num")
                     description = it.getString("description")
                     isNetSongList = 0
+                    creatorName = it.getString("creatorName")
                 }
                 list.add(mSongList)
                 mSongList.save()
@@ -108,17 +95,13 @@ class SongListRepository {
      * 获取用户收藏的歌单信息
      */
     fun getUserCollectSongList(){
-        Log.d(TAG,"getUserSongList：开始获取收藏的歌单")
-        val preference = PreferenceManager.getDefaultSharedPreferences(MusicApp.context)
-        val hasGetFromHttp = preference.getBoolean("hasGetCollectFromHttp",false)
-        if (hasGetFromHttp){
-            getUserCollectSongListFromDB()
-        }else{
+        Log.d(TAG,"getUserSongList：开始获取用户收藏的歌单")
+        val list = LitePal.where("isNetSongList = ? and userName = ?", "1",AVUser.getCurrentUser().username)
+            .find(SongList::class.java) as ArrayList
+        if (list.isNullOrEmpty()){
             getUserCollectSongListFromHttp()
-            preference.edit().apply{
-                putBoolean("hasGetCollectFromHttp",true)
-                apply()
-            }
+        }else{
+            EventBus.getDefault().post(SongListEvent("collect",list))
         }
     }
 
@@ -128,7 +111,7 @@ class SongListRepository {
      */
     @SuppressLint("CheckResult")
     fun getUserCollectSongListFromHttp(){
-        Log.d(TAG,"从网络获取歌单")
+        Log.d(TAG,"从网络获取用户收藏歌单")
         val query = AVQuery<AVObject>("CollectSongList")
         query.whereEqualTo("owner",AVUser.getCurrentUser())
         query.findInBackground().subscribe ({
@@ -150,32 +133,17 @@ class SongListRepository {
                     creatorName = it.getString("creatorName")
                     commentNum = it.getInt("commentNum")
                     creatorId = it.getInt("creatorId")
+                    userName = AVUser.getCurrentUser().username
                     save()
                 }
                 list.add(mSongList)
-                Log.d(TAG,"从网络获取歌单"+ list[0].name)
+                //Log.d(TAG,"从网络获取歌单"+ list[0].name)
             }
             EventBus.getDefault().post(SongListEvent("collect",list))
         },{
             Log.d(TAG,"网络拉取歌单失败：${it.message}")
         })
 
-    }
-
-    /**
-     * 从数据库获取用户的歌单
-     */
-    fun getUserCollectSongListFromDB() {
-        LitePal.getDatabase()
-        val disposable = Observable.create(ObservableOnSubscribe<ArrayList<SongList>> {
-            val list = LitePal.where("isNetSongList = ?", "1").find(SongList::class.java) as ArrayList
-            it.onNext(list)
-            Log.d(TAG,"从数据库获取歌单")
-        }).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                EventBus.getDefault().post(SongListEvent("collect",it))
-            }
     }
 
 
@@ -189,10 +157,12 @@ class SongListRepository {
             .getApiService(OtherSongList::class.java)
             .getOtherSongList(cat,size,page)
             .subscribeOn(Schedulers.io())
-            .subscribe {
+            .subscribe ({
                 Log.d(TAG,"${it.msg}")
                 EventBus.getDefault().post(HotSongListLimit(it.data as ArrayList<SongListBean.DataBean>))
-            }
+            },{
+                Log.d(TAG,"获取热门歌单失败--->${it.message}")
+            })
     }
 
     /**
@@ -204,9 +174,11 @@ class SongListRepository {
             .getApiService(OtherSongList::class.java)
             .getOtherSongList(cat,size,page)
             .subscribeOn(Schedulers.io())
-            .subscribe {
+            .subscribe ({
                 EventBus.getDefault().post(AssortedSongListEvent(cat,it.data as ArrayList<SongListBean.DataBean>))
-            }
+            },{
+                Log.d(TAG,"获取分类歌单失败")
+            })
     }
 
 

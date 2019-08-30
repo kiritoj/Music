@@ -1,6 +1,7 @@
 package com.example.music.db.table
 
 import android.databinding.BaseObservable
+import org.litepal.crud.LitePalSupport
 
 /**
  * Created by tk on 2019/8/15

@@ -31,7 +31,7 @@ class LastMusicBean {
         var song: SongBean? = null
         var isCanDislike: Boolean = false
         var name: String? = null
-        var id: Int = 0
+        var id: Long = 0
         var type: Int = 0
         var alg: String? = null
 
@@ -89,7 +89,7 @@ class LastMusicBean {
             var hearTime: Int = 0
             var starredNum: Int = 0
             var isExclusive: Boolean = false
-            var id: Int = 0
+            var id: Long = 0
             var album: AlbumBean? = null
             var lMusic: LMusicBean? = null
             var ringtone: String? = null

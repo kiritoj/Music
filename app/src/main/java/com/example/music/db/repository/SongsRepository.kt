@@ -21,7 +21,7 @@ import org.litepal.LitePal
 import cn.leancloud.AVObject
 import io.reactivex.disposables.Disposable
 import cn.leancloud.AVQuery
-
+import cn.leancloud.AVUser
 
 
 /**
@@ -49,39 +49,27 @@ object SongsRepository {
     }
 
     /**
-     * 获取创建的歌单里面的歌曲
+     * 获取用户创建的歌单里面的歌曲
      */
 
     fun getCreatListSongs(songlist: SongList){
-        val flag = PreferenceManager
-            .getDefaultSharedPreferences(MusicApp.context)
-            .getBoolean("hasloadcollectlist",false)
-        if (flag){
-            getCreatListFromDB(songlist.name!!)
-        }else{
+        //直接检车数据库里有无歌曲
+        val list = LitePal.where("songListName = ? and creatorName = ?",songlist.name,AVUser.getCurrentUser().username)
+            .find(LocalMusic::class.java) as ArrayList
+        if (list.isNullOrEmpty()){
             songlist.objectId?.let { getCreatListFromHttp(it) }
+        }else{
+            EventBus.getDefault().post(SongsEvent("creat",mList = list))
         }
     }
 
-    /**
-     * 从数据库获取歌曲
-     */
-    fun getCreatListFromDB(name: String){
-        Log.d(TAG,"从数据库获取")
-        Observable.create(ObservableOnSubscribe<ArrayList<LocalMusic>> {
-            val list = LitePal.where("songListName = ?",name).find(LocalMusic::class.java) as ArrayList
-            it.onNext(list)
-        }).subscribe {
-            EventBus.getDefault().post(SongsEvent("creat",mList = it))
-        }
-    }
 
     /**
      * 从网络获取歌曲
      */
     @SuppressLint("CheckResult")
     fun getCreatListFromHttp(objectId: String){
-        Log.d(TAG,"从旺火获取")
+        Log.d(TAG,"从网络获取用户创建的歌单里的歌曲")
         val mSongList = AVObject.createWithoutData("SongList", objectId)
         val query = AVQuery<AVObject>("Music")
         query.whereEqualTo("songList", mSongList)
@@ -102,10 +90,8 @@ object SongsRepository {
                     }
                     list.add(music)
                 }
-                Log.d(TAG,list[0].songName)
+                //Log.d(TAG,list[0].songName)
                 EventBus.getDefault().post(SongsEvent("creat",mList = list))
-
-
 
             },{
                 Log.d(TAG,"从网络获取创建歌单歌曲失败：${it.message}")

@@ -2,6 +2,7 @@ package com.example.music.db.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.example.music.LOADING_ERROR
 import com.example.music.NetworkUtils
 import com.example.music.event.BanberEvent
 import com.example.music.network.ApiGenerator
@@ -75,6 +76,15 @@ object BannerRepository {
 
 
             },{
+                val bannerList = ArrayList<BannerTable>()
+                for (i in 1..3){
+                    val banner = BannerTable()
+                    banner.picUrl = LOADING_ERROR
+                    banner.url = ""
+                    bannerList.add(banner)
+                }
+                //发送加载失败的图片
+                EventBus.getDefault().post(BanberEvent(bannerList))
                 Log.d(TAG,it.message)
             })
     }

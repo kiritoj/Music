@@ -58,6 +58,7 @@ class SongsAdapter(val list: ArrayList<SongsBean.DataBean.TracksBean>, val conte
             list.forEach {
                 val music = LocalMusic()
                 music.apply {
+                    id = it.id
                     songName = it.name
                     singerName = it.artists!![0].name
                     url = SONG_PLAY_BASE_URL+it.id

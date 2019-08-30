@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LrcView">
+        <!--高亮歌词的颜色-->
+        <attr name="s_color" format="color"/>
+        <!--普通歌词的颜色-->
+        <attr name="n_color" format="color"/>
+    </declare-styleable>
+</resources>

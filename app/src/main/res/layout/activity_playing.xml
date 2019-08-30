@@ -66,22 +66,24 @@
                         song="@{viewmodel.song}"
                         app:hasbox="true"
                         app:boxwidth="5dp"
-                        app:boxcolor="#CF7C89"/>
-                <me.wcy.lrcview.LrcView
+                        app:boxcolor="#CF7C89"
+                />
+
+                <!--&lt;!&ndash;歌词&ndash;&gt;-->
+                <com.example.music.customveiw.LrcView
                         android:id="@+id/lrcview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:lrcTextSize="15sp"
-                        app:lrcCurrentTextColor="@color/yellow"
-                        app:lrcLabel="暂无歌词"
-                        android:visibility="gone"/>
+                        text="@{viewmodel.lrc}"
+                        android:visibility="gone"
+                />
             </FrameLayout>
 
 
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_above="@id/ll_process"
-                          android:layout_marginBottom="10dp"
+                          android:layout_marginBottom="15dp"
                           android:orientation="horizontal"
                           android:paddingLeft="20dp"
                           android:paddingRight="20dp">
@@ -94,10 +96,14 @@
                            android:layout_weight="1"
                            android:layout_height="20dp"
                            android:src="@drawable/vector_drawable_download_white"/>
-                <ImageView android:layout_width="0dp"
-                           android:layout_weight="1"
-                           android:layout_height="20dp"
-                           android:src="@drawable/vector_drawable_comment"/>
+
+                <!--添加到我喜欢的音乐-->
+                <ImageView
+                        android:id="@+id/iv_my_love"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="20dp"
+                        android:src="@drawable/vector_drawable_comment"/>
 
             </LinearLayout>
 
@@ -148,7 +154,7 @@
                     android:paddingRight="20dp"
                     android:layout_alignParentBottom="true"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="30dp"
             >
 
                 <ImageView
@@ -170,6 +176,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="2"
                         android:layout_height="40dp"
+                        android:src="@drawable/ic_play_running"
                         id="@{viewmodel.playIc}"
 
                         android:onClick="@{()->viewmodel.pause()}"/>

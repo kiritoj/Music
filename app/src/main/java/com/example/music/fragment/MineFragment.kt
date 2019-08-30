@@ -17,15 +17,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.example.music.R
+import cn.leancloud.AVUser
+import com.example.music.*
 import com.example.music.activity.LocalMusicActivity
+import com.example.music.activity.LoginActivity
 import com.example.music.adapter.UserSongListAdapter
 import com.example.music.databinding.FragmentMineBinding
 import com.example.music.databinding.PopWindowSonglistMoreBinding
 import com.example.music.db.table.SongList
-import com.example.music.getScreenWidth
-import com.example.music.reduceTransparency
-import com.example.music.resetTransparency
 import com.example.music.viewmodel.MineFragmentVM
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
@@ -37,6 +36,8 @@ import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.pop_window_edit_name.view.*
 import kotlinx.android.synthetic.main.pop_window_sure.view.*
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
+import org.litepal.LitePal
 
 /**
  * Created by tk on 2019/8/16
@@ -90,6 +91,13 @@ class MineFragment : Fragment() {
         tv_user_name.setOnClickListener { showPopupWindow() }
         ll_local_music.setOnClickListener { startActivity(Intent(activity, LocalMusicActivity::class.java)) }
         iv_add_songlist.setOnClickListener { showAddSongListWindow() }
+        //退出登录
+        bt_quit_login.setOnClickListener {
+
+            AVUser.logOut()
+            activity?.startActivity<LoginActivity>()
+            activity?.finish()
+        }
     }
 
     /**

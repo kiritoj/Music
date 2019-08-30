@@ -10,6 +10,7 @@ import android.os.Message
 class LoadingVM {
     var time = MutableLiveData<Boolean>()
 
+
     fun startTiming(){
         Handler().sendEmptyMessageDelayed(1,1000)
     }
@@ -19,4 +20,5 @@ class LoadingVM {
             time.value = true
         }
     }
+
 }

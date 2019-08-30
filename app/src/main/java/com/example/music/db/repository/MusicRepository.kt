@@ -1,7 +1,7 @@
 package com.example.music.db.repository
 
 import android.annotation.SuppressLint
-import com.example.music.bean.LastMusicBean
+import android.util.Log
 import com.example.music.event.LatestSongEvent
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.LatestSongService
@@ -13,19 +13,21 @@ import org.greenrobot.eventbus.EventBus
  */
 object MusicRepository {
 
-
+    val TAG = "MusicRepository"
 
     /**
      * 获取最新单曲
      */
     @SuppressLint("CheckResult")
-    fun getLatestSong(){
+    fun getLatestSong() {
         ApiGenerator
             .getApiService(LatestSongService::class.java)
             .getLatestSong()
             .subscribeOn(Schedulers.io())
-            .subscribe {
+            .subscribe({
                 EventBus.getDefault().post(LatestSongEvent(it.data as ArrayList))
-            }
+            }, {
+                Log.d(TAG, "获取最新单曲失败${it.message}")
+            })
     }
 }

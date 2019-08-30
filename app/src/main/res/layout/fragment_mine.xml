@@ -30,11 +30,11 @@
                     android:textColor="@color/black"
                     android:layout_toRightOf="@id/iv_user_avatar"
                     android:layout_alignTop="@id/iv_user_avatar"/>
-            <Button android:id="@+id/bt_edit_data"
+            <Button android:id="@+id/bt_quit_login"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
-                    android:text="编辑资料"
+                    android:text="退出登录"
                     android:textColor="@color/yellow"
                     android:layout_below="@id/tv_user_name"
                     android:layout_alignLeft="@id/tv_user_name"

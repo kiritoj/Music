@@ -15,6 +15,7 @@ import java.io.Serializable
  * @param description 歌单形容
  * @param commentNum 评论数
  * @param collectNum 收藏数
+ * @param userName
  */
 class SongList : LitePalSupport(),Serializable {
      var objectId: String? = null
@@ -29,4 +30,5 @@ class SongList : LitePalSupport(),Serializable {
      var description: String? = null
      var commentNum: Int? = null
      var collectNum: Int? = null
+     var userName: String? = null
 }

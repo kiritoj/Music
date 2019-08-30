@@ -3,27 +3,20 @@ package com.example.music.activity
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
-import android.database.DatabaseUtils
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
-import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
-import com.bumptech.glide.Glide
-import com.example.music.MusicApp
 import com.example.music.R
 import com.example.music.databinding.ActivityPlayingBinding
-import com.example.music.databindingadapter.getAlbumArt
 import com.example.music.db.table.LocalMusic
 import com.example.music.event.ProcessEvent
 import com.example.music.viewmodel.PlayVM
-import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_playing.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -66,6 +59,16 @@ class PlayingActivity : AppCompatActivity() {
                seekBar?.progress?.let { viewmodel.changeProcess(it) }
            }
        })
+
+        binding.ivSongCover.setOnClickListener {
+            binding.ivSongCover.visibility = View.GONE
+            binding.lrcview.visibility = View.VISIBLE
+
+        }
+        binding.lrcview.setOnClickListener {
+            binding.ivSongCover.visibility = View.VISIBLE
+            binding.lrcview.visibility = View.GONE
+        }
 
     }
 
@@ -143,7 +146,10 @@ class PlayingActivity : AppCompatActivity() {
             binding.tvEnd.text = mTime
         })
 
+
     }
+
+
 
     /**
      * 更新进度条
