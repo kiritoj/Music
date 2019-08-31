@@ -52,7 +52,7 @@ class BottomStateBarVM private constructor(): ViewModel() {
      * 检查是否有播放的音乐队列，如果有显示底部播放栏
      * 没有就不显示
      */
-    fun checkMusicPlaying(){
+    fun  checkMusicPlaying(){
         if (PlayManger.quene.isNullOrEmpty()){
             isDisplay.value = false
         }else{

@@ -195,12 +195,14 @@ class MineFragmentVM : ViewModel() {
         //本地删除
         LitePal.deleteAll(SongList::class.java,"objectId = ?",songList.objectId)
         if (songList.isNetSongList==0) {
+            //删除创建的歌单
             creatSongList.value?.removeAt(position)
             //云端删除
             AVObject.createWithoutData("SongList", songList.objectId).deleteInBackground().subscribe {
                 toast.value = "删除成功"
             }
         }else{
+            //删除收藏的歌单
             collectSongList.value?.removeAt(position)
             AVObject.createWithoutData("CollectSongList", songList.objectId).deleteInBackground().subscribe {
                 toast.value = "删除成功"

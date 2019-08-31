@@ -42,8 +42,7 @@ class SongListRepository {
     fun getUserSongList(){
         Log.d(TAG,"getUserSongList：开始获取歌单")
         //首先从数据库寻找是否存在当前用户创建的歌单
-        val list = LitePal.where("isNetSongList = ? and creatorName = ?", "0",AVUser.getCurrentUser().username)
-            .find(SongList::class.java) as ArrayList
+        val list = LitePal.where("isNetSongList = ? ","0").find(SongList::class.java,true) as ArrayList
 
         if (list.isNullOrEmpty()){
             //如果为空，则从网络上获取
@@ -51,6 +50,10 @@ class SongListRepository {
         }else{
             //不为空从数据库获取
             Log.d(TAG,"从数据库获取用户创建歌单")
+            for (i in 0 until list.size){
+                Log.d(TAG,list[i].name)
+            }
+
             EventBus.getDefault().post(SongListEvent("creat",list))
         }
     }
@@ -78,14 +81,17 @@ class SongListRepository {
                     description = it.getString("description")
                     isNetSongList = 0
                     creatorName = it.getString("creatorName")
+                    save()
                 }
                 list.add(mSongList)
-                mSongList.save()
-                Log.d(TAG,"从网络获取歌单"+ list[0].name)
+                //获取用户创建的歌单的同时获取它包含的歌曲
+                SongsRepository.getCreatListFromHttp(mSongList)
+
+
             }
             EventBus.getDefault().post(SongListEvent("creat",list))
         },{
-            Log.d(TAG,"网络拉取歌单失败：${it.message}")
+            Log.d(TAG,"网络拉取用户创建歌单失败：${it.message}")
         })
 
     }
@@ -96,11 +102,11 @@ class SongListRepository {
      */
     fun getUserCollectSongList(){
         Log.d(TAG,"getUserSongList：开始获取用户收藏的歌单")
-        val list = LitePal.where("isNetSongList = ? and userName = ?", "1",AVUser.getCurrentUser().username)
-            .find(SongList::class.java) as ArrayList
+        val list = LitePal.where("isNetSongList = ? ", "1").find(SongList::class.java) as ArrayList
         if (list.isNullOrEmpty()){
             getUserCollectSongListFromHttp()
         }else{
+            Log.d(TAG,"从数据库获取用户收藏的歌单")
             EventBus.getDefault().post(SongListEvent("collect",list))
         }
     }
@@ -133,7 +139,6 @@ class SongListRepository {
                     creatorName = it.getString("creatorName")
                     commentNum = it.getInt("commentNum")
                     creatorId = it.getInt("creatorId")
-                    userName = AVUser.getCurrentUser().username
                     save()
                 }
                 list.add(mSongList)
@@ -141,7 +146,7 @@ class SongListRepository {
             }
             EventBus.getDefault().post(SongListEvent("collect",list))
         },{
-            Log.d(TAG,"网络拉取歌单失败：${it.message}")
+            Log.d(TAG,"网络拉取用户收藏歌单失败：${it.message}")
         })
 
     }

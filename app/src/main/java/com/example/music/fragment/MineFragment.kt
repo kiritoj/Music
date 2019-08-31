@@ -6,10 +6,12 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
 import android.arch.lifecycle.Observer
+import android.content.ContentValues
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
@@ -18,13 +20,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import cn.leancloud.AVUser
-import com.example.music.*
+import com.example.music.R
 import com.example.music.activity.LocalMusicActivity
 import com.example.music.activity.LoginActivity
 import com.example.music.adapter.UserSongListAdapter
 import com.example.music.databinding.FragmentMineBinding
 import com.example.music.databinding.PopWindowSonglistMoreBinding
+import com.example.music.db.table.LocalMusic
 import com.example.music.db.table.SongList
+import com.example.music.getScreenWidth
+import com.example.music.reduceTransparency
+import com.example.music.resetTransparency
 import com.example.music.viewmodel.MineFragmentVM
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
@@ -35,8 +41,8 @@ import kotlinx.android.synthetic.main.dialog_input.view.*
 import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.pop_window_edit_name.view.*
 import kotlinx.android.synthetic.main.pop_window_sure.view.*
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.litepal.LitePal
 
 /**
@@ -52,7 +58,11 @@ class MineFragment : Fragment() {
     lateinit var mListener: UserSongListAdapter.OnSongListItemMoreListener
     val progressDialog by lazy { ProgressDialog(context) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val binding: FragmentMineBinding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_mine, container, false)
         viewModel = MineFragmentVM()
@@ -89,15 +99,34 @@ class MineFragment : Fragment() {
     fun initClick() {
         iv_user_avatar.setOnClickListener { requestPermission() }
         tv_user_name.setOnClickListener { showPopupWindow() }
-        ll_local_music.setOnClickListener { startActivity(Intent(activity, LocalMusicActivity::class.java)) }
+        ll_local_music.setOnClickListener {
+            startActivity(
+                Intent(
+                    activity,
+                    LocalMusicActivity::class.java
+                )
+            )
+        }
         iv_add_songlist.setOnClickListener { showAddSongListWindow() }
+
         //退出登录
         bt_quit_login.setOnClickListener {
+            //清空本地用户名和头像
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            preferences.edit().apply {
+                remove("username")
+                remove("useravatar")
+                apply()
+            }
+            //将当前用户的全部歌单清空
+            LitePal.deleteAll(SongList::class.java)
 
+            //用户退出
             AVUser.logOut()
             activity?.startActivity<LoginActivity>()
             activity?.finish()
         }
+
     }
 
     /**
@@ -194,7 +223,11 @@ class MineFragment : Fragment() {
         activity?.reduceTransparency()
         val contentView = LayoutInflater.from(activity).inflate(R.layout.pop_window_edit_name, null)
         val popWindow =
-            PopupWindow(contentView, (activity?.getScreenWidth()!! * 0.95).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+            PopupWindow(
+                contentView,
+                (activity?.getScreenWidth()!! * 0.95).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         popWindow.apply {
             animationStyle = R.style.popwindowCenter
             isFocusable = true
@@ -214,7 +247,11 @@ class MineFragment : Fragment() {
     fun showAddSongListWindow() {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_input, null, false)
         val popWindow =
-            PopupWindow(view, (activity?.getScreenWidth()!! * (0.9)).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+            PopupWindow(
+                view,
+                (activity?.getScreenWidth()!! * (0.9)).toInt(),
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         activity?.reduceTransparency()
         popWindow.apply {
             isFocusable = true
@@ -275,7 +312,11 @@ class MineFragment : Fragment() {
                 )
                 binding.songlist = mSongList
                 val popupWindow =
-                    PopupWindow(binding.root, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    PopupWindow(
+                        binding.root,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
                 popupWindow.apply {
                     isFocusable = true
                     animationStyle = R.style.popwindow

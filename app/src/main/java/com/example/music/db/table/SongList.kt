@@ -30,5 +30,11 @@ class SongList : LitePalSupport(),Serializable {
      var description: String? = null
      var commentNum: Int? = null
      var collectNum: Int? = null
-     var userName: String? = null
+
+     var songs = ArrayList<LocalMusic>() //创建歌单里的音乐列表
+
+     override fun equals(other: Any?): Boolean {
+          val otherSongList = other as? SongList
+          return name.equals(otherSongList?.name)
+     }
 }

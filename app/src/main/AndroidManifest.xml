@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.music">
+        package="com.example.music">
 
     <!-- leancloud基本模块 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 知乎 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 网络变化 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 知乎 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 网络变化 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
             android:name=".MusicApp"
@@ -22,41 +22,35 @@
         <service
                 android:name=".PlayService"
                 android:enabled="true"
-                android:exported="false">
-        </service>
+                android:exported="false"></service>
 
         <activity
                 android:name=".activity.CreatSongListActivity"
-                android:theme="@style/TransparentTheme">
-        </activity>
+                android:theme="@style/TransparentTheme"></activity>
         <activity
                 android:name=".activity.SongListDetailActivity"
-                android:theme="@style/TransparentTheme">
-        </activity>
+                android:theme="@style/TransparentTheme"></activity>
         <activity
                 android:name=".activity.SongListActivity"
-                android:label="全部歌单">
-        </activity>
-        <activity android:name=".activity.BinnerActivity">
-        </activity>
-        <activity android:name=".activity.PlayingActivity"
-                  android:theme="@style/TransparentTheme"
-                  android:label="@null">
-        </activity>
-        <activity android:name=".activity.LocalMusicActivity">
-        </activity>
+                android:label="全部歌单"></activity>
+        <activity android:name=".activity.BinnerActivity"></activity>
+        <activity
+                android:name=".activity.PlayingActivity"
+                android:label="@null"
+                android:theme="@style/TransparentTheme"></activity>
+        <activity android:name=".activity.LocalMusicActivity"></activity>
         <activity android:name=".activity.TestActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
-        <activity android:name=".activity.SearchActivity">
-        </activity>
-        <activity android:name=".activity.MainActivity">
-        </activity>
+        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.MainActivity"></activity>
         <activity
                 android:name=".activity.LoginActivity"
-                android:theme="@style/NoTitleFullscreen">
-        </activity> <!-- 知乎matisse需要的提供器 -->
+                android:theme="@style/NoTitleFullscreen"></activity> <!-- 知乎matisse需要的提供器 -->
         <provider
                 android:name="android.support.v4.content.FileProvider"
                 android:authorities="com.example.music.fileprovider"
@@ -64,26 +58,26 @@
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/file_paths_public"/>
+                    android:resource="@xml/file_paths_public" />
         </provider> <!-- leancloud即时通信和推送模块 -->
-        <service android:name="cn.leancloud.push.PushService"/>
+        <service android:name="cn.leancloud.push.PushService" />
 
         <receiver android:name="cn.leancloud.push.AVBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
         <activity
                 android:name=".activity.LoadingActivity"
                 android:theme="@style/NoTitleFullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+                            <category android:name="android.intent.category.LAUNCHER"/>
+                        </intent-filter>
         </activity>
     </application>
 

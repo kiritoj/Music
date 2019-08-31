@@ -5,40 +5,33 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.EventLog
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import com.bumptech.glide.Glide
-import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.adapter.CreatListAdapter
-import com.example.music.adapter.SongsAdapter
 import com.example.music.databinding.ActivityCreatSongListBinding
-import com.example.music.databindingadapter.getAlbumArt
-import com.example.music.db.table.LocalMusic
 import com.example.music.db.table.SongList
-import com.example.music.event.RefreshEvent
 import com.example.music.event.SongEvent
 import com.example.music.reduceTransparency
 import com.example.music.resetTransparency
 import com.example.music.viewmodel.BottomStateBarVM
 import com.example.music.viewmodel.CreatListVM
 import kotlinx.android.synthetic.main.activity_creat_song_list.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_song_list_detail.*
 import kotlinx.android.synthetic.main.activity_song_list_detail.ll_songlist_detail_root
 import kotlinx.android.synthetic.main.activity_song_list_detail.tool_bar
 import kotlinx.android.synthetic.main.pop_window_creat_song.view.*
-import kotlinx.android.synthetic.main.song_info_button.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
+import org.litepal.LitePal
 
 class CreatSongListActivity : AppCompatActivity() {
+    val TAG = "CreatSongListActivity"
     lateinit var mSonglist: SongList
     lateinit var mAdapter: CreatListAdapter
     lateinit var viwmodel: CreatListVM
@@ -49,10 +42,10 @@ class CreatSongListActivity : AppCompatActivity() {
         val binding: ActivityCreatSongListBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_creat_song_list)
 
-
-
+        EventBus.getDefault().register(this)
         //接收歌单
         mSonglist = intent.getSerializableExtra("songlist") as SongList
+        viwmodel = CreatListVM(mSonglist)
 
         //绑定
         binding.data = mSonglist
@@ -61,11 +54,18 @@ class CreatSongListActivity : AppCompatActivity() {
         //检查音乐播放情况，加载底部播放栏
         mViewmodel?.checkMusicPlaying()
 
-        //加载歌曲
-        viwmodel = CreatListVM(mSonglist)
-
         //初始化recycleview
-        mAdapter = CreatListAdapter(ArrayList(), this)
+        val songList = LitePal.where("name = ?",mSonglist.name)
+            .findFirst(SongList::class.java,true)
+
+        if (songList.songs.isNullOrEmpty()){
+            Log.d(TAG,"歌单内歌曲列表为空")
+        }else{
+            for (i in 0 until songList.songs.size){
+                Log.d(TAG,songList.songs[i].songName)
+            }
+        }
+        mAdapter = CreatListAdapter(songList.songs, this)
         binding.rvSongs.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@CreatSongListActivity)
@@ -91,11 +91,6 @@ class CreatSongListActivity : AppCompatActivity() {
     }
 
     fun observe(){
-        viwmodel.songs.observe(this, Observer {
-            mAdapter.list.clear()
-            mAdapter.list.addAll(it!!)
-            mAdapter.notifyDataSetChanged()
-        })
 
         //底部播放栏的可见性控制
         mViewmodel?.isDisplay?.observe(this, Observer {
@@ -132,6 +127,11 @@ class CreatSongListActivity : AppCompatActivity() {
                 popupWindow.dismiss()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
 

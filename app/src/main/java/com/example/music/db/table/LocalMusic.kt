@@ -13,16 +13,21 @@ import java.io.Serializable
 class LocalMusic : LitePalSupport(),Serializable {
 
 
-    var id: Long? = null
+    var id: Long? = null //网络音乐的id号
     var songName: String? = null
     var singerName: String? = null
     var length: Int? = null
     var path: String? = null
     var albumID: Int? = null
-    var url: String? = null
+    var url: String? = null //网络音乐的播放地址
     var songListName: String?= null
-    var flag: Int = 0
-    var coverUrl: String = DEFAULT_COVER
+    var flag: Int = 0  //是本地音乐还是网络音乐
+    var coverUrl: String = DEFAULT_COVER //专辑封面图
     var objectID: String?=null
     var isLocalMusic: Boolean = false
+
+    var songLists = ArrayList<SongList>()  //属于哪个创建的歌单，与歌单是多对多关系
+
+
+
 }

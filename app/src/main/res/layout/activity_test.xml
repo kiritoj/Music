@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <Button
+            android:id="@+id/bt_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="保存数据"/>
+    <Button
+        android:id="@+id/bt_get"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:text="显示数据"/>
+    <Button
+        android:id="@+id/bt_jian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:text="减少一个数据"/>
+    <Button
+        android:id="@+id/other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="增加作者"/>
 
 
-</FrameLayout>
+</LinearLayout>
 
 

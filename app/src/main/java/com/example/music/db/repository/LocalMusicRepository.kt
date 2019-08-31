@@ -66,6 +66,7 @@ class LocalMusicRepository {
      */
     @SuppressLint("CheckResult")
     fun getLocalMusicFromCursor() {
+        Log.d(TAG,"从内容提供器中获取本地歌曲")
         val list = ArrayList<LocalMusic>()
         disposable = Observable.create(ObservableOnSubscribe<ArrayList<LocalMusic>> {
 
@@ -82,7 +83,8 @@ class LocalMusicRepository {
                 while (cursor.moveToNext()) {
                     val music = LocalMusic()
                     music.songName =
-                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+                        cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME))
+
                     music.singerName =
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
                     music.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
@@ -90,10 +92,22 @@ class LocalMusicRepository {
                     music.albumID = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
                     music.isLocalMusic = true
 
+                    //在主活动加载创建的歌单时可能已经添加了，这里只改变本地标志位和添加本地播放路径
+                    val mMusic = LitePal.where("songName = ?",music.songName)
+                        .findFirst(LocalMusic::class.java,true)
+                    if (mMusic != null){
+                        mMusic.apply {
+                            isLocalMusic = true
+                            path = music.path
+                            save()
+                        }
+                    }else{
+                        //如果没有则完整的添加一条数据
+                        music.save()
+                    }
+
                     list.add(music)
                     //添加进数据库
-                    music.save()
-
                 }
                 it.onNext(list)
                 // 释放资源
@@ -118,6 +132,7 @@ class LocalMusicRepository {
      */
     fun getLocalMusicFromDb() {
 
+        Log.d(TAG,"从数据库获取本地歌曲")
         disposable = Observable.create(ObservableOnSubscribe<ArrayList<LocalMusic>> { emitter ->
             val list = LitePal.findAll(LocalMusic::class.java) as ArrayList<LocalMusic>
             emitter.onNext(list)
@@ -125,7 +140,13 @@ class LocalMusicRepository {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 EventBus.getDefault().post(it)
-                Log.d(TAG, it[0].path)
+                if (it.isNullOrEmpty()){
+                    Log.d(TAG,"数据库本地歌曲为空")
+                }else{
+                    for (i in 0 until it.size){
+                        Log.d(TAG,it[i].songName)
+                    }
+                }
             }
 
     }

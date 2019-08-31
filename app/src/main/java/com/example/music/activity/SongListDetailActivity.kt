@@ -111,6 +111,7 @@ class SongListDetailActivity : AppCompatActivity() {
 
     fun observe() {
         viewmodel.songs.observe(this, Observer {
+            process_bar.visibility = View.GONE
             mAdapter.list.addAll(it!!)
             mAdapter.notifyDataSetChanged()
         })

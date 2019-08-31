@@ -3,6 +3,7 @@ package com.example.music.viewmodel
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.ContentValues
 import android.databinding.ObservableField
 import android.preference.PreferenceManager
 import android.util.Log
@@ -15,10 +16,15 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import com.example.music.R
+import com.example.music.db.table.SongList
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.LrcService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.litepal.LitePal
+import cn.leancloud.AVObject
+
+
 
 /**
  * Created by tk on 2019/8/24
@@ -42,6 +48,8 @@ class PlayVM: ViewModel() {
     val mDuration = MutableLiveData<Int>()
     //歌词
     val lrc = ObservableField<String>()
+    //是否添加到我喜欢的音乐图标
+    val collectIc = ObservableField<Int>()
 
 
     init {
@@ -66,8 +74,24 @@ class PlayVM: ViewModel() {
         songIndex.value = PlayManger.index
         mDuration.value = PlayManger.player.duration
         song.get()?.let { getLrc(it) }
-
+        //checkIsMyLove()
     }
+
+    /**
+     *检查该单曲是否添加到我喜欢的音乐
+     * @param name 歌曲名字
+     */
+    fun checkIsMyLove(){
+        val list = LitePal
+            .where("songListName = ? and songName = ?","我喜欢的音乐",song.get()?.songName)
+            .find(LocalMusic::class.java)
+        if (list.isNullOrEmpty()){
+            collectIc.set(R.drawable.vector_drawable_collect_white)
+        }else{
+            collectIc.set(R.drawable.vector_drawable_collect_red)
+        }
+    }
+
     /**
      * 暂停/播放控制
      */
@@ -105,9 +129,10 @@ class PlayVM: ViewModel() {
 
         song.set(event.song)
         isPlaying.value = true
-        playIc.set(R.drawable.vector_drawable_play_black)
+        playIc.set(R.drawable.ic_play_running)
         songIndex.value = PlayManger.index
         song.get()?.let { getLrc(it) }
+        //checkIsMyLove()
     }
 
 
@@ -155,7 +180,33 @@ class PlayVM: ViewModel() {
      * 添加到我喜欢的音乐
      */
     fun addToMyLove(){
-
+//        //添加到当前用户‘我喜欢的音乐’歌单
+//        val list = LitePal.where("name = ?","我喜欢的音乐").find(SongList::class.java)
+//        when(collectIc.get()){
+//            //未添加状态下
+//            R.drawable.vector_drawable_collect_white -> {
+//                //首先添加到本地数据库
+//                if (song.get()?.isLocalMusic!!){
+//                    //数据库中已存在，只需修改歌单名属性即可
+//                    val value = ContentValues()
+//                    value.put("songListName","我喜欢的音乐")
+//                    LitePal.updateAll()
+//                }
+//
+//            }
+//        }
+//
+//
+//        val songList = AVObject.createWithoutData("SongList", list[0].objectId)
+//
+//        songList.saveInBackground()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe ({
+//                Log.d(TAG,"数量更新成功")
+//            },{
+//                Log.d(TAG,"数量更新失败${it.message}")
+//            })
     }
 
 

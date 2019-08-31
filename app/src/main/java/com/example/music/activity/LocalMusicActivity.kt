@@ -106,6 +106,7 @@ class LocalMusicActivity : BaseActivity() {
         viewModel.creatSongList.observe(this, Observer {
             mAdapter.list.clear()
             it?.let { it1 -> mAdapter.list.addAll(it1) }
+            mAdapter.notifyDataSetChanged()
         })
         viewModel.toast.observe(this, Observer {
             toast(it!!)

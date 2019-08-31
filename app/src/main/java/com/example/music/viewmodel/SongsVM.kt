@@ -53,6 +53,7 @@ class SongsVM(val songlist: SongList) : ViewModel() {
      * 获取歌单的全部歌曲
      */
     fun getSongs(id: Long) {
+
         SongsRepository.getSongsFromHttp(id)
     }
 
@@ -153,7 +154,7 @@ class SongsVM(val songlist: SongList) : ViewModel() {
 //                apply()
 //            }
 //        }
-        SongListRepository.getInstance().getUserCollectSongList()
+        SongListRepository.getInstance().getUserSongList()
     }
 
     /**
@@ -161,16 +162,29 @@ class SongsVM(val songlist: SongList) : ViewModel() {
      */
     @SuppressLint("CheckResult")
     fun saveToSongList(music: SongsBean.DataBean.TracksBean, songList: SongList){
-        //本地收藏，通过外键将歌曲和歌单联系起来,
+        //本地收藏
         val mMusic = LocalMusic()
-        mMusic.songListName = songList.name
-        mMusic.updateAll("songName = ?", music.name)
+        val mSongList = LitePal.where("name = ?",songList.name)
+            .findFirst(SongList::class.java,true)
+        mMusic.apply {
+            id = music.id
+            songName = music.name
+            singerName = music.artists?.get(0)?.name
+            length = music.duration
+            url = SONG_PLAY_BASE_URL+music.id
+            isLocalMusic = false
+            coverUrl = IMAGE_BASE_URL+music.id
+            songLists.add(mSongList)
+            save()
+        }
+
         toast.value = "正在导入"
         //更新本地该歌单歌曲数量
-        val mSongList = LitePal.where("objectId = ?",songList.objectId).find(SongList::class.java)[0]
-        mSongList.num = mSongList.num+1
-        mSongList.save()
-
+        mSongList.apply {
+            songs.add(mMusic)
+            num++
+            save()
+        }
 
         //云端收藏
         val avMusic = AVObject("Music")
@@ -187,6 +201,9 @@ class SongsVM(val songlist: SongList) : ViewModel() {
                     put("songList", avSongList)
                     saveInBackground().subscribe({
                         toast.value = "收藏成功"
+
+                        mMusic.objectID = it.objectId
+                        mMusic.save()
                     }, {
                         toast.value = "收藏失败"
                         Log.d(TAG, it.message)
