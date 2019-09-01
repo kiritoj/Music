@@ -92,6 +92,7 @@ class FindFragment : Fragment() {
             songListAdapter.list.clear()
             songListAdapter.list.addAll(it!!)
             songListAdapter.notifyDataSetChanged()
+            process_bar.visibility = View.GONE
         })
         mViewModel.latestSong.observe(this, Observer {
             latestSongAdapter.list.clear()

@@ -142,18 +142,10 @@ class SongsVM(val songlist: SongList) : ViewModel() {
         }
     }
 
+    /**
+     * 获取用户创建的歌单
+     */
     fun getUserCreatSongList(){
-//        val preference = PreferenceManager.getDefaultSharedPreferences(MusicApp.context)
-//        val hasGetFromHttp = preference.getBoolean("hasGetFromHttp",false)
-//        if (hasGetFromHttp){
-//            SongListRepository.getInstance().getUserSongListFromDB()
-//        }else{
-//            SongListRepository.getInstance().getUserSongListFromHttp()
-//            preference.edit().apply{
-//                putBoolean("hasGetFromHttp",true)
-//                apply()
-//            }
-//        }
         SongListRepository.getInstance().getUserSongList()
     }
 

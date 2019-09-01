@@ -33,7 +33,8 @@
         <activity
                 android:name=".activity.SongListActivity"
                 android:label="全部歌单"></activity>
-        <activity android:name=".activity.BinnerActivity"></activity>
+        <activity android:name=".activity.BinnerActivity"
+                android:hardwareAccelerated="true"></activity>
         <activity
                 android:name=".activity.PlayingActivity"
                 android:label="@null"

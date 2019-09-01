@@ -15,4 +15,9 @@
             android:paddingRight="10dp"
     >
     </com.jcodecraeer.xrecyclerview.XRecyclerView>
+    <ProgressBar
+            android:id="@+id/process_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 </FrameLayout>
