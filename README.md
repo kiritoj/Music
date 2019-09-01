@@ -15,6 +15,9 @@
 
 <img src="https://i.loli.net/2019/08/30/U5fQegZyW8GzouT.png" height="400" width="210">
 
+<img src="https://i.loli.net/2019/09/02/7gy1OdBn5NlSk6F.png" height="400" width="210">
+
+
  </div>
 
 ## 鸣谢
@@ -29,3 +32,6 @@
   新增滚动歌词显示
 ### 8.31
 调整数据库歌曲与歌单表的关系，多对多关系。实现同一首歌可收藏至多个歌单
+### 9.1
+优化顶部banner点击事件，根据banner种类可选择：跳转至网页/播放音乐/打开歌单 <br>
+toolbal显示webview加载的地址和进度
