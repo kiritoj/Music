@@ -33,6 +33,7 @@ import org.jetbrains.anko.toast
  */
 class LocalMusicActivity : BaseActivity() {
 
+    val TAG = "LocalMusicActivity"
     //处理本地歌曲avtivity的VM
     val viewModel = LocalMusicVM()
     //本地歌曲recycleview adapter
@@ -84,7 +85,7 @@ class LocalMusicActivity : BaseActivity() {
 
 
     fun initRecycle() {
-        adapter = LocalMusicAdapter(ArrayList<LocalMusic>(), this)
+        adapter = LocalMusicAdapter(ArrayList<LocalMusic>(), this,TAG)
         initListener()
         adapter.listener = mListener
         rv_local_music.adapter = adapter

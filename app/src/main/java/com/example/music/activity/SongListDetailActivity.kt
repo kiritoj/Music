@@ -63,15 +63,15 @@ class SongListDetailActivity : AppCompatActivity() {
         EventBus.getDefault().register(this)
         //绑定底部导航栏VM
         binding.mViewModel = mViewModel
+
+        //绑定接收到的歌单对象
+        mSonglist = intent.getSerializableExtra("songlist") as SongList
         //初始化recycleview，防止skip layout
-        mAdapter = SongsAdapter(ArrayList(), this)
+        mAdapter = SongsAdapter(ArrayList(), this,mSonglist.name!!)
         binding.rvSongs.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@SongListDetailActivity)
         }
-
-        //绑定接收到的歌单对象
-        mSonglist = intent.getSerializableExtra("songlist") as SongList
         viewmodel = SongsVM(mSonglist)
         observe()
         binding.data = mSonglist

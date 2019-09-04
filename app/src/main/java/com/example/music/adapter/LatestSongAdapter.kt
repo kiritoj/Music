@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.music.PlayManger
 import com.example.music.databinding.RecycleItemLatesMusicBinding
 import com.example.music.R
 import com.example.music.activity.PlayingActivity
@@ -19,12 +20,8 @@ import org.jetbrains.anko.startActivity
 /**
  * Created by tk on 2019/8/20
  */
-class LatestSongAdapter(val list: ArrayList<Data>,val context: Context): RecyclerView.Adapter<LatestSongAdapter.ViewHolder>() {
+class LatestSongAdapter(val list: ArrayList<Data>,val context: Context,val tag: String): RecyclerView.Adapter<LatestSongAdapter.ViewHolder>() {
     var playingId = -1
-    //是否已经向playmanger发送播放队列
-    var hashSetQuene = false
-    //播放列表包装类
-    val quene = ArrayList<LocalMusic>()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val binding: RecycleItemLatesMusicBinding = DataBindingUtil
@@ -47,17 +44,18 @@ class LatestSongAdapter(val list: ArrayList<Data>,val context: Context): Recycle
         p0.binding.song = list[p1]
         //点击整体播放
         p0.binding.llLatestSongRoot.setOnClickListener {
-            //若已经发送播放队列，直接发送要播放地址的index
-            if (hashSetQuene){
+
+            if (tag.equals(PlayManger.queneTag)){
                 if (playingId == p1) {
                     //第二次点击跳转至详情页
-                    context.startActivity<PlayingActivity>("song" to quene[p1])
+                    context.startActivity<PlayingActivity>()
                 } else {
                     refreshPlayId(p1)
                     EventBus.getDefault().post(IndexEvent(p1))
                 }
             }else{
                 //没有发送将网络获取的歌曲包装成LocalMusic类
+                val quene = ArrayList<LocalMusic>()
                 list.forEach {
                     val music = LocalMusic()
                     music.apply {
@@ -72,10 +70,10 @@ class LatestSongAdapter(val list: ArrayList<Data>,val context: Context): Recycle
                 }
                 if (playingId == p1) {
                     //第二次点击跳转至详情页
-                    context.startActivity<PlayingActivity>("song" to quene[p1])
+                    context.startActivity<PlayingActivity>()
                 } else {
                     refreshPlayId(p1)
-                    EventBus.getDefault().post(QueneEvent(quene,p1))
+                    EventBus.getDefault().post(QueneEvent(quene,p1,tag))
                 }
 
             }
@@ -86,10 +84,17 @@ class LatestSongAdapter(val list: ArrayList<Data>,val context: Context): Recycle
 
         //更新播放位置
         fun refreshPlayId(newPlayId: Int){
-            val lastId = playingId
-            playingId = newPlayId
-            notifyItemChanged(playingId)
-            notifyItemChanged(lastId)
+            if (tag.equals(PlayManger.queneTag)) {
+                val lastId = playingId
+                playingId = newPlayId
+                notifyItemChanged(playingId)
+                notifyItemChanged(lastId)
+            }else{
+                //与tao不符说明该播放队列不是正在播放的队列
+                val lastId = playingId
+                playingId = -1
+                notifyItemChanged(lastId)
+            }
         }
 
 //        //点击右边的弹出更多操作，删除，或添加到歌单

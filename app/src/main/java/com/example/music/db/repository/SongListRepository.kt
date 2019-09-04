@@ -164,6 +164,7 @@ class SongListRepository {
      */
     @SuppressLint("CheckResult")
     fun getHotSongList(size: Int,cat: String="全部",  offset: Int = 0){
+
         ApiGenerator
             .getApiService(OtherSongList::class.java)
             .getOtherSongList(size,cat,offset)

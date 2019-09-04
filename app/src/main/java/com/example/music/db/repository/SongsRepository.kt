@@ -33,10 +33,10 @@ object SongsRepository {
             .getSongs(id)
             .subscribeOn(Schedulers.io())
             .subscribe ({
-                EventBus.getDefault().post(SongsEvent("",it.data?.tracks as ArrayList<SongsBean.DataBean.TracksBean>))
-                Log.d(TAG,"从网络歌单获取歌曲成功")
+                EventBus.getDefault().post(SongsEvent("",it.playlist.tracks as ArrayList))
+                Log.d(TAG,"SongsRepository:从网络歌单获取歌曲成功")
             },{
-                Log.d(TAG,"从网络歌单获取歌曲失败${it.message}")
+                Log.d(TAG,"SongsRepository:从网络歌单获取歌曲失败${it.message}")
             })
     }
 

@@ -10,7 +10,7 @@ import retrofit2.http.Query
  * 根据歌单id获取里面的歌曲
  */
 interface SongsService {
-    @GET("songList")
+    @GET("playlist/detail")
             /**
              * @param 歌单id
              */

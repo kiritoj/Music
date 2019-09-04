@@ -50,6 +50,8 @@ class PlayVM : ViewModel() {
     val isPlaying = MutableLiveData<Boolean>()
     //当前播放音乐的总长度
     val mDuration = MutableLiveData<Int>()
+    //当前播放音乐的进度
+    val mCurrentPosition = MutableLiveData<Int>()
     //歌词
     val lrc = ObservableField<String>()
     //是否添加到我喜欢的音乐图标
@@ -82,6 +84,7 @@ class PlayVM : ViewModel() {
         }
         songIndex.value = PlayManger.index
         mDuration.value = PlayManger.player.duration
+        mCurrentPosition.value = PlayManger.player.currentPosition
         song.get()?.let { getLrc(it) }
         checkIsMyLove()
     }
@@ -136,7 +139,7 @@ class PlayVM : ViewModel() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun update(event: RefreshEvent) {
 
-        mDuration.value = event.mSong.length
+       // mDuration.value = event.mSong.length
         song.set(event.mSong)
         Log.d(TAG, song.get()?.id.toString())
 

@@ -26,7 +26,7 @@ class PlayService : Service() {
     @Subscribe
     fun setQuene(event: QueneEvent){
         Log.d(TAG,"接收到播放列表")
-        PlayManger.setPlayQuene(event.list,event.index)
+        PlayManger.setPlayQuene(event.list,event.index,event.tag)
     }
     @Subscribe
     fun setMode(event: ModeEvent){

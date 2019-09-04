@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.music.IMAGE_BASE_URL
+import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.SONG_PLAY_BASE_URL
 import com.example.music.activity.PlayingActivity
 import com.example.music.bean.SongsBean
+import com.example.music.bean.Track
 import com.example.music.databinding.RecycleItemSongsBinding
 import com.example.music.db.table.LocalMusic
+import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import com.example.music.event.SongEvent
 import org.jetbrains.anko.startActivity
@@ -21,7 +24,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by tk on 2019/8/23
  */
-class SongsAdapter(val list: ArrayList<SongsBean.DataBean.TracksBean>, val context: Context) :
+class SongsAdapter(val list: ArrayList<Track>, val context: Context,val tag: String) :
     RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
     //正在播放的位置
     var playingId = -1
@@ -54,29 +57,33 @@ class SongsAdapter(val list: ArrayList<SongsBean.DataBean.TracksBean>, val conte
         //点击整体播放
         p0.itembinding.llSongRoot.setOnClickListener {
             //包装成localMusic类播放
-            val quene =  ArrayList<LocalMusic>()
-            list.forEach {
-                val music = LocalMusic()
-                music.apply {
-                    id = it.id
-                    songName = it.name
-                    singerName = it.artists!![0].name
-                    url = SONG_PLAY_BASE_URL+it.id
-                    coverUrl = IMAGE_BASE_URL+it.id
+            if (tag.equals(PlayManger.queneTag)) {
+                if (playingId == p1) {
+                    context.startActivity<PlayingActivity>()
+                } else {
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(IndexEvent(p1))
                 }
-                quene.add(music)
-            }
-
-            if (playingId == p1) {
-                //第二次点击跳转至详情页
-                context.startActivity<PlayingActivity>()
             } else {
-                val lastPlayingId = playingId
-                playingId = p1
-                notifyItemChanged(playingId)
-                notifyItemChanged(lastPlayingId)
-
-                EventBus.getDefault().post(QueneEvent(quene,p1))
+                if (playingId == p1) {
+                    //第二次点击跳转至详情页
+                    context.startActivity<PlayingActivity>()
+                } else {
+                    val quene = ArrayList<LocalMusic>()
+                    list.forEach {
+                        val music = LocalMusic()
+                        music.apply {
+                            id = it.id
+                            songName = it.name
+                            singerName = it.ar[0].name
+                            coverUrl = it.al.picUrl
+                            tag = "NET_NON_URL"
+                        }
+                        quene.add(music)
+                    }
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(QueneEvent(quene, p1,tag))
+                }
             }
         }
 
@@ -86,17 +93,22 @@ class SongsAdapter(val list: ArrayList<SongsBean.DataBean.TracksBean>, val conte
         }
 
     }
-
     fun refreshPlayId(newPlayId: Int){
-        val lastId = playingId
-        playingId = newPlayId
-        notifyItemChanged(playingId)
-        notifyItemChanged(lastId)
+        if (tag.equals(PlayManger.queneTag)) {
+            val lastId = playingId
+            playingId = newPlayId
+            notifyItemChanged(playingId)
+            notifyItemChanged(lastId)
+        }else{
+            //与tao不符说明该播放队列不是正在播放的队列
+            val lastId = playingId
+            playingId = -1
+            notifyItemChanged(lastId)
+        }
     }
 
-
     class ViewHolder(val itembinding: RecycleItemSongsBinding) : RecyclerView.ViewHolder(itembinding.root) {
-        fun bind(mSong: SongsBean.DataBean.TracksBean) {
+        fun bind(mSong: Track) {
             itembinding.song = mSong
         }
 

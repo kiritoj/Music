@@ -24,7 +24,7 @@ class LatestSongEvent(val list: ArrayList<Data>)
 
 //歌单里面的全部歌曲
 
-class SongsEvent(val tag:String,val list: ArrayList<SongsBean.DataBean.TracksBean>?=null,
+class SongsEvent(val tag:String,val list: ArrayList<Track>?=null,
                  val mList: ArrayList<LocalMusic>? = null)
 
 //通知更新歌单
@@ -32,16 +32,16 @@ class SongsEvent(val tag:String,val list: ArrayList<SongsBean.DataBean.TracksBea
 class StringEvent(val tag: String)
 
 //
-class SongEvent(val tag: String,val creatSong: LocalMusic? = null,val onlineSong: SongsBean.DataBean.TracksBean?=null,val position: Int=0)
+class SongEvent(val tag: String,val creatSong: LocalMusic? = null,val onlineSong: Track?=null,val position: Int=0)
 
 //播放队列事件
 
-class QueneEvent(val list: ArrayList<LocalMusic>,val index: Int)
+class QueneEvent(val list: ArrayList<LocalMusic>,val index: Int,val tag: String)
 
 //播放模式事件
 class ModeEvent(val mode: Int)
 
-class RefreshEvent(val mSong: LocalMusic,val position: Int)
+class RefreshEvent(val mSong: LocalMusic,val position: Int,val tag: String)
 
 //更新进度条事件
 class ProcessEvent(val tag: String,val num: Int)

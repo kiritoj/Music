@@ -148,6 +148,13 @@ class PlayingActivity : AppCompatActivity() {
             val mTime = String.format("%02d:%02d", it / 60000, (it/1000) % 60)
             binding.tvEnd.text = mTime
         })
+        viewmodel.mCurrentPosition.observe(this, Observer {
+            //设置seekbar当前值
+            binding.seekBar.progress = it!!
+            //转换格式
+            val mTime = String.format("%02d:%02d", it / 60000, (it/1000) % 60)
+            binding.tvCurrent.text = mTime
+        })
 
 
     }

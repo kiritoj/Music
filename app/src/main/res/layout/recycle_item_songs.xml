@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="song" type="com.example.music.bean.SongsBean.DataBean.TracksBean"/>
+        <variable name="song" type="com.example.music.bean.Track"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_song_root"
@@ -37,7 +37,7 @@
             <TextView android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:textSize="13sp"
-                      android:text="@{song.artists[0].name}"/>
+                      android:text="@{song.ar[0].name}"/>
 
         </LinearLayout>
 

@@ -30,6 +30,8 @@ object PlayManger {
     val RANDOM = 1 //随机播放
     val REPEAT = 2 //循环播放
 
+    var queneTag = ""
+
     //状态控制
     enum class State {
         PLAY //播放
@@ -50,7 +52,7 @@ object PlayManger {
             PreferenceManager.getDefaultSharedPreferences(MusicApp.context).getInt("playmode", 0)
         player.setOnCompletionListener {
             //播放结束更新
-            timer?.cancel()
+            timer.cancel()
             playNext()
         }
 
@@ -59,7 +61,8 @@ object PlayManger {
     /**
      * 设置播放队列及播放位置
      */
-    fun setPlayQuene(mQuene: ArrayList<LocalMusic>, mIndex: Int) {
+    fun setPlayQuene(mQuene: ArrayList<LocalMusic>, mIndex: Int, mTag:String) {
+        queneTag = mTag
         quene.clear()
         quene.addAll(mQuene)
         index = mIndex
@@ -88,11 +91,13 @@ object PlayManger {
                     setDataSource(song.path)
                     prepareAsync()
                     setOnPreparedListener {
+                        //发送歌曲总时长
+                        EventBus.getDefault().post(ProcessEvent("duration", player.duration))
                         it.start()
                     }
                 }
                 //通知其他活动更改底部的音乐信息
-                EventBus.getDefault().post(RefreshEvent(song, index))
+                EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
             }
 
             //带有url的歌曲
@@ -105,7 +110,7 @@ object PlayManger {
                     }
                 }
                 //通知其他活动更改底部的音乐信息
-                EventBus.getDefault().post(RefreshEvent(song, index))
+                EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
             }
 
             //来自网络的音乐,必须动态获取播放地址，一段时间后地址会失效
@@ -124,7 +129,7 @@ object PlayManger {
                             }
                         }
                         //通知其他活动更改底部的音乐信息
-                        EventBus.getDefault().post(RefreshEvent(song, index))
+                        EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
 
                     }, {
                         playNext()

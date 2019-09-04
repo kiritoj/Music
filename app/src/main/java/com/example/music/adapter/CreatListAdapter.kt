@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.activity.PlayingActivity
 import com.example.music.databinding.RecycleItemCreatSongsBinding
 import com.example.music.db.table.LocalMusic
+import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import com.example.music.event.SongEvent
 import org.greenrobot.eventbus.EventBus
@@ -19,9 +21,8 @@ import org.jetbrains.anko.startActivity
 /**
  * Created by tk on 2019/8/24
  */
-class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
+class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context,val tag: String) :
     RecyclerView.Adapter<CreatListAdapter.ViewHolder>() {
-
 
     //正在播放的位置
     var playingId = -1
@@ -54,15 +55,21 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
 
         //点击整体播放
         p0.itembinding.llSongRoot.setOnClickListener {
-            if (playingId == p1) {
+            if (tag.equals(PlayManger.queneTag)) {
                 //第二次点击跳转至详情页
-                context.startActivity<PlayingActivity>()
+                if (playingId == p1) {
+                    context.startActivity<PlayingActivity>()
+                }else{
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(IndexEvent(p1))
+                }
             } else {
-                val lastPlayingId = playingId
-                playingId = p1
-                notifyItemChanged(playingId)
-                notifyItemChanged(lastPlayingId)
-                EventBus.getDefault().post(QueneEvent(list, p1))
+                if (playingId == p1) {
+                    context.startActivity<PlayingActivity>()
+                }else {
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(QueneEvent(list, p1,tag))
+                }
             }
         }
 
@@ -72,11 +79,18 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
         }
     }
 
-    fun refreshPlayId(newPlayId: Int) {
-        val lastId = playingId
-        playingId = newPlayId
-        notifyItemChanged(playingId)
-        notifyItemChanged(lastId)
+    fun refreshPlayId(newPlayId: Int){
+        if (tag.equals(PlayManger.queneTag)) {
+            val lastId = playingId
+            playingId = newPlayId
+            notifyItemChanged(playingId)
+            notifyItemChanged(lastId)
+        }else{
+            //与tao不符说明该播放队列不是正在播放的队列
+            val lastId = playingId
+            playingId = -1
+            notifyItemChanged(lastId)
+        }
     }
 
     /**

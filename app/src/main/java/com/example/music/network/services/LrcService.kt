@@ -10,7 +10,7 @@ import retrofit2.http.Query
  * 获取歌词的service
  */
 interface LrcService {
-    @GET("lrc")
+    @GET("lyric")
             /**
              * @param id 歌曲id
              */

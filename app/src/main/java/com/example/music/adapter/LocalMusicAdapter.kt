@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.music.PlayManger
 import com.example.music.db.table.LocalMusic
 import com.example.music.databinding.RecycleItemLocalMusicBinding
 import com.example.music.R
@@ -19,15 +20,13 @@ import org.jetbrains.anko.startActivity
 /**
  * Created by tk on 2019/8/17
  * 本地音乐列表适配器
+ * @param tag 该标志位adapter所处的activity或fragment
+ * 用于后台播放服务切换播放队列时不同的tag的adapter根据tag更新自己正在播放的位置
  */
-class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context) : RecyclerView.Adapter<LocalMusicAdapter.ViewHolder>(){
+class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context,val tag: String) : RecyclerView.Adapter<LocalMusicAdapter.ViewHolder>(){
     //正在播放的位置
     var playingId = -1
     var listener: OnPopMoreClickListener? = null
-
-    var hashSetQuene = false
-
-
 
     interface OnPopMoreClickListener {
         fun onPopMoreClick(music: LocalMusic,position: Int)
@@ -58,8 +57,8 @@ class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context) : 
 
         //点击整体播放
         p0.itembinding.llLocalMusicParent.setOnClickListener {
-            //已经发送播放列表
-            if (hashSetQuene){
+            //检查该播放队列是不是player正在播放的队列
+            if (tag.equals(PlayManger.queneTag)){
                 if (playingId == p1) {
                     //第二次点击跳转至详情页
                     context.startActivity<PlayingActivity>()
@@ -68,12 +67,13 @@ class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context) : 
                     EventBus.getDefault().post(IndexEvent(p1))
                 }
             }else{
+                //与player的播放队列不符，重新发送播放队列
                 if (playingId == p1) {
                     //第二次点击跳转至详情页
                     context.startActivity<PlayingActivity>()
                 }else{
                     refreshPlayId(p1)
-                    EventBus.getDefault().post(QueneEvent(list,p1))
+                    EventBus.getDefault().post(QueneEvent(list,p1,tag))
                 }
             }
 
@@ -88,10 +88,17 @@ class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context) : 
 
 
     fun refreshPlayId(newPlayId: Int){
-        val lastId = playingId
-        playingId = newPlayId
-        notifyItemChanged(playingId)
-        notifyItemChanged(lastId)
+        if (tag.equals(PlayManger.queneTag)) {
+            val lastId = playingId
+            playingId = newPlayId
+            notifyItemChanged(playingId)
+            notifyItemChanged(lastId)
+        }else{
+            //与tao不符说明该播放队列不是正在播放的队列
+            val lastId = playingId
+            playingId = -1
+            notifyItemChanged(lastId)
+        }
     }
 
     /**

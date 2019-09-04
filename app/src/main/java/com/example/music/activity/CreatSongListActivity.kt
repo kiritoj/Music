@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.adapter.CreatListAdapter
 import com.example.music.databinding.ActivityCreatSongListBinding
@@ -65,7 +66,7 @@ class CreatSongListActivity : AppCompatActivity() {
                 Log.d(TAG,songList.songs[i].songName)
             }
         }
-        mAdapter = CreatListAdapter(songList.songs, this)
+        mAdapter = CreatListAdapter(songList.songs, this,mSonglist.name!!)
         binding.rvSongs.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(this@CreatSongListActivity)

@@ -35,7 +35,7 @@ class FindFragment : Fragment() {
     //精品歌单适配器
     val songListAdapter by lazy { SongListAdapter(ArrayList(),context!!) }
     //新歌速递适配器
-    val latestSongAdapter by lazy { LatestSongAdapter(ArrayList(),context!!) }
+    val latestSongAdapter by lazy { LatestSongAdapter(ArrayList(),context!!,"newSong") }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_find, container, false)
@@ -94,7 +94,7 @@ class FindFragment : Fragment() {
             songListAdapter.list.clear()
             songListAdapter.list.addAll(it!!)
             songListAdapter.notifyDataSetChanged()
-            //process_bar.visibility = View.GONE
+            process_bar.visibility = View.GONE
         })
         mViewModel.latestSong.observe(this, Observer {
             latestSongAdapter.list.clear()

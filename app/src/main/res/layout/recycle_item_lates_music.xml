@@ -15,7 +15,8 @@
                 android:id="@+id/iv_playing"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+
                 android:src="@drawable/vector_drawable_horn"
                 android:layout_gravity="center_vertical"
                 android:visibility="gone"
