@@ -73,7 +73,7 @@ class SongsAdapter(val list: ArrayList<Track>, val context: Context,val tag: Str
                     list.forEach {
                         val music = LocalMusic()
                         music.apply {
-                            id = it.id
+                            musicId = it.id
                             songName = it.name
                             singerName = it.ar[0].name
                             coverUrl = it.al.picUrl

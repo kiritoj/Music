@@ -13,7 +13,7 @@ import java.io.Serializable
 class LocalMusic : LitePalSupport(),Serializable {
 
 
-    var id: Long? = null //网络音乐的id号
+    var musicId: Long? = null //网络音乐的id号
     var songName: String? = null
     var singerName: String? = null
     var length: Int? = null

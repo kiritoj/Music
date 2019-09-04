@@ -86,7 +86,7 @@ object SongsRepository {
                         songName = it.getString("name")
                         singerName = it.getString("singer")
                         coverUrl = it.getString("albumUrl")
-                        id = it.getLong("id")
+                        musicId = it.getLong("id")
                         url = it.getString("mp3Url")
                         songLists.add(mSongList)
                         tag = it.getString("tag")

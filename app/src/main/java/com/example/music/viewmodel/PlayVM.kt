@@ -73,7 +73,7 @@ class PlayVM : ViewModel() {
      */
     fun checkPlaying() {
         song.set(PlayManger.quene[PlayManger.index])
-        Log.d(TAG, song.get()?.id.toString())
+        Log.d(TAG, song.get()?.musicId.toString())
 
         if (PlayManger.player.isPlaying) {
             isPlaying.value = true
@@ -141,7 +141,7 @@ class PlayVM : ViewModel() {
 
        // mDuration.value = event.mSong.length
         song.set(event.mSong)
-        Log.d(TAG, song.get()?.id.toString())
+        Log.d(TAG, "id为"+song.get()?.musicId.toString())
 
         isPlaying.value = true
         playIc.set(R.drawable.ic_play_running)
@@ -163,7 +163,7 @@ class PlayVM : ViewModel() {
      */
     fun changeMode() {
         modeIndex.value = (1 + modeIndex.value!!) % 3
-        Log.d(TAG, modeIndex.value.toString())
+        // Log.d(TAG, modeIndex.value.toString())
         PlayManger.setMode(modeIndex.value!!)
     }
 
@@ -176,7 +176,7 @@ class PlayVM : ViewModel() {
             Log.d(TAG, "本地音乐暂无歌词")
         } else {
             ApiGenerator.getApiService(LrcService::class.java)
-                .getLrc(song.id!!)
+                .getLrc(song.musicId!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -292,7 +292,7 @@ class PlayVM : ViewModel() {
                         "NET_NON_URL" -> {
                             val avMusic = AVObject("Music")
                             avMusic.apply {
-                                put("id", mSong.id)
+                                put("id", mSong.musicId)
                                 put("name", mSong.songName)
                                 put("singer", mSong.singerName)
                                 put("songList", avSongList)
@@ -324,7 +324,7 @@ class PlayVM : ViewModel() {
                         put("singer", song.get()?.singerName)
                         put("songList", avSongList)
                         put("albumUrl", song.get()?.coverUrl)
-                        put("id", song.get()?.id)
+                        put("id", song.get()?.musicId)
                         put("tag", "NET_NON_URL")
                         saveInBackground()
                             .subscribeOn(Schedulers.io())

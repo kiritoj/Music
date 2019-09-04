@@ -154,13 +154,14 @@ class SongsVM(val songlist: SongList) : ViewModel() {
         val mSongList = LitePal.where("name = ?", songList.name)
             .findFirst(SongList::class.java, true)
         mMusic.apply {
-            id = music.id
+            musicId = music.id
             songName = music.name
             singerName = music.ar[0].name
             url = SONG_PLAY_BASE_URL + music.id
             isLocalMusic = false
             coverUrl = IMAGE_BASE_URL + music.id
             songLists.add(mSongList)
+            tag = "NET_NON_URL"
         }
         if (mSongList.songs.contains(mMusic)){
             toast.value = "该歌单已经添加过了，请选择其他歌单"

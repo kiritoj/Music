@@ -65,6 +65,15 @@ object PlayManger {
         queneTag = mTag
         quene.clear()
         quene.addAll(mQuene)
+
+        if (mQuene.isNullOrEmpty()){
+
+        }else{
+            for (i in 0 until mQuene.size){
+                Log.d(TAG,mQuene[i].songName+"-------"+mQuene[i].musicId)
+            }
+        }
+
         index = mIndex
         Log.d(TAG, "setPlayQuene:开始播放")
         play(mQuene[mIndex])
@@ -115,9 +124,9 @@ object PlayManger {
 
             //来自网络的音乐,必须动态获取播放地址，一段时间后地址会失效
             "NET_NON_URL" -> {
-                Log.d(TAG,song.id.toString())
+                Log.d(TAG,song.musicId.toString())
                 ApiGenerator.getApiService(SongPlayService::class.java)
-                    .getUrl(song.id!!)
+                    .getUrl(song.musicId!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({

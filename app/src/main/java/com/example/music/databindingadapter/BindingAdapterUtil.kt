@@ -52,6 +52,8 @@ object BackgroundBindAdapter{
     fun loadBackground(view: ImageView,url: String){
         Glide.with(MusicApp.context)
             .load(url)
+            .placeholder(R.drawable.back)
+            .error(R.drawable.back)
             .bitmapTransform(BlurTransformation(MusicApp.context, 30, 5))
             .into(view)
     }

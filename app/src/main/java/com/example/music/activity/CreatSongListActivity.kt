@@ -59,13 +59,13 @@ class CreatSongListActivity : AppCompatActivity() {
         val songList = LitePal.where("name = ?",mSonglist.name)
             .findFirst(SongList::class.java,true)
 
-        if (songList.songs.isNullOrEmpty()){
-            Log.d(TAG,"歌单内歌曲列表为空")
-        }else{
-            for (i in 0 until songList.songs.size){
-                Log.d(TAG,songList.songs[i].songName)
-            }
-        }
+//        if (songList.songs.isNullOrEmpty()){
+//            Log.d(TAG,"歌单内歌曲列表为空")
+//        }else{
+//            for (i in 0 until songList.songs.size){
+//                Log.d(TAG,songList.songs[i].songName)
+//            }
+//        }
         mAdapter = CreatListAdapter(songList.songs, this,mSonglist.name!!)
         binding.rvSongs.apply {
             adapter = mAdapter
