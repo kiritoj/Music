@@ -69,7 +69,7 @@ class SongsAdapter(val list: ArrayList<SongsBean.DataBean.TracksBean>, val conte
 
             if (playingId == p1) {
                 //第二次点击跳转至详情页
-                context.startActivity<PlayingActivity>("song" to quene[p1])
+                context.startActivity<PlayingActivity>()
             } else {
                 val lastPlayingId = playingId
                 playingId = p1

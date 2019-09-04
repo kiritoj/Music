@@ -8,6 +8,6 @@ import retrofit2.http.GET
  * Created by tk on 2019/8/22
  */
 interface CategrayService {
-    @GET("songList/category")
+    @GET("playlist/catlist")
     fun getAllCateGray(): Observable<CategoryBean>
 }

@@ -144,13 +144,21 @@ class LocalMusicVM : ViewModel() {
             //先将歌曲文件保存到云端，拿到MP3url
             val file = File(music.path)
             AVFile(music.songName, file).saveInBackground()
-                .subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe({
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe({
                     //通过objectid拿到歌单对象,将avmusic指向歌单
                     val avSongList = AVObject.createWithoutData("SongList", songList.objectId)
                     avMusic.apply {
+                        mMusic.url = it.url
+                        mMusic.save()
+
                         put("mp3Url", it.url)
                         put("songList", avSongList)
+                        put("tag","NET_WITH_URL")
                         saveInBackground().subscribe({
+                            mMusic.objectID = it.objectId
+                            mMusic.save()
                             toast.value = "收藏成功"
                         }, {
                             toast.value = "收藏失败"

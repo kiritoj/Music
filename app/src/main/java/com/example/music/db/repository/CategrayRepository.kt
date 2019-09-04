@@ -51,13 +51,13 @@ object CategrayRepository {
                 var mPlaceList = ArrayList<String>() //场景
                 var mEmotionList = ArrayList<String>() //情感
                 var mThemeList = ArrayList<String>() //主题
-                it.data?.sub?.forEach {
+                it.sub.forEach {
                     when(it.category){
-                        LUNGUAGE -> it.name?.let { it1 -> mLunguageList.add(it1) }
-                        STYLE -> it.name?.let { it1 -> mStyleList.add(it1) }
-                        PLACE -> it.name?.let { it1 -> mPlaceList.add(it1) }
-                        EMOTION -> it.name?.let { it1 -> mEmotionList.add(it1) }
-                        THEME -> it.name?.let { it1 -> mThemeList.add(it1) }
+                        LUNGUAGE ->  mLunguageList.add(it.name)
+                        STYLE -> mStyleList.add(it.name)
+                        PLACE -> mPlaceList.add(it.name)
+                        EMOTION -> mEmotionList.add(it.name)
+                        THEME ->  mThemeList.add(it.name)
                     }
                 }
                 cat.apply {

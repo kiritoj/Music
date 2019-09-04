@@ -17,17 +17,17 @@
         android:id="@+id/bt_get"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:text="显示数据"/>
-    <Button
-        android:id="@+id/bt_jian"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:text="减少一个数据"/>
-    <Button
-        android:id="@+id/other"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="增加作者"/>
+             android:text="删除数据"/>
+<!--    <Button-->
+<!--        android:id="@+id/bt_jian"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--             android:text="减少一个数据"/>-->
+<!--    <Button-->
+<!--        android:id="@+id/other"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="增加作者"/>-->
 
 
 </LinearLayout>

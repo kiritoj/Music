@@ -89,6 +89,7 @@ object SongsRepository {
                         id = it.getLong("id")
                         url = it.getString("mp3Url")
                         songLists.add(mSongList)
+                        tag = it.getString("tag")
                         save()
 
                     }
@@ -96,7 +97,6 @@ object SongsRepository {
                     Log.d(TAG,it.getString("name"))
                 }
 
-                //EventBus.getDefault().post(SongsEvent("creat",mList = mSongList.songs))
 
             },{
                 Log.d(TAG,"从网络获取创建歌单歌曲失败：${it.message}")

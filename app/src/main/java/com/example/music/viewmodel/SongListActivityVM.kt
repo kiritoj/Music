@@ -29,6 +29,10 @@ class SongListActivityVM : ViewModel() {
         getCategory()
         getAllCategray()
     }
+
+    /**
+     * 获取每个用户的5个歌单种类
+     */
     fun getCategory(){
         val list = LitePal.findAll(CatTable::class.java)
         if (list.isNullOrEmpty()) {

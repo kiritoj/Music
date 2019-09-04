@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import com.example.music.event.IndexEvent
 import com.example.music.event.ModeEvent
 import com.example.music.event.QueneEvent
 import org.greenrobot.eventbus.EventBus
@@ -34,6 +35,11 @@ class PlayService : Service() {
     @Subscribe
     fun setState(event: PlayManger.State){
         PlayManger.setState(event)
+    }
+
+    @Subscribe
+    fun setIndex(event: IndexEvent){
+        PlayManger.setPlayIndex(event.index)
     }
 
     override fun onDestroy() {

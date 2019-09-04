@@ -20,13 +20,22 @@ class LocalMusic : LitePalSupport(),Serializable {
     var path: String? = null
     var albumID: Int? = null
     var url: String? = null //网络音乐的播放地址
-    var songListName: String?= null
     var flag: Int = 0  //是本地音乐还是网络音乐
     var coverUrl: String = DEFAULT_COVER //专辑封面图
     var objectID: String?=null
     var isLocalMusic: Boolean = false
-
     var songLists = ArrayList<SongList>()  //属于哪个创建的歌单，与歌单是多对多关系
+    /**
+     * 歌曲有三种类型
+     * LOCAL 本地歌曲
+     * NET_WITH_URL 带有播放url的歌曲，可直接播放
+     * NET_NON_URL  没有url的歌曲，需动态获取播放url
+     */
+    var tag: String = ""
+
+    override fun equals(other: Any?): Boolean {
+        return songName.equals((other as LocalMusic).songName)
+    }
 
 
 

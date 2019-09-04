@@ -9,13 +9,14 @@ import com.example.music.bean.SongListBean
 import com.example.music.databinding.RecycleItemSonglistBinding
 import com.example.music.R
 import com.example.music.activity.SongListDetailActivity
+import com.example.music.bean.Playlists
 import com.example.music.db.table.SongList
 import org.jetbrains.anko.startActivity
 
 /**
  * Created by tk on 2019/8/20
  */
-class SongListAdapter(val list:ArrayList<SongListBean.DataBean>,val context: Context) : RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
+class SongListAdapter(val list:ArrayList<Playlists>,val context: Context) : RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val binding = DataBindingUtil
             .inflate<RecycleItemSonglistBinding>(LayoutInflater.from(p0.context),R.layout.recycle_item_songlist,p0,false)
@@ -29,18 +30,20 @@ class SongListAdapter(val list:ArrayList<SongListBean.DataBean>,val context: Con
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.binding.data = list[p1]
         p0.binding.rlSonglistRoot.setOnClickListener {
+            //包装成songList类
             val sonList = SongList()
             sonList.apply {
-                coverUrl = list[p1].coverImgUrl!!
+                coverUrl = list[p1].coverImgUrl
                 name = list[p1].name
-                creatorAvatar = list[p1].creator?.avatarUrl
-                creatorName = list[p1].creator?.nickname
+                creatorAvatar = list[p1].creator.avatarUrl
+                creatorName = list[p1].creator.nickname
+                creatorId = list[p1].creator.userId
                 description = list[p1].description
                 commentNum = list[p1].commentCount
                 collectNum = list[p1].subscribedCount
                 netId = list[p1].id
                 num = list[p1].trackCount
-                creatorId = list[p1].creator?.userId
+
             }
             context.startActivity<SongListDetailActivity>("songlist" to sonList)
         }

@@ -10,12 +10,12 @@ import java.util.*
  * Created by tk on 2019/8/20
  */
 interface OtherSongList {
-    @GET("songList/hot")
+    @GET("top/playlist")
 
             /**
-             * @param 歌单类型
-             * @param 获取条数
-             * @param 分页
+             * @param cat 歌单类型
+             * @param size 获取条数
+             * @param offset 偏移量
              */
-    fun getOtherSongList(@Query("cat") cat: String,@Query("pageSize") size: Int,@Query("page") page: Int): Observable<SongListBean>
+    fun getOtherSongList(@Query("limit") size: Int,@Query("cat") cat: String,@Query("offset") offset: Int): Observable<SongListBean>
 }

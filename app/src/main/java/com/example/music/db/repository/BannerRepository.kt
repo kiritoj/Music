@@ -45,7 +45,7 @@ object BannerRepository {
             it.onNext(list)
         }).subscribe {
             EventBus.getDefault().post(BanberEvent(it))
-            Log.d(TAG,"getBannersFromDB:从数据库获取Banners"+it[0].picUrl)
+
         }
 
 
@@ -64,23 +64,20 @@ object BannerRepository {
         Log.d(TAG,"从网络获取Banners")
         ApiGenerator
             .getApiService(BannerService::class.java)
-            .getBanners()
+            .getBanners(1)
             .subscribeOn(Schedulers.io())
             .subscribe ({
-                EventBus.getDefault().post(BanberEvent(it.data as ArrayList<BannerTable>))
+                EventBus.getDefault().post(BanberEvent(it.banners as ArrayList<BannerTable>))
                 //保存到数据库
-                it.data?.forEach {
+                it.banners.forEach {
                     it.save()
-                    Log.d(TAG,it.url)
                 }
 
 
             },{
                 val bannerList = ArrayList<BannerTable>()
                 for (i in 1..3){
-                    val banner = BannerTable()
-                    banner.picUrl = LOADING_ERROR
-                    banner.url = ""
+                    val banner = BannerTable(imageUrl = LOADING_ERROR)
                     bannerList.add(banner)
                 }
                 //发送加载失败的图片

@@ -90,14 +90,13 @@ class LocalMusicRepository {
                     music.path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                     music.length = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
                     music.albumID = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
-                    music.isLocalMusic = true
-
+                    music.tag = "LOCAL"
                     //在主活动加载创建的歌单时可能已经添加了，这里只改变本地标志位和添加本地播放路径
                     val mMusic = LitePal.where("songName = ?",music.songName)
                         .findFirst(LocalMusic::class.java,true)
                     if (mMusic != null){
                         mMusic.apply {
-                            isLocalMusic = true
+                            tag = "LOCAL"
                             path = music.path
                             save()
                         }
@@ -134,8 +133,8 @@ class LocalMusicRepository {
 
         Log.d(TAG,"从数据库获取本地歌曲")
         disposable = Observable.create(ObservableOnSubscribe<ArrayList<LocalMusic>> { emitter ->
-            val list = LitePal.findAll(LocalMusic::class.java) as ArrayList<LocalMusic>
-            emitter.onNext(list)
+            val list = LitePal.where("tag = ?","LOCAL").find(LocalMusic::class.java)
+            emitter.onNext(list as ArrayList<LocalMusic>)
         }).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {

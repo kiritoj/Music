@@ -22,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 
+
 /**
  * Created by tk on 2019/8/19
  */
@@ -45,69 +46,70 @@ class BinnerAdapter(mList: ArrayList<BannerTable>,val context: Context?) : Pager
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
         val imageView = ImageView(context)
-        Glide.with(context).load(list[position].picUrl)
+        Glide.with(context).load(list[position].imageUrl)
             .placeholder(R.drawable.ic_loading)
             .error(R.drawable.ic_loading_error)
             .into(imageView)
+        imageView.scaleType = ImageView.ScaleType.FIT_XY
         container.addView(imageView)
 
         //点击轮播图片跳转详情页
         imageView.setOnClickListener {
-            val mUrl = list[position].url
+
             /**
-             * url有三种情况
+             * banner点击有三种情况，根据targetType来区分
              * 1.直接跳转至网页
              * 2.播放对应id的歌曲
-             * 3.打开对应id的歌单
+             * 3.打开对应id的专辑
              */
 
-            when{
+            when(list[position].targetType){
                 //打开网页
-                mUrl!!.startsWith("http")-> context?.startActivity<BinnerActivity>("url" to mUrl)
-                //播放歌曲
-                mUrl.startsWith("/song") -> {
-                    val mId = mUrl.substring(9).toLong()
-                    ApiGenerator.getApiService(MusicService::class.java)
-                        .getSong(mId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            val music = LocalMusic()
-                            music.apply {
-                                id = mId
-                                songName = it.data!!.songs!![0].name
-                                singerName = it.data!!.songs!![0].ar!![0].name
-                                url = SONG_PLAY_BASE_URL+id
-                                coverUrl = IMAGE_BASE_URL+id
-                            }
-                            val list = ArrayList<LocalMusic>()
-                            list.add(music)
-                            EventBus.getDefault().post(QueneEvent(list,0))
-                            context?.startActivity<PlayingActivity>()
-                        },{
-                            Log.d(TAG,"banner获取歌曲失败${it.message}")
-                        })
-                }
-
-                //打开歌单
-                mUrl.startsWith("/playlist") -> {
-                    Log.d(TAG,"因接口原因，暂时无法通过歌单id获取到歌单信息")
-                    val sonList = SongList()
-                    sonList.apply {
-                        coverUrl = DEFAULT_COVER
-                        name = "暂时无法获取歌单名"
-                        creatorAvatar = DEFAULT_AVATAR
-                        creatorName = "暂时无法获取创建者"
-                        description = "暂无"
-                        commentNum = 0
-                        collectNum = 0
-                        netId = mUrl.substring(13).toLong()
-                        num = 0
-                        creatorId = 0
-                    }
-                    context?.startActivity<SongListDetailActivity>("songlist" to sonList)
-                }
-
+               3000 -> context?.startActivity<BinnerActivity>("url" to list[position].url)
+//                //播放歌曲
+//                mUrl.startsWith("/song") -> {
+//                    val mId = mUrl.substring(9).toLong()
+//                    ApiGenerator.getApiService(MusicService::class.java)
+//                        .getSong(mId)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe({
+//                            val music = LocalMusic()
+//                            music.apply {
+//                                id = mId
+//                                songName = it.data!!.songs!![0].name
+//                                singerName = it.data!!.songs!![0].ar!![0].name
+//                                url = SONG_PLAY_BASE_URL+id
+//                                coverUrl = IMAGE_BASE_URL+id
+//                            }
+//                            val list = ArrayList<LocalMusic>()
+//                            list.add(music)
+//                            EventBus.getDefault().post(QueneEvent(list,0))
+//                            context?.startActivity<PlayingActivity>()
+//                        },{
+//                            Log.d(TAG,"banner获取歌曲失败${it.message}")
+//                        })
+//                }
+//
+//                //打开歌单
+//                mUrl.startsWith("/playlist") -> {
+//                    Log.d(TAG,"因接口原因，暂时无法通过歌单id获取到歌单信息")
+//                    val sonList = SongList()
+//                    sonList.apply {
+//                        coverUrl = DEFAULT_COVER
+//                        name = "暂时无法获取歌单名"
+//                        creatorAvatar = DEFAULT_AVATAR
+//                        creatorName = "暂时无法获取创建者"
+//                        description = "暂无"
+//                        commentNum = 0
+//                        collectNum = 0
+//                        netId = mUrl.substring(13).toLong()
+//                        num = 0
+//                        creatorId = 0
+//                    }
+//                    context?.startActivity<SongListDetailActivity>("songlist" to sonList)
+//                }
+//
             }
 
         }

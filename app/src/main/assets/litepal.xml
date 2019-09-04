@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value = "Music"></dbname>
-    <version value = "14"></version>
+    <version value = "15"></version>
     <list>
         <!--添加本地音乐表-->
         <mapping class="com.example.music.db.table.LocalMusic"></mapping>

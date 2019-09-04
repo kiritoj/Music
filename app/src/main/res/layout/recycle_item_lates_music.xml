@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="song" type="com.example.music.bean.LastMusicBean.DataBean.SongBean"/>
+        <variable name="song" type="com.example.music.bean.Data"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_latest_song_root"
@@ -57,7 +57,7 @@
                         android:id="@+id/tv_songlist_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{song.artists[0].name}"
+                        android:text="@{song.album.artists[0].name}"
                         android:textSize="13sp"/>
 
             </LinearLayout>

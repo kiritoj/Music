@@ -56,7 +56,7 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context) :
         p0.itembinding.llSongRoot.setOnClickListener {
             if (playingId == p1) {
                 //第二次点击跳转至详情页
-                context.startActivity<PlayingActivity>("song" to list[p1])
+                context.startActivity<PlayingActivity>()
             } else {
                 val lastPlayingId = playingId
                 playingId = p1

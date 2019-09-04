@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="data" type="com.example.music.bean.SongListBean.DataBean"/>
+        <variable name="data" type="com.example.music.bean.Playlists"/>
     </data>
     <RelativeLayout
             android:id="@+id/rl_songlist_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+
     >
 
+        <!--歌单图片-->
         <com.shehuan.niv.NiceImageView
                 android:id="@+id/iv_cover"
                 android:layout_width="120dp"
@@ -17,6 +18,7 @@
                 imageUrl="@{data.coverImgUrl}"
                 app:corner_radius="5dp"/>
 
+        <!--播放量icon-->
         <ImageView
                 android:id="@+id/iv_playing_flag"
                 android:layout_width="20dp"
@@ -24,6 +26,7 @@
                 android:layout_margin="5dp"
                 android:src="@drawable/vector_drawable_play"/>
 
+        <!--播放量数字-->
         <TextView
                 android:id="@+id/tv_play_count"
                 android:layout_width="wrap_content"
@@ -34,6 +37,7 @@
                 android:layout_toRightOf="@id/iv_playing_flag"
         />
 
+        <!--歌单名字-->
         <TextView
                 android:id="@+id/tv_list_name"
                 android:layout_width="match_parent"

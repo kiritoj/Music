@@ -32,7 +32,9 @@ class FindFragment : Fragment() {
 
     //轮播图适配器
     lateinit var mAdapter: BinnerAdapter
+    //精品歌单适配器
     val songListAdapter by lazy { SongListAdapter(ArrayList(),context!!) }
+    //新歌速递适配器
     val latestSongAdapter by lazy { LatestSongAdapter(ArrayList(),context!!) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -92,12 +94,13 @@ class FindFragment : Fragment() {
             songListAdapter.list.clear()
             songListAdapter.list.addAll(it!!)
             songListAdapter.notifyDataSetChanged()
-            process_bar.visibility = View.GONE
+            //process_bar.visibility = View.GONE
         })
         mViewModel.latestSong.observe(this, Observer {
             latestSongAdapter.list.clear()
             latestSongAdapter.list.addAll(it!!)
             latestSongAdapter.notifyDataSetChanged()
+            new_music_process_bar.visibility = View.GONE
         })
 
 

@@ -17,7 +17,7 @@ const val DEFAULT_COVER = "http://ww1.sinaimg.cn/large/006nwaiFly1g63riz9882j30l
 
 //接口baseurl
 
-const val BASE_URL = "https://v1.itooi.cn/netease/"
+const val BASE_URL = "https://music.aityp.com/"
 
 //歌曲播放地址BaseUrl
 const val SONG_PLAY_BASE_URL = "https://v1.itooi.cn/netease/url?id="

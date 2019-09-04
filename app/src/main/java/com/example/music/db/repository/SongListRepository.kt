@@ -13,6 +13,7 @@ import org.litepal.LitePal
 import cn.leancloud.AVQuery
 import cn.leancloud.AVObject
 import cn.leancloud.AVUser
+import com.example.music.bean.Playlists
 import com.example.music.bean.SongListBean
 import com.example.music.db.table.SongList
 import com.example.music.event.AssortedSongListEvent
@@ -52,6 +53,11 @@ class SongListRepository {
             Log.d(TAG,"从数据库获取用户创建歌单")
             for (i in 0 until list.size){
                 Log.d(TAG,list[i].name)
+                if (!list[i].songs.isNullOrEmpty()){
+                    for (j in 0 until list[i].songs.size){
+                        Log.d(TAG,list[i].songs[j].songName)
+                    }
+                }
             }
 
             EventBus.getDefault().post(SongListEvent("creat",list))
@@ -157,14 +163,14 @@ class SongListRepository {
      *
      */
     @SuppressLint("CheckResult")
-    fun getHotSongList(cat: String="全部", size: Int, page: Int = 0){
+    fun getHotSongList(size: Int,cat: String="全部",  offset: Int = 0){
         ApiGenerator
             .getApiService(OtherSongList::class.java)
-            .getOtherSongList(cat,size,page)
+            .getOtherSongList(size,cat,offset)
             .subscribeOn(Schedulers.io())
             .subscribe ({
-                Log.d(TAG,"${it.msg}")
-                EventBus.getDefault().post(HotSongListLimit(it.data as ArrayList<SongListBean.DataBean>))
+
+                EventBus.getDefault().post(HotSongListLimit(it.playlists as ArrayList<Playlists>))
             },{
                 Log.d(TAG,"获取热门歌单失败--->${it.message}")
             })
@@ -174,13 +180,13 @@ class SongListRepository {
      * 获取分类歌单
      */
     @SuppressLint("CheckResult")
-    fun getAssortedList(cat: String, size: Int, page: Int = 0){
+    fun getAssortedList( size: Int,cat: String, offset: Int = 0){
         ApiGenerator
             .getApiService(OtherSongList::class.java)
-            .getOtherSongList(cat,size,page)
+            .getOtherSongList(size,cat,offset)
             .subscribeOn(Schedulers.io())
             .subscribe ({
-                EventBus.getDefault().post(AssortedSongListEvent(cat,it.data as ArrayList<SongListBean.DataBean>))
+                EventBus.getDefault().post(AssortedSongListEvent(cat,it.playlists as ArrayList<Playlists>))
             },{
                 Log.d(TAG,"获取分类歌单失败")
             })

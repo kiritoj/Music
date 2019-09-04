@@ -12,6 +12,8 @@ import android.support.annotation.RequiresApi
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
+import com.bumptech.glide.Glide
+import com.example.music.DEFAULT_COVER
 import com.example.music.R
 import com.example.music.databinding.ActivityPlayingBinding
 import com.example.music.db.table.LocalMusic
@@ -43,6 +45,7 @@ class PlayingActivity : AppCompatActivity() {
         //初始化动画
         initAnim()
         viewmodel.checkPlaying()
+
         initToolbar()
         //隐藏状态栏
         hideStateBar()

@@ -10,6 +10,7 @@ import com.example.music.db.table.LocalMusic
 import com.example.music.databinding.RecycleItemLocalMusicBinding
 import com.example.music.R
 import com.example.music.activity.PlayingActivity
+import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.startActivity
@@ -23,6 +24,9 @@ class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context) : 
     //正在播放的位置
     var playingId = -1
     var listener: OnPopMoreClickListener? = null
+
+    var hashSetQuene = false
+
 
 
     interface OnPopMoreClickListener {
@@ -54,16 +58,25 @@ class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context) : 
 
         //点击整体播放
         p0.itembinding.llLocalMusicParent.setOnClickListener {
-            if (playingId == p1) {
-                //第二次点击跳转至详情页
-                context.startActivity<PlayingActivity>("song" to list[p1])
+            //已经发送播放列表
+            if (hashSetQuene){
+                if (playingId == p1) {
+                    //第二次点击跳转至详情页
+                    context.startActivity<PlayingActivity>()
+                } else {
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(IndexEvent(p1))
+                }
             }else{
-                val lastPlayingId = playingId
-                playingId = p1
-                notifyItemChanged(playingId)
-                notifyItemChanged(lastPlayingId)
-                EventBus.getDefault().post(QueneEvent(list,p1))
+                if (playingId == p1) {
+                    //第二次点击跳转至详情页
+                    context.startActivity<PlayingActivity>()
+                }else{
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(QueneEvent(list,p1))
+                }
             }
+
         }
 
         //点击右边的弹出更多操作，删除，或添加到歌单

@@ -6,13 +6,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.music.IMAGE_BASE_URL
-import com.example.music.bean.LastMusicBean
 import com.example.music.databinding.RecycleItemLatesMusicBinding
 import com.example.music.R
-import com.example.music.SONG_PLAY_BASE_URL
 import com.example.music.activity.PlayingActivity
+import com.example.music.bean.Data
 import com.example.music.db.table.LocalMusic
+import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.startActivity
@@ -20,11 +19,16 @@ import org.jetbrains.anko.startActivity
 /**
  * Created by tk on 2019/8/20
  */
-class LatestSongAdapter(val list: ArrayList<LastMusicBean.DataBean>,val context: Context): RecyclerView.Adapter<LatestSongAdapter.ViewHolder>() {
+class LatestSongAdapter(val list: ArrayList<Data>,val context: Context): RecyclerView.Adapter<LatestSongAdapter.ViewHolder>() {
     var playingId = -1
+    //是否已经向playmanger发送播放队列
+    var hashSetQuene = false
+    //播放列表包装类
+    val quene = ArrayList<LocalMusic>()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val binding: RecycleItemLatesMusicBinding = DataBindingUtil.inflate(LayoutInflater.from(p0.context),R.layout.recycle_item_lates_music,p0,false)
+        val binding: RecycleItemLatesMusicBinding = DataBindingUtil
+            .inflate(LayoutInflater.from(p0.context),R.layout.recycle_item_lates_music,p0,false)
         return ViewHolder(binding)
     }
 
@@ -40,32 +44,43 @@ class LatestSongAdapter(val list: ArrayList<LastMusicBean.DataBean>,val context:
             p0.binding.ivPlaying.visibility = View.GONE
 
         }
-        p0.binding.song = list[p1].song
+        p0.binding.song = list[p1]
         //点击整体播放
         p0.binding.llLatestSongRoot.setOnClickListener {
-            val quene = ArrayList<LocalMusic>()
-            list.forEach {
-                val music = LocalMusic()
-                music.apply {
-                    id = it.id
-                    songName = it.name
-                    singerName = it.song?.name
-                    url = SONG_PLAY_BASE_URL + it.id
-                    coverUrl = IMAGE_BASE_URL + it.id
+            //若已经发送播放队列，直接发送要播放地址的index
+            if (hashSetQuene){
+                if (playingId == p1) {
+                    //第二次点击跳转至详情页
+                    context.startActivity<PlayingActivity>("song" to quene[p1])
+                } else {
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(IndexEvent(p1))
                 }
-                quene.add(music)
-            }
-            if (playingId == p1) {
-                //第二次点击跳转至详情页
-                context.startActivity<PlayingActivity>("song" to quene[p1])
-            } else {
-                val lastPlayingId = playingId
-                playingId = p1
-                notifyItemChanged(playingId)
-                notifyItemChanged(lastPlayingId)
+            }else{
+                //没有发送将网络获取的歌曲包装成LocalMusic类
+                list.forEach {
+                    val music = LocalMusic()
+                    music.apply {
+                        id = it.id
+                        songName = it.name
+                        singerName = it.album.artists[0].name
+                        coverUrl = it.album.picUrl
+                        length = it.duration
+                        tag = "NET_NON_URL"
+                    }
+                    quene.add(music)
+                }
+                if (playingId == p1) {
+                    //第二次点击跳转至详情页
+                    context.startActivity<PlayingActivity>("song" to quene[p1])
+                } else {
+                    refreshPlayId(p1)
+                    EventBus.getDefault().post(QueneEvent(quene,p1))
+                }
 
-                EventBus.getDefault().post(QueneEvent(quene, p1))
             }
+
+
         }
     }
 

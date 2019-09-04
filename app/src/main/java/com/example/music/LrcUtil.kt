@@ -36,7 +36,7 @@ object LrcUtil {
                 val mStarTime = minute * 60 * 1000 + second * 1000 //+ millisecond
                 var mText = string.substring(string.indexOf("]") + 1)
                 //该段没有，可能是伴奏，用"..."代替
-                if (TextUtils.isEmpty(text)) {
+                if (TextUtils.isEmpty(mText)) {
                     mText = "..."
                 }
 

@@ -25,6 +25,7 @@ object MusicRepository {
             .getLatestSong()
             .subscribeOn(Schedulers.io())
             .subscribe({
+                Log.d(TAG,it.data.size.toString())
                 EventBus.getDefault().post(LatestSongEvent(it.data as ArrayList))
             }, {
                 Log.d(TAG, "获取最新单曲失败${it.message}")

@@ -34,6 +34,7 @@ class AutoScrollLayout : RelativeLayout {
     fun init(context: Context) {
 
         autoScrollViewPager = AutoScrollViewPager(context)
+        val mParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         layout = LinearLayout(context)
         addView(autoScrollViewPager)
     }
@@ -72,8 +73,8 @@ class AutoScrollLayout : RelativeLayout {
     fun initdots(size: Int) {
         for (i in 0 until size) {
             val imageView = ImageView(context)
-            val params = LinearLayout.LayoutParams(30, 30)
-            params.leftMargin = 8
+            val params = LinearLayout.LayoutParams(50, 50)
+            params.leftMargin = 5
             params.gravity = CENTER
             imageView.setLayoutParams(params);
             if (i == 0) {
@@ -88,7 +89,7 @@ class AutoScrollLayout : RelativeLayout {
         val layoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         layoutParams.addRule(ALIGN_PARENT_BOTTOM)
         layoutParams.addRule(CENTER_IN_PARENT)
-        layoutParams.setMargins(0, 0, 0, 15)
+
         layout.setLayoutParams(layoutParams)
         addView(layout)
 

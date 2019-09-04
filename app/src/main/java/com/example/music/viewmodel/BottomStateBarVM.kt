@@ -97,7 +97,7 @@ class BottomStateBarVM private constructor(): ViewModel() {
         isDisplay.value = true
 
         //更新数据
-        song.set(event.song)
+        song.set(event.mSong)
 
         index.value = event.position
 

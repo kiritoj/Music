@@ -3,7 +3,9 @@ package com.example.music.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
+import com.example.music.bean.Data
 import com.example.music.bean.LastMusicBean
+import com.example.music.bean.Playlists
 import com.example.music.bean.SongListBean
 import com.example.music.db.repository.BannerRepository
 import com.example.music.db.repository.MusicRepository
@@ -26,10 +28,10 @@ class FindFragmentVM : ViewModel() {
     //轮播图
     val listBanner = MutableLiveData<ArrayList<BannerTable>>()
     //热门歌单
-    val songList = MutableLiveData<ArrayList<SongListBean.DataBean>>()
+    val songList = MutableLiveData<ArrayList<Playlists>>()
 
     //最新单曲
-    val latestSong = MutableLiveData<ArrayList<LastMusicBean.DataBean>>()
+    val latestSong = MutableLiveData<ArrayList<Data>>()
 
     init {
 
@@ -53,8 +55,9 @@ class FindFragmentVM : ViewModel() {
      */
 
     fun getHotSongList() {
-        val mPage = Random().nextInt(200)
-        SongListRepository.getInstance().getHotSongList(size = 6, page = mPage)
+        //首页只展示6张歌单，一共1200张
+        val mOffset = Random().nextInt(200)*6
+        SongListRepository.getInstance().getHotSongList(size = 6, offset = mOffset)
     }
 
 
