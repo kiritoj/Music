@@ -15,11 +15,12 @@
 
 <img src="https://i.loli.net/2019/08/30/U5fQegZyW8GzouT.png" height="400" width="210">
 
+</div>
+
+<div align="center">
 <img src="https://i.loli.net/2019/09/02/7gy1OdBn5NlSk6F.png" height="400" width="210">
-
-
- </div>
-
+<img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6pmkpeip6j30u01o048d.jpg" height="400" width="210">
+</div>
 ## 鸣谢
 ### API
 * [messapi](https://github.com/messoer)
@@ -40,3 +41,5 @@
 ### 9.4
 * 更换banner接口，更换新歌速递接口。优化播放种类来源，解决歌曲到歌单的添加与删除bug<br>
 * 更换歌单接口，歌词接口暂时无法使用。修复切换播放队列时播放图标仍然一致的问题
+### 9.6
+* 新增歌曲/歌单/专辑评论列表，歌单接口又坏了，手动(*￣︶￣)
