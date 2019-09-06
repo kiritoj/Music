@@ -16,7 +16,9 @@
 <img src="https://i.loli.net/2019/08/30/U5fQegZyW8GzouT.png" height="400" width="210">
 
 <img src="https://i.loli.net/2019/09/02/7gy1OdBn5NlSk6F.png" height="400" width="210">
+
 <img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6pmkpeip6j30u01o048d.jpg" height="400" width="210">
+<img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6q9w0va2nj30u01o0doy.jpg" height="400" width="210">
 </div>
 
 
@@ -44,3 +46,5 @@
 * 更换歌单接口，歌词接口暂时无法使用。修复切换播放队列时播放图标仍然一致的问题
 ### 9.6
 * 新增歌曲/歌单/专辑评论列表，歌单接口又坏了，手动(*￣︶￣)
+### 9.7
+* 新增弹出播放列表，精简部分代码
