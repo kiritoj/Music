@@ -72,20 +72,20 @@ class PlayVM : ViewModel() {
      * 检查是否在播放
      */
     fun checkPlaying() {
-        song.set(PlayManger.quene[PlayManger.index])
-        Log.d(TAG, song.get()?.musicId.toString())
-
+        mDuration.value = PlayManger.player.duration
+        mCurrentPosition.value = PlayManger.player.currentPosition
         if (PlayManger.player.isPlaying) {
             isPlaying.value = true
             playIc.set(R.drawable.ic_play_running)
         } else {
+
             isPlaying.value = false
             playIc.set(R.drawable.ic_play_pause)
+
         }
-        songIndex.value = PlayManger.index
-        mDuration.value = PlayManger.player.duration
-        mCurrentPosition.value = PlayManger.player.currentPosition
-        song.get()?.let { getLrc(it) }
+        //songIndex.value = PlayManger.index
+        //song.set(PlayManger.quene[PlayManger.index])
+        //song.get()?.let { getLrc(it) }
         checkIsMyLove()
     }
 
@@ -136,17 +136,17 @@ class PlayVM : ViewModel() {
     /**
      * 当播放完成后刷新UI
      */
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun update(event: RefreshEvent) {
 
-        // mDuration.value = event.mSong.length
         song.set(event.mSong)
         Log.d(TAG, "id为" + song.get()?.musicId.toString())
 
         isPlaying.value = true
         playIc.set(R.drawable.ic_play_running)
-        songIndex.value = PlayManger.index
-        song.get()?.let { getLrc(it) }
+        songIndex.value = event.position
+
+        getLrc(event.mSong)
         checkIsMyLove()
     }
 
@@ -201,7 +201,11 @@ class PlayVM : ViewModel() {
         //添加到当前用户‘我喜欢的音乐’歌单
         val mSongList = LitePal.where("name = ?", "我喜欢的音乐").findFirst(SongList::class.java, true)
         val avSongList = AVObject.createWithoutData("SongList", mSongList.objectId)
-        val mSong = LitePal.where("songName = ?", song.get()?.songName)
+        val mSong = LitePal.where(
+            "songName = ? and singerName = ?",
+            song.get()?.songName,
+            song.get()?.singerName
+        )
             .findFirst(LocalMusic::class.java, true)
 
         val name = song.get()?.songName //获取当前歌曲名，防止在异步线程更新数据库发生错乱

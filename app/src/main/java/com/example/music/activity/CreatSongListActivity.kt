@@ -103,7 +103,7 @@ class CreatSongListActivity : AppCompatActivity() {
         //更新播放歌曲位置
         mViewmodel?.index?.observe(this, Observer {
             if (it!! > -1){
-                mAdapter.refreshPlayId(it)
+                mAdapter.refreshPlayIdWithTag(it)
             }
         })
     }

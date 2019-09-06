@@ -11,6 +11,7 @@
     </data>
 
     <FrameLayout
+            android:id="@+id/fr_play_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".activity.PlayingActivity">
@@ -68,7 +69,8 @@
             <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="9">
+                    android:layout_weight="8"
+                    >
 
                 <com.example.music.customveiw.RotationCircleView
                         android:id="@+id/iv_song_cover"
@@ -89,11 +91,20 @@
                         android:visibility="gone" />
             </FrameLayout>
 
+<!--            <TextView-->
+<!--                    android:id="@+id/tv_buffer"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="正在缓冲..."-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    />-->
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/ll_process"
+
                     android:layout_marginBottom="15dp"
                     android:orientation="horizontal"
                     android:paddingLeft="20dp"
@@ -101,12 +112,12 @@
                 <!--添加到我喜欢的音乐-->
                 <ImageView
                         android:id="@+id/iv_my_love"
+                        id="@{viewmodel.collectIc}"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:onClick="@{()->viewmodel.addToMyLove()}"
-                        id="@{viewmodel.collectIc}"
                         android:src="@drawable/vector_drawable_collect_white" />
 
                 <ImageView
@@ -131,7 +142,7 @@
                     android:id="@+id/ll_process"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/ll_control"
+
                     android:layout_marginBottom="20dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -151,7 +162,11 @@
                         android:id="@+id/seek_bar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="9" />
+                        android:layout_weight="9"
+                        android:progressDrawable="@drawable/seek_bar_process"
+                        android:thumb="@drawable/seekbar_thumb_selecter"
+                        android:maxHeight="1dp"
+                        android:max="0"/>
 
                 <TextView
                         android:id="@+id/tv_end"
@@ -169,7 +184,7 @@
                     android:id="@+id/ll_control"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+
                     android:layout_marginBottom="30dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -211,6 +226,7 @@
                         android:src="@drawable/ic_move_forward" />
 
                 <ImageView
+                        android:id="@+id/iv_open_songs"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="1"

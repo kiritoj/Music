@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--当前播放队列-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+                name="song"
+                type="com.example.music.db.table.LocalMusic" />
+    </data>
+
+    <LinearLayout
+            android:id="@+id/ll_playlist_root"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/item_pressed">
+
+        <TextView
+                android:id="@+id/tv_song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{song.songName}"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+        <TextView
+                android:id="@+id/tv_divide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+        <TextView
+                android:id="@+id/tv_singer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{song.singerName}"
+                android:textSize="13sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+    </LinearLayout>
+</layout>

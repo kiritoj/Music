@@ -3,6 +3,7 @@ package com.example.music.fragment
 import android.arch.lifecycle.Observer
 import android.graphics.Rect
 import android.os.Bundle
+import android.support.annotation.MainThread
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
@@ -21,6 +22,7 @@ import com.example.music.viewmodel.FindFragmentVM
 import kotlinx.android.synthetic.main.fragment_find.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 
 /**
@@ -106,12 +108,12 @@ class FindFragment : Fragment() {
 
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
             /**
              * 播放其他歌曲时计时刷新UI
              */
     fun refresh(event: RefreshEvent){
-        latestSongAdapter.refreshPlayId(event.position)
+        latestSongAdapter.refreshPlayidWithTag(event.position)
     }
 
     override fun onDestroy() {

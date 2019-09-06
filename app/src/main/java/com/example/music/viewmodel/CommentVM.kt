@@ -16,7 +16,11 @@ import io.reactivex.schedulers.Schedulers
 class CommentVM {
     val TAG = "CommentVM"
     //是否显示‘暂无歌单’
-    val isShow = MutableLiveData<Boolean>()
+    val isShowText = MutableLiveData<Boolean>()
+    //是否显示加载bar
+    val isShowBar = MutableLiveData<Boolean>()
+    //是否显示列表
+    val isShowList = MutableLiveData<Boolean>()
     //热门评论列表
     val hotConments = MutableLiveData<List<Comment>>()
     //普通评论列表
@@ -26,7 +30,8 @@ class CommentVM {
      * 获取评论
      */
     fun getComment(tag: String, id: Long, offset: Int = 0) {
-        if (id != (-1).toLong()) {
+
+        if (id != (0).toLong()) {
             when (tag) {
                 //获取歌曲评论
                 "music" -> {
@@ -39,7 +44,9 @@ class CommentVM {
                 }
             }
         } else {
-            isShow.value = true
+            isShowBar.value = false
+            isShowList.value = false
+            isShowText.value = true
         }
     }
 
@@ -51,6 +58,8 @@ class CommentVM {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                isShowBar.value = false
+                isShowList.value = true
                 hotConments.value = it.hotComments
                 comments.value = it.comments
                 if (!it.comments.isNullOrEmpty()){
@@ -71,6 +80,8 @@ class CommentVM {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({
+                isShowBar.value = false
+                isShowList.value = true
                 hotConments.value = it.hotComments
                 comments.value = it.comments
             },{

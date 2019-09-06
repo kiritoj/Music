@@ -122,7 +122,7 @@ class LocalMusicActivity : BaseActivity() {
         //更新adapter中正在播放的位置
         mViewModel?.index?.observe(this, Observer {
             if (it!! > -1){
-                adapter.refreshPlayId(it)
+                adapter.refreshPlayIdWithTag(it)
             }
         })
 

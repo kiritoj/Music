@@ -94,11 +94,17 @@ class SongsAdapter(val list: ArrayList<Track>, val context: Context,val tag: Str
 
     }
     fun refreshPlayId(newPlayId: Int){
-        if (tag.equals(PlayManger.queneTag)) {
-            val lastId = playingId
+
+        val lastId = playingId
             playingId = newPlayId
             notifyItemChanged(playingId)
             notifyItemChanged(lastId)
+
+    }
+
+    fun refreshPlayIdWithTag(newPlayId: Int){
+        if (tag.equals(PlayManger.queneTag)) {
+            refreshPlayId(newPlayId)
         }else{
             //与tao不符说明该播放队列不是正在播放的队列
             val lastId = playingId

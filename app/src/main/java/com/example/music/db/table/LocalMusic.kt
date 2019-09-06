@@ -35,7 +35,7 @@ class LocalMusic : LitePalSupport(),Serializable {
     var tag: String = ""
 
     override fun equals(other: Any?): Boolean {
-        return songName.equals((other as LocalMusic).songName)
+        return songName.equals((other as LocalMusic).songName) && singerName.equals(other.singerName)
     }
 
 

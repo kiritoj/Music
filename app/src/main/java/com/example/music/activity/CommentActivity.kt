@@ -12,6 +12,7 @@ import com.example.music.viewmodel.CommentVM
 import kotlinx.android.synthetic.main.activity_comment.*
 
 class CommentActivity : BaseActivity() {
+    val TAG = "CommentActivity"
     val mViewmodel = CommentVM()
     //热门评论适配器
     val mAdapter1 = CommentsAdapter(ArrayList())
@@ -27,7 +28,7 @@ class CommentActivity : BaseActivity() {
         toolbar.init("评论")
 
         mTag = intent.getStringExtra("tag")
-        mId = intent.getLongExtra("id", -1)
+        mId = intent.getLongExtra("id", 0)
         initRecycler()
         //获取评论
         mViewmodel.getComment(mTag, mId!!)
@@ -69,10 +70,17 @@ class CommentActivity : BaseActivity() {
 
 
     fun observe() {
-        mViewmodel.isShow.observe(this, Observer {
-            if (it!!) {
+        mViewmodel.isShowText.observe(this, Observer {
+            tv_note.visibility = View.VISIBLE
+        })
+        mViewmodel.isShowBar.observe(this, Observer {
+            process_bar.visibility = View.GONE
+        })
+        mViewmodel.isShowList.observe(this, Observer {
+            if (it!!){
+                nest_scroll_view.visibility = View.VISIBLE
+            }else{
                 nest_scroll_view.visibility = View.GONE
-                tv_note.visibility = View.VISIBLE
             }
         })
         //加载热门评论

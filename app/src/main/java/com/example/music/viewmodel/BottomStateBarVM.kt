@@ -11,6 +11,7 @@ import com.example.music.event.RefreshEvent
 import com.example.music.event.StateEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by tk on 2019/8/25
@@ -88,7 +89,7 @@ class BottomStateBarVM private constructor(): ViewModel() {
     }
 
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
             /**
              * 播放其他歌曲时计时刷新UI
              */
@@ -105,7 +106,7 @@ class BottomStateBarVM private constructor(): ViewModel() {
 
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     /**
      * 接收音乐播放状态
      */

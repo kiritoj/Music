@@ -72,11 +72,16 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context, va
     }
 
     fun refreshPlayId(newPlayId: Int) {
+        val lastId = playingId
+        playingId = newPlayId
+        notifyItemChanged(playingId)
+        notifyItemChanged(lastId)
+
+    }
+
+    fun refreshPlayIdWithTag(newPlayId: Int) {
         if (tag.equals(PlayManger.queneTag)) {
-            val lastId = playingId
-            playingId = newPlayId
-            notifyItemChanged(playingId)
-            notifyItemChanged(lastId)
+            refreshPlayId(newPlayId)
         } else {
             //与tao不符说明该播放队列不是正在播放的队列
             val lastId = playingId
@@ -84,6 +89,7 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context, va
             notifyItemChanged(lastId)
         }
     }
+
 
     /**
      * 删除某一项

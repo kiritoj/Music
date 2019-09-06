@@ -158,7 +158,7 @@ class SongListDetailActivity : AppCompatActivity() {
         //更改adapter的当前播放位置
         mViewModel?.index?.observe(this, Observer {
             if (it!! > -1){
-                mAdapter.refreshPlayId(it)
+                mAdapter.refreshPlayIdWithTag(it)
             }
         })
     }

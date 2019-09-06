@@ -103,11 +103,12 @@ object PlayManger {
                         //发送歌曲总时长
 
                         it.start()
-                        EventBus.getDefault().post(ProcessEvent("duration", player.duration))
+                        EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
+                        //通知其他活动更改底部的音乐信息
+                        EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
                     }
                 }
-                //通知其他活动更改底部的音乐信息
-                EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
+
             }
 
             //带有url的歌曲
@@ -117,8 +118,10 @@ object PlayManger {
                     prepareAsync()
                     setOnPreparedListener {
                         it.start()
+                        //发送音乐进度
+                        EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
                         //通知其他活动更改底部的音乐信息
-                        EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
+                        EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
                     }
                 }
 
@@ -137,8 +140,9 @@ object PlayManger {
                             prepareAsync()
                             setOnPreparedListener {
                                 it.start()
+                                EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
                                 //通知其他活动更改底部的音乐信息
-                                EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
+                                EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
                             }
                         }
 
@@ -158,7 +162,7 @@ object PlayManger {
                 override fun run() {
                     //每隔一秒发送当前播放进度
                     if (player.isPlaying) {
-                        EventBus.getDefault().post(ProcessEvent("current", player.currentPosition))
+                        EventBus.getDefault().postSticky(ProcessEvent("current", player.currentPosition))
                     }
                 }
             }, 0, 1000
@@ -195,6 +199,9 @@ object PlayManger {
         player.pause()
         //通知音乐已暂停
         EventBus.getDefault().post(StateEvent(PlayManger.State.PAUSE))
+
+
+
     }
 
     /**
