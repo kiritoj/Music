@@ -101,8 +101,9 @@ object PlayManger {
                     prepareAsync()
                     setOnPreparedListener {
                         //发送歌曲总时长
-                        EventBus.getDefault().post(ProcessEvent("duration", player.duration))
+
                         it.start()
+                        EventBus.getDefault().post(ProcessEvent("duration", player.duration))
                     }
                 }
                 //通知其他活动更改底部的音乐信息
@@ -116,10 +117,11 @@ object PlayManger {
                     prepareAsync()
                     setOnPreparedListener {
                         it.start()
+                        //通知其他活动更改底部的音乐信息
+                        EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
                     }
                 }
-                //通知其他活动更改底部的音乐信息
-                EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
+
             }
 
             //来自网络的音乐,必须动态获取播放地址，一段时间后地址会失效
@@ -135,10 +137,11 @@ object PlayManger {
                             prepareAsync()
                             setOnPreparedListener {
                                 it.start()
+                                //通知其他活动更改底部的音乐信息
+                                EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
                             }
                         }
-                        //通知其他活动更改底部的音乐信息
-                        EventBus.getDefault().post(RefreshEvent(song, index, queneTag))
+
 
                     }, {
                         playNext()

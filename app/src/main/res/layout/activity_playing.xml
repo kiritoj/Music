@@ -117,7 +117,7 @@
 
 
                 <ImageView
-
+                        android:id="@+id/iv_comment"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_weight="1"

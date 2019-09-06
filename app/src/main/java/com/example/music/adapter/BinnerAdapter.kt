@@ -66,7 +66,28 @@ class BinnerAdapter(mList: ArrayList<BannerTable>,val context: Context?) : Pager
             when(list[position].targetType){
                 //打开网页
                3000 -> context?.startActivity<BinnerActivity>("url" to list[position].url)
-//                //播放歌曲
+                //播放歌曲
+                1 -> {
+                    ApiGenerator.getApiService(MusicService::class.java)
+                        .getSong(list[position].targetId)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe ({
+                            val mMusic = LocalMusic()
+                            mMusic.apply {
+                                musicId = it.songs[0].id
+                                songName = it.songs[0].name
+                                singerName = it.songs[0].ar[0].name
+                                coverUrl = it.songs[0].al.picUrl
+                                tag = "NET_NON_URL"
+                            }
+                            val quene = ArrayList<LocalMusic>()
+                            quene.add(mMusic)
+                            EventBus.getDefault().post(QueneEvent(quene, 0,"banner"))
+                            context?.startActivity<PlayingActivity>()
+                        },{
+                            Log.d(TAG,"BinnerAdapter:获取banner歌曲信息失败${it.message}")
+                        })
+                }
 //                mUrl.startsWith("/song") -> {
 //                    val mId = mUrl.substring(9).toLong()
 //                    ApiGenerator.getApiService(MusicService::class.java)

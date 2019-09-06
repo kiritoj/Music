@@ -13,7 +13,10 @@ const val DEFAULT_AVATAR = "http://ww1.sinaimg.cn/thumbnail/006nwaiFly1g61o0y3pc
 
 //默认歌单封面
 
-const val DEFAULT_COVER = "http://ww1.sinaimg.cn/large/006nwaiFly1g63riz9882j30lp0mmwjs.jpg"
+const val DEFAULT_COVER = "http://ww1.sinaimg.cn/large/006nB4gFly1g6nv5haknrj30bn0bqq5v.jpg"
+
+//默认背景
+const val DEFAULT_BACKGROUND = "http://ww1.sinaimg.cn/large/006nB4gFly1g6nuqylyt6j30i20r3tal.jpg"
 
 //接口baseurl
 

@@ -99,12 +99,18 @@ class SongListDetailActivity : AppCompatActivity() {
      * 部分控件的点击事件
      */
     fun click() {
+        //点击喜欢icon添加至收藏的歌单
         iv_collect.setOnClickListener {
             viewmodel.addSongList()
         }
         //点击底部播放栏跳转至播放活动
         detail_song_bottom.setOnClickListener {
             startActivity<PlayingActivity>()
+        }
+
+        //点击评论icon跳转至评论activity
+        iv_comment.setOnClickListener {
+            startActivity<CommentActivity>("id" to mSonglist.netId,"tag" to "songList")
         }
 
     }

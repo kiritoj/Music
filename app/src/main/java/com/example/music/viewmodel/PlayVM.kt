@@ -136,12 +136,12 @@ class PlayVM : ViewModel() {
     /**
      * 当播放完成后刷新UI
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
     fun update(event: RefreshEvent) {
 
-       // mDuration.value = event.mSong.length
+        // mDuration.value = event.mSong.length
         song.set(event.mSong)
-        Log.d(TAG, "id为"+song.get()?.musicId.toString())
+        Log.d(TAG, "id为" + song.get()?.musicId.toString())
 
         isPlaying.value = true
         playIc.set(R.drawable.ic_play_running)
@@ -172,21 +172,25 @@ class PlayVM : ViewModel() {
      */
     @SuppressLint("CheckResult")
     fun getLrc(song: LocalMusic) {
-        if (song.isLocalMusic) {
-            Log.d(TAG, "本地音乐暂无歌词")
-        } else {
-            ApiGenerator.getApiService(LrcService::class.java)
-                .getLrc(song.musicId!!)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    lrc.set(it.string())
-                    Log.d(TAG, lrc.get())
+        when (song.tag) {
+            "LOCAL" -> Log.d(TAG, "暂无歌词")
+            "NET_WITH_URL" -> Log.d(TAG, "暂无歌词")
+            "NET_NON_URL" -> {
+                ApiGenerator.getApiService(LrcService::class.java)
+                    .getLrc(song.musicId!!)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        lrc.set(it.string())
+                        Log.d(TAG, lrc.get())
 
-                }, {
-                    Log.d(TAG, "获取歌词失败${it.message}")
-                })
+                    }, {
+                        Log.d(TAG, "获取歌词失败${it.message}")
+                    })
+            }
         }
+
+
     }
 
     /**

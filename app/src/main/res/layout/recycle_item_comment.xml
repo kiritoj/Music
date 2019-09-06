@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+                name="comment"
+                type="com.example.music.bean.Comment" />
+    </data>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp">
+        <!--评论用户头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_user_avatar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                imageUrl="@{comment.user.avatarUrl}" />
+        <!--用户名-->
+        <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/iv_user_avatar"
+                android:ellipsize="end"
+                android:maxLength="15"
+                android:text="@{comment.user.nickname}"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+        <!--评论时间-->
+        <TextView
+                android:id="@+id/tv_comment_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_user_name"
+                android:layout_alignLeft="@id/tv_user_name"
+                timeStamp="@{comment.time}"
+                android:textSize="10sp" />
+        <!--点赞图标-->
+        <ImageView
+                android:id="@+id/iv_like"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/vector_drawable_dz"
+                android:layout_alignParentRight="true" />
+        <!--点赞数-->
+        <TextView
+                android:id="@+id/tv_like_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(comment.likedCount)}"
+                android:paddingTop="3dp"
+                android:layout_toLeftOf="@id/iv_like"
+                android:layout_marginRight="5dp"
+                android:textSize="13sp" />
+        <!--评论内容-->
+        <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_user_name"
+                android:layout_below="@id/iv_user_avatar"
+                android:layout_marginRight="20dp"
+                android:text="@{comment.content}"
+                android:textColor="@color/black" />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignLeft="@id/tv_user_name"
+                android:layout_below="@id/tv_content"
+                android:layout_marginTop="10sp"
+                android:background="@color/deepGray" />
+
+    </RelativeLayout>
+</layout>

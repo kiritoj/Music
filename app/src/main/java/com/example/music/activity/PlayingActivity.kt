@@ -9,11 +9,11 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
-import com.bumptech.glide.Glide
-import com.example.music.DEFAULT_COVER
+import org.jetbrains.anko.startActivity
 import com.example.music.R
 import com.example.music.databinding.ActivityPlayingBinding
 import com.example.music.db.table.LocalMusic
@@ -42,11 +42,11 @@ class PlayingActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_playing)
         EventBus.getDefault().register(this)
         binding.viewmodel = viewmodel
+        viewmodel.checkPlaying()
         //初始化动画
         initAnim()
-        viewmodel.checkPlaying()
-
         initToolbar()
+        initClick()
         //隐藏状态栏
         hideStateBar()
 
@@ -72,6 +72,7 @@ class PlayingActivity : AppCompatActivity() {
             binding.ivSongCover.visibility = View.VISIBLE
             binding.lrcview.visibility = View.GONE
         }
+
 
     }
 
@@ -189,6 +190,16 @@ class PlayingActivity : AppCompatActivity() {
 
     }
 
+    //点击事件
+    fun initClick(){
+        iv_comment.setOnClickListener {
+            Log.d(TAG,"test")
+            viewmodel.song.get()?.let {
+                startActivity<CommentActivity>("id" to it.musicId,"tag" to "music")
+            }
+
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

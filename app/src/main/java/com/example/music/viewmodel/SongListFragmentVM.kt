@@ -18,9 +18,6 @@ class SongListFragmentVM() : ViewModel(){
     //分类歌单
     val assortedList = MutableLiveData<ArrayList<Playlists>>()
 
-//    init {
-//       EventBus.getDefault().register(this)
-//    }
     //获取分类歌单
     fun getAssortedSongList(size: Int = 18,cat: String) {
     //大约1200条数据，每次只获取18条

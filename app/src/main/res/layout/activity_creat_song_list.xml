@@ -110,22 +110,7 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="horizontal"
-                              android:padding="5dp"
-                              android:gravity="center_vertical">
-                    <ImageView android:layout_width="30dp"
-                               android:layout_height="30dp"
-                               android:layout_marginLeft="10dp"
-                               android:src="@drawable/vector_drawable_playall"/>
-                    <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:text="播放全部"
-                              android:textColor="@color/deepGray"
-                              android:layout_marginLeft="10dp"/>
 
-                </LinearLayout>
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_songs"
                         android:layout_width="match_parent"
