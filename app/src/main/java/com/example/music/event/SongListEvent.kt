@@ -1,6 +1,6 @@
 package com.example.music.event
 
-import com.example.music.db.table.SongList
+import com.example.music.model.db.table.SongList
 
 /**
  * Created by tk on 2019/8/18

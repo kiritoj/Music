@@ -12,7 +12,7 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
-    <com.example.music.customveiw.MyEditView
+    <com.example.music.view.activity.customveiw.MyEditView
             android:id="@+id/et_songlist_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

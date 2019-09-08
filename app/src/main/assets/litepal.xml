@@ -4,11 +4,11 @@
     <version value = "15"></version>
     <list>
         <!--添加本地音乐表-->
-        <mapping class="com.example.music.db.table.LocalMusic"></mapping>
-        <mapping class="com.example.music.db.table.SongList"></mapping>
-        <mapping class="com.example.music.db.table.BannerTable"></mapping>
-        <mapping class="com.example.music.db.table.CatTable"></mapping>
-        <mapping class="com.example.music.db.table.LastPlayTable"></mapping>
+        <mapping class="com.example.music.model.db.table.LocalMusic"></mapping>
+        <mapping class="com.example.music.model.db.table.SongList"></mapping>
+        <mapping class="com.example.music.model.db.table.BannerTable"></mapping>
+        <mapping class="com.example.music.model.db.table.CatTable"></mapping>
+        <mapping class="com.example.music.model.db.table.LastPlayTable"></mapping>
         <mapping class="com.example.music.test.Author"></mapping>
         <mapping class="com.example.music.test.Book"></mapping>
     </list>

@@ -1,6 +1,6 @@
 package com.example.music.network.services
 
-import com.example.music.bean.SongsBean
+import com.example.music.model.db.bean.SongsBean
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

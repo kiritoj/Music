@@ -8,7 +8,7 @@
 
         <variable
                 name="data"
-                type="com.example.music.db.table.SongList" />
+                type="com.example.music.model.db.table.SongList" />
 
         <variable
                 name="viewmodel"
@@ -17,6 +17,9 @@
         <variable
                 name="mViewModel"
                 type="com.example.music.viewmodel.BottomStateBarVM" />
+        <variable
+                name="hanlder"
+                type="com.example.music.view.activity.SongListDetailActivity.MyHanlder" />
     </data>
 
     <LinearLayout
@@ -59,23 +62,35 @@
 
                             >
 
+                        <!--歌单背景-->
                         <ImageView
-                                background_utl="@{data.coverUrl}"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="centerCrop" />
+                                android:scaleType="centerCrop"
+                                url="@{data.coverUrl}"
+                                placeholder="@{@drawable/back}"
+                                error="@{@drawable/back}"
+                                tag="@{2}"
+                                radius="@{30}"
+                                sampling="@{5}"/>
 
-                        <com.shehuan.niv.NiceImageView
+
+                        <!--歌曲图片-->
+                        <ImageView
                                 android:id="@+id/iv_songlist_coverImag"
-                                imageUrl="@{data.coverUrl}"
                                 android:layout_width="120dp"
                                 android:layout_height="120dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="20dp"
                                 android:layout_marginTop="60dp"
                                 android:layout_marginRight="20dp"
-                                app:corner_radius="5dp" />
+                                url="@{data.coverUrl}"
+                                placeholder="@{@drawable/ic_loading}"
+                                error="@{@drawable/ic_loading_error}"
+                                radius="@{10}"
+                                />
 
+                        <!--歌单名字-->
                         <TextView
                                 android:id="@+id/tv_songlist_detail_name"
                                 android:layout_width="wrap_content"
@@ -89,15 +104,20 @@
 
                                 android:textStyle="bold" />
 
+                        <!--创建者头像-->
                         <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/iv_creator_avatar"
-                                imageUrl="@{data.creatorAvatar}"
+
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_below="@id/tv_songlist_detail_name"
                                 android:layout_marginTop="10dp"
-                                android:layout_toRightOf="@id/iv_songlist_coverImag" />
+                                android:layout_toRightOf="@id/iv_songlist_coverImag"
+                                url="@{data.creatorAvatar}"
+                                placeholder="@{@drawable/ic_loading}"
+                                error="@{@drawable/ic_loading_error}"/>
 
+                        <!--创建者昵称-->
                         <TextView
                                 android:id="@+id/tv_creator_name"
                                 android:layout_width="wrap_content"
@@ -110,6 +130,7 @@
                                 android:textColor="@color/white"
                                 android:textStyle="bold" />
 
+                        <!--描述-->
                         <TextView
                                 android:id="@+id/tv_songlist_discription"
                                 android:layout_width="wrap_content"
@@ -118,7 +139,7 @@
                                 android:layout_marginTop="10dp"
                                 android:layout_toRightOf="@id/iv_songlist_coverImag"
                                 android:ellipsize="end"
-                                android:maxLines="2"
+                                android:maxLines="3"
                                 android:text="@{data.description}"
                                 android:textColor="@color/white"
                                 android:textSize="12dp" />
@@ -143,13 +164,14 @@
                                         android:id="@+id/iv_comment"
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
-                                        android:src="@drawable/vector_drawable_comment" />
+                                        android:src="@drawable/vector_drawable_comment"
+                                        android:onClick="@{()->hanlder.onCommentClick()}"/>
 
                                 <TextView
                                         android:id="@+id/tv_songlist_comment_num"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@{String.valueOf(data.commentNum)}"
+                                        playcount="@{data.commentNum}"
                                         android:textColor="@color/white" />
                             </LinearLayout>
 
@@ -165,7 +187,8 @@
                                 <ImageView
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
-                                        android:src="@drawable/vector_drawable_download_white" />
+                                        android:src="@drawable/vector_drawable_download_white"
+                                        android:onClick="@{()->hanlder.onDownloadClick()}"/>
 
                                 <TextView
                                         android:layout_width="wrap_content"
@@ -190,14 +213,13 @@
                                         android:clickable="true"
                                         android:focusable="true"
                                         android:src="@drawable/vector_drawable_collect_white"
-
-
+                                        android:onClick="@{()->hanlder.onCollectClick()}"
                                         />
 
                                 <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@{String.valueOf(data.collectNum)}"
+                                        playcount="@{data.collectNum}"
                                         android:textColor="@color/white" />
                             </LinearLayout>
 
@@ -213,7 +235,7 @@
                             android:layout_alignParentTop="true"
                             android:clickable="false"
                             app:layout_collapseMode="pin"
-                            app:title="歌单详情">
+                            app:title="详情">
 
                     </android.support.v7.widget.Toolbar>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="songlist" type="com.example.music.db.table.SongList"/>
+        <variable name="songlist" type="com.example.music.model.db.table.SongList"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_creat_songlist_root"
@@ -14,12 +14,14 @@
             android:paddingBottom="5dp"
             android:background="@drawable/item_pressed">
 
-        <com.shehuan.niv.NiceImageView
+        <ImageView
                 android:id="@+id/iv_songlist_cover"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:corner_radius="5dp"
-                imageUrl="@{songlist.coverUrl}"/>
+                url="@{songlist.coverUrl}"
+                placeholder="@{@drawable/ic_loading}"
+                error="@{@drawable/ic_loading_error}"
+                radius="@{10}"/>
 
         <LinearLayout
                 android:layout_width="match_parent"

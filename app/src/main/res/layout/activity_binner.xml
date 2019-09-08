@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.BinnerActivity">
+        tools:context=".view.activity.BinnerActivity">
     <include layout="@layout/toolbar_with_search"/>
     <ProgressBar
             android:id="@+id/process_bar"

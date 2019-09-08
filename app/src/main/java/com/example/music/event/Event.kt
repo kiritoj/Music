@@ -1,10 +1,14 @@
 package com.example.music.event
 
 import com.example.music.PlayManger
-import com.example.music.bean.*
-import com.example.music.db.table.BannerTable
-import com.example.music.db.table.LocalMusic
-import com.example.music.db.table.SongList
+import com.example.music.model.bean.*
+import com.example.music.model.db.bean.Data
+import com.example.music.model.db.bean.Playlist
+import com.example.music.model.db.bean.Playlists
+import com.example.music.model.db.bean.Track
+import com.example.music.model.db.table.BannerTable
+import com.example.music.model.db.table.LocalMusic
+import com.example.music.model.db.table.SongList
 
 /**
  * Created by tk on 2019/8/20
@@ -24,7 +28,7 @@ class LatestSongEvent(val list: ArrayList<Data>)
 
 //歌单里面的全部歌曲
 
-class SongsEvent(val tag:String,val list: ArrayList<Track>?=null,
+class SongsEvent(val tag:String, val mPlaylist: Playlist?=null,
                  val mList: ArrayList<LocalMusic>? = null)
 
 //通知更新歌单
@@ -32,16 +36,16 @@ class SongsEvent(val tag:String,val list: ArrayList<Track>?=null,
 class StringEvent(val tag: String)
 
 //
-class SongEvent(val tag: String,val creatSong: LocalMusic? = null,val onlineSong: Track?=null,val position: Int=0)
+class SongEvent(val tag: String, val creatSong: LocalMusic? = null, val onlineSong: Track?=null, val position: Int=0)
 
 //播放队列事件
 
-class QueneEvent(val list: ArrayList<LocalMusic>,val index: Int,val tag: String)
+class QueneEvent(val list: ArrayList<LocalMusic>, val index: Int, val tag: String)
 
 //播放模式事件
 class ModeEvent(val mode: Int)
 
-class RefreshEvent(val mSong: LocalMusic,val position: Int,val tag: String)
+class RefreshEvent(val mSong: LocalMusic, val position: Int, val tag: String)
 
 //更新进度条事件
 class ProcessEvent(val tag: String,val num: Int)

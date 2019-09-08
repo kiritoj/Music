@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.music.PlayManger
-import com.example.music.db.table.LocalMusic
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.databinding.RecycleItemLocalMusicBinding
 import com.example.music.R
-import com.example.music.activity.PlayingActivity
+import com.example.music.view.activity.PlayingActivity
 import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import org.greenrobot.eventbus.EventBus
@@ -23,13 +23,13 @@ import org.jetbrains.anko.startActivity
  * @param tag 该标志位adapter所处的activity或fragment
  * 用于后台播放服务切换播放队列时不同的tag的adapter根据tag更新自己正在播放的位置
  */
-class LocalMusicAdapter(val list: ArrayList<LocalMusic>,val context: Context,val tag: String) : RecyclerView.Adapter<LocalMusicAdapter.ViewHolder>(){
+class LocalMusicAdapter(val list: ArrayList<LocalMusic>, val context: Context, val tag: String) : RecyclerView.Adapter<LocalMusicAdapter.ViewHolder>(){
     //正在播放的位置
     var playingId = -1
     var listener: OnPopMoreClickListener? = null
 
     interface OnPopMoreClickListener {
-        fun onPopMoreClick(music: LocalMusic,position: Int)
+        fun onPopMoreClick(music: LocalMusic, position: Int)
 
     }
 

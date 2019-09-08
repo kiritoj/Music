@@ -6,15 +6,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.music.IMAGE_BASE_URL
 import com.example.music.PlayManger
 import com.example.music.R
-import com.example.music.SONG_PLAY_BASE_URL
-import com.example.music.activity.PlayingActivity
-import com.example.music.bean.SongsBean
-import com.example.music.bean.Track
+import com.example.music.view.activity.PlayingActivity
+import com.example.music.model.db.bean.Track
 import com.example.music.databinding.RecycleItemSongsBinding
-import com.example.music.db.table.LocalMusic
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import com.example.music.event.SongEvent
@@ -24,7 +21,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by tk on 2019/8/23
  */
-class SongsAdapter(val list: ArrayList<Track>, val context: Context,val tag: String) :
+class SongsAdapter(val list: ArrayList<Track>, val context: Context, val tag: String) :
     RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
     //正在播放的位置
     var playingId = -1
@@ -45,14 +42,19 @@ class SongsAdapter(val list: ArrayList<Track>, val context: Context,val tag: Str
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
+        //当前播放歌曲显示播放icon，其他歌曲显示序号
+        p0.bind(list[p1])
+        p0.itembinding.tvIndex.text = (p1+1).toString()
         if (playingId == p1) {
             p0.itembinding.ivPlaying.visibility = View.VISIBLE
+            p0.itembinding.tvIndex.visibility = View.GONE
 
         } else {
             p0.itembinding.ivPlaying.visibility = View.GONE
+            p0.itembinding.tvIndex.visibility = View.VISIBLE
 
         }
-        p0.bind(list[p1])
+
 
         //点击整体播放
         p0.itembinding.llSongRoot.setOnClickListener {

@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.example.music.MusicApp
-import com.example.music.db.repository.CategrayRepository
-import com.example.music.db.table.CatTable
+import com.example.music.model.db.repository.CategrayRepository
+import com.example.music.model.db.table.CatTable
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

@@ -5,18 +5,17 @@ import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.example.music.bean.SongListBean
 import com.example.music.databinding.RecycleItemSonglistBinding
 import com.example.music.R
-import com.example.music.activity.SongListDetailActivity
-import com.example.music.bean.Playlists
-import com.example.music.db.table.SongList
+import com.example.music.view.activity.SongListDetailActivity
+import com.example.music.model.db.bean.Playlists
+import com.example.music.model.db.table.SongList
 import org.jetbrains.anko.startActivity
 
 /**
  * Created by tk on 2019/8/20
  */
-class SongListAdapter(val list:ArrayList<Playlists>,val context: Context) : RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
+class SongListAdapter(val list:ArrayList<Playlists>, val context: Context) : RecyclerView.Adapter<SongListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val binding = DataBindingUtil
             .inflate<RecycleItemSonglistBinding>(LayoutInflater.from(p0.context),R.layout.recycle_item_songlist,p0,false)

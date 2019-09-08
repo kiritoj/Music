@@ -11,17 +11,16 @@ import cn.leancloud.AVFile
 import cn.leancloud.AVObject
 import com.example.music.DEFAULT_AVATAR
 import com.example.music.MusicApp
-import com.example.music.checkStringIsNull
+import com.example.music.util.checkStringIsNull
 import com.example.music.event.MusicNumEvene
 import com.example.music.event.RefreshSongList
 import com.example.music.event.SongListEvent
-import com.example.music.db.repository.SongListRepository
-import com.example.music.db.table.SongList
+import com.example.music.model.db.repository.SongListRepository
+import com.example.music.model.db.table.SongList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.litepal.LitePal
 import java.io.ByteArrayOutputStream
 

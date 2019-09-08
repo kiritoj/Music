@@ -4,17 +4,19 @@ import android.content.Context
 import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.example.music.MusicApp
 import com.example.music.PlayManger
 import com.example.music.R
-import com.example.music.TimeUtil
-import com.example.music.customveiw.LrcView
-import com.example.music.db.table.LocalMusic
-import jp.wasabeef.glide.transformations.BlurTransformation
+import com.example.music.util.TimeUtil
+import com.example.music.view.activity.customveiw.LrcView
+import com.example.music.model.db.table.LocalMusic
+import com.example.music.util.GlideUtil
+
 
 /**
  * Created by tk on 2019/8/16
@@ -25,39 +27,52 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * 自定义imageUrl属性使用Glide加载图片
  */
 object ImageBindAdapter {
-    @BindingAdapter("imageUrl")
+    @BindingAdapter("url", "placeholder", "error", requireAll = true)
     @JvmStatic
-    fun loadImage(view: ImageView, url: String?) {
-        Glide.with(MusicApp.context)
-            .load(url)
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.ic_loading_error)
-            .dontAnimate()
-            .into(view)
+            /**
+             * 加载普通图片
+             */
+    fun loadImage(view: ImageView, url: String?, placeholder: Drawable, error: Drawable) {
+        url?.let { GlideUtil.loadPic(view, it, placeholder, error) }
+    }
+
+    @BindingAdapter("url", "placeholder", "error", "radius", requireAll = true)
+    @JvmStatic
+            /**
+             * 加载圆角图片
+             */
+    fun loadCornerImage(
+        view: ImageView,
+        url: String?,
+        placeholder: Drawable,
+        error: Drawable,
+        radius: Int
+    ) {
+
+        url?.let { GlideUtil.loadCornerPic(view, it, placeholder, error, radius) }
+    }
+
+    @BindingAdapter("url", "placeholder", "error", "tag", "radius", "sampling", requireAll = true)
+    @JvmStatic
+            /**
+             * 加载模糊图片
+             */
+    fun loadBlurredImage(
+        view: ImageView,
+        url: String?,
+        placeholder: Drawable,
+        error: Drawable,
+        tag: Int,
+        radius: Int,
+        sampling: Int
+    ) {
+        url?.let { GlideUtil.loadBlurredPic(view, it, placeholder, error, radius, sampling) }
     }
 }
 
-/**
- * background_utl高斯模糊加载viewgroup背景
- */
-
-object BackgroundBindAdapter {
-    @BindingAdapter("background_utl")
-    @JvmStatic
-    fun loadBackground(view: ImageView, url: String) {
-        Glide.with(MusicApp.context)
-            .load(url)
-            .placeholder(R.drawable.back)
-            .error(R.drawable.back)
-            .bitmapTransform(BlurTransformation(MusicApp.context, 30, 5))
-            .dontAnimate()
-            .into(view)
-    }
-}
-
 
 /**
- *
+ * 本地歌曲和网络歌曲加载图片
  */
 object SongAlbumAdapter {
     @BindingAdapter("song")
@@ -68,17 +83,14 @@ object SongAlbumAdapter {
                 "LOCAL" ->
                     //如果是本地歌曲。直接设置专辑bitmap
                     view.setImageBitmap(song.albumID?.let { getAlbumArt(it, MusicApp.context) })
-                "NET_WITH_URL"->{
+                "NET_WITH_URL" -> {
                     view.setImageResource(R.drawable.disk)
                 }
                 "NET_NON_URL" ->
                     //否则从网络加载
-                    Glide.with(MusicApp.context)
-                        .load(song.coverUrl)
-                        .placeholder(R.drawable.disk)
-                        .error(R.drawable.disk)
-                        .dontAnimate()
-                        .into(view)
+                    GlideUtil.loadPic(view,song.coverUrl
+                        ,ContextCompat.getDrawable(MusicApp.context,R.drawable.disk)!!
+                        ,ContextCompat.getDrawable(MusicApp.context,R.drawable.disk)!!)
             }
         }
     }
@@ -146,7 +158,7 @@ object PlayCount {
         if (count < 10000) {
             view.setText(count.toString())
         } else {
-            view.setText((count.toFloat() / 10000f).toString().substring(0, 3) + "万")
+            view.setText(String.format("%.1f",(count.toFloat() / 10000f))+"万")
         }
     }
 }
@@ -163,10 +175,10 @@ object LrcText {
 }
 
 //时间戳得到时间
-object Time{
+object Time {
     @BindingAdapter("timeStamp")
     @JvmStatic
-    fun getTime(view: TextView,timeStamp: Long){
+    fun getTime(view: TextView, timeStamp: Long) {
         view.setText(TimeUtil.timestampToTime(timeStamp))
     }
 }

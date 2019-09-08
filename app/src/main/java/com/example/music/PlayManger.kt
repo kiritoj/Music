@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
 import android.util.Log
-import com.example.music.db.table.LocalMusic
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.ProcessEvent
 import com.example.music.event.RefreshEvent
 import com.example.music.event.StateEvent

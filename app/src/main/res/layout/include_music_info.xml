@@ -3,7 +3,7 @@
 <!--弹出的popwindow歌曲顶部通用布局-->
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="music" type="com.example.music.db.table.LocalMusic"/>
+        <variable name="music" type="com.example.music.model.db.table.LocalMusic"/>
     </data>
     <LinearLayout
             android:orientation="horizontal"

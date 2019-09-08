@@ -4,7 +4,7 @@
     <data>
         <variable
                 name="comment"
-                type="com.example.music.bean.Comment" />
+                type="com.example.music.model.db.bean.Comment" />
     </data>
 
     <RelativeLayout
@@ -18,7 +18,10 @@
                 android:id="@+id/iv_user_avatar"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                imageUrl="@{comment.user.avatarUrl}" />
+                url="@{comment.user.avatarUrl}"
+                placeholder="@{@drawable/ic_loading}"
+                error="@{@drawable/ic_loading_error}"
+                />
         <!--用户名-->
         <TextView
                 android:id="@+id/tv_user_name"

@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.music.PlayManger
 import com.example.music.R
-import com.example.music.activity.PlayingActivity
-import com.example.music.bean.Data
+import com.example.music.view.activity.PlayingActivity
+import com.example.music.model.db.bean.Data
 import com.example.music.databinding.RecycleItemLatesMusicBinding
-import com.example.music.db.table.LocalMusic
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.IndexEvent
 import com.example.music.event.QueneEvent
 import org.greenrobot.eventbus.EventBus

@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import cn.leancloud.AVObject
 import cn.leancloud.AVQuery
-import com.example.music.db.table.LocalMusic
-import com.example.music.db.table.SongList
+import com.example.music.model.db.table.LocalMusic
+import com.example.music.model.db.table.SongList
 import com.example.music.event.RefreshSongList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -5,7 +5,7 @@
     <data>
         <variable
                 name="song"
-                type="com.example.music.db.table.LocalMusic" />
+                type="com.example.music.model.db.table.LocalMusic" />
     </data>
 
     <LinearLayout

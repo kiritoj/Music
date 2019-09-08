@@ -11,8 +11,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context=".activity.LocalMusicActivity">
+            tools:context=".view.activity.LocalMusicActivity">
+
+        <!--toolbar-->
         <include layout="@layout/toolbar_with_search"/>
+
+        <!--歌单rv-->
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_local_music"
                 android:layout_width="match_parent"
@@ -25,7 +29,7 @@
                 android:id="@+id/local_song_bottom"
                 layout="@layout/song_info_button"
                 bind:viewmodel="@{viewmodel}"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
 
     </LinearLayout>

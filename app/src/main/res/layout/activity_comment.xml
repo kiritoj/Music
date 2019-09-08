@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activity.CommentActivity">
+        tools:context=".view.activity.CommentActivity">
 
     <!--toolbar-->
     <include
@@ -40,6 +40,16 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never" />
+
+            <!--无热评-->
+            <TextView
+                    android:id="@+id/tv_no_hotcomment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="还没有人上墙"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:visibility="gone"/>
 
             <!--更多评论tv-->
             <TextView

@@ -17,7 +17,9 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_margin="20dp"
-                    imageUrl="@{viewmodel.mUserAvatar}"
+                    url="@{viewmodel.mUserAvatar}"
+                    placeholder="@{@drawable/ic_loading}"
+                    error="@{@drawable/ic_loading_error}"
 
                     />
             <TextView

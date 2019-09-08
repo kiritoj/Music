@@ -18,7 +18,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.CommentActivity"></activity>
+        <activity android:name="com.example.music.view.activity.TopListActivity"></activity>
+        <activity android:name="com.example.music.view.activity.CommentActivity" />
 
         <service
                 android:name=".PlayService"
@@ -26,24 +27,24 @@
                 android:exported="false" />
 
         <activity
-                android:name=".activity.CreatSongListActivity"
+                android:name="com.example.music.view.activity.CreatSongListActivity"
                 android:theme="@style/TransparentTheme" />
         <activity
-                android:name=".activity.SongListDetailActivity"
+                android:name="com.example.music.view.activity.SongListDetailActivity"
                 android:theme="@style/TransparentTheme" />
         <activity
-                android:name=".activity.SongListActivity"
+                android:name="com.example.music.view.activity.SongListActivity"
                 android:label="全部歌单" />
         <activity
-                android:name=".activity.BinnerActivity"
+                android:name="com.example.music.view.activity.BinnerActivity"
                 android:hardwareAccelerated="true" />
         <activity
-                android:name=".activity.PlayingActivity"
+                android:name="com.example.music.view.activity.PlayingActivity"
                 android:label="@null"
                 android:launchMode="singleTask"
                 android:theme="@style/TransparentTheme" />
-        <activity android:name=".activity.LocalMusicActivity" />
-        <activity android:name=".activity.TestActivity">
+        <activity android:name="com.example.music.view.activity.LocalMusicActivity" />
+        <activity android:name="com.example.music.view.activity.TestActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -52,10 +53,10 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name="com.example.music.view.activity.SearchActivity" />
+        <activity android:name="com.example.music.view.activity.MainActivity" />
         <activity
-                android:name=".activity.LoginActivity"
+                android:name="com.example.music.view.activity.LoginActivity"
                 android:theme="@style/NoTitleFullscreen" /> <!-- 知乎matisse需要的提供器 -->
         <provider
                 android:name="android.support.v4.content.FileProvider"
@@ -77,7 +78,7 @@
         </receiver>
 
         <activity
-                android:name=".activity.LoadingActivity"
+                android:name="com.example.music.view.activity.LoadingActivity"
                 android:theme="@style/NoTitleFullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

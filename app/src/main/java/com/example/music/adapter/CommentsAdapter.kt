@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.music.MusicApp
-import com.example.music.bean.Comment
+import com.example.music.model.db.bean.Comment
 import com.example.music.databinding.RecycleItemCommentBinding
 import com.example.music.R
 

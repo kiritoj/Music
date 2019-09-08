@@ -3,7 +3,7 @@ package com.example.music.viewmodel
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
-import com.example.music.bean.Comment
+import com.example.music.model.db.bean.Comment
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.MusicCommentService
 import com.example.music.network.services.SongListCommentService
@@ -21,11 +21,15 @@ class CommentVM {
     val isShowBar = MutableLiveData<Boolean>()
     //是否显示列表
     val isShowList = MutableLiveData<Boolean>()
+    //是否显示暂无热评
+    val isShowNoHot = MutableLiveData<Boolean>()
     //热门评论列表
     val hotConments = MutableLiveData<List<Comment>>()
     //普通评论列表
     var comments = MutableLiveData<List<Comment>>()
-
+    //是否已经成功获取过评论
+    var flagN = false
+    var flagH = false
     /**
      * 获取评论
      */
@@ -59,13 +63,22 @@ class CommentVM {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 isShowBar.value = false
-                isShowList.value = true
-                hotConments.value = it.hotComments
-                comments.value = it.comments
-                if (!it.comments.isNullOrEmpty()){
-                    for (i in 0 until it.comments.size){
-                        Log.d(TAG,it.comments[i].content)
+                if (it.hotComments.isNullOrEmpty() and it.comments.isNullOrEmpty() and !flagN) {
+                    isShowList.value = false
+                    isShowText.value = true
+                } else {
+                    if (it.hotComments.isNullOrEmpty() and !flagH) {
+                        Log.d(TAG, "test")
+                        isShowNoHot.value = true
+                    }else{
+                        flagH = true
                     }
+                    Log.d(TAG, "test1")
+                    isShowList.value = true
+                    hotConments.value = it.hotComments
+                    comments.value = it.comments
+                    flagN = true
+
                 }
             }, {
                 Log.d(TAG, "获取音乐评论失败${it.message}")
@@ -74,18 +87,32 @@ class CommentVM {
 
     //获取歌单评论
     @SuppressLint("CheckResult")
-    fun getSongListComment(id: Long, offset: Int = 0){
+    fun getSongListComment(id: Long, offset: Int = 0) {
         ApiGenerator.getApiService(SongListCommentService::class.java)
-            .getComment(id,20,offset)
+            .getComment(id, 20, offset)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+            .subscribe({
                 isShowBar.value = false
-                isShowList.value = true
-                hotConments.value = it.hotComments
-                comments.value = it.comments
-            },{
-                Log.d(TAG,"获取歌单评论失败${it.message}")
+                if (it.hotComments.isNullOrEmpty() and it.comments.isNullOrEmpty() and !flagN) {
+                    isShowList.value = false
+                    isShowText.value = true
+                } else {
+                    if (it.hotComments.isNullOrEmpty() and !flagH) {
+                        Log.d(TAG, "test")
+                        isShowNoHot.value = true
+                    }else{
+                        flagH = true
+                    }
+                    Log.d(TAG, "test1")
+                    isShowList.value = true
+                    hotConments.value = it.hotComments
+                    comments.value = it.comments
+                    flagN = true
+
+                }
+            }, {
+                Log.d(TAG, "获取歌单评论失败${it.message}")
             })
     }
 }

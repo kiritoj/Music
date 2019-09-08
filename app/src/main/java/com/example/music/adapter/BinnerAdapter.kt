@@ -1,24 +1,22 @@
 package com.example.music.adapter
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.PagerAdapter
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.example.music.*
-import com.example.music.activity.BinnerActivity
-import com.example.music.db.table.BannerTable
+import com.example.music.view.activity.BinnerActivity
+import com.example.music.model.db.table.BannerTable
 import org.jetbrains.anko.startActivity
-import com.example.music.activity.PlayingActivity
-import com.example.music.activity.SongListDetailActivity
-import com.example.music.db.table.LocalMusic
-import com.example.music.db.table.SongList
+import com.example.music.view.activity.PlayingActivity
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.QueneEvent
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.MusicService
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.music.util.GlideUtil
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 
@@ -26,7 +24,7 @@ import org.greenrobot.eventbus.EventBus
 /**
  * Created by tk on 2019/8/19
  */
-class BinnerAdapter(mList: ArrayList<BannerTable>,val context: Context?) : PagerAdapter() {
+class BinnerAdapter(mList: ArrayList<BannerTable>, val context: Context?) : PagerAdapter() {
     val TAG = "BinnerAdapter"
     val list = ArrayList<BannerTable>()
     init {
@@ -46,12 +44,20 @@ class BinnerAdapter(mList: ArrayList<BannerTable>,val context: Context?) : Pager
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
         val imageView = ImageView(context)
-        Glide.with(context).load(list[position].imageUrl)
-            .placeholder(R.drawable.ic_loading)
-            .error(R.drawable.ic_loading_error)
-            .into(imageView)
-        imageView.scaleType = ImageView.ScaleType.FIT_XY
+        GlideUtil.loadCornerPic(imageView
+            ,list[position].imageUrl
+            ,ContextCompat.getDrawable(context!!,R.drawable.ic_loading)!!
+            ,ContextCompat.getDrawable(context!!,R.drawable.ic_loading_error)!!
+            ,20)
+
+
+        //imagview两边留出空隙，避免两页粘连在一起
+        imageView.setPadding(30,0,30,0)
+        //imageView.scaleType = ImageView.ScaleType.FIT_XY
+        imageView.setBackgroundResource(R.color.yellow)
+
         container.addView(imageView)
+
 
         //点击轮播图片跳转详情页
         imageView.setOnClickListener {

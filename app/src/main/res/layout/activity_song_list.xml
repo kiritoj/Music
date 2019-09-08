@@ -10,7 +10,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context=".activity.SongListActivity">
+            tools:context=".view.activity.SongListActivity">
+
         <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_songlist"
                 android:layout_width="match_parent"

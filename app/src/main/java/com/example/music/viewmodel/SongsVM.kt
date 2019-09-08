@@ -8,11 +8,11 @@ import cn.leancloud.AVObject
 import com.example.music.IMAGE_BASE_URL
 import com.example.music.MusicApp
 import com.example.music.SONG_PLAY_BASE_URL
-import com.example.music.bean.Track
-import com.example.music.db.repository.SongListRepository
-import com.example.music.db.repository.SongsRepository
-import com.example.music.db.table.LocalMusic
-import com.example.music.db.table.SongList
+import com.example.music.model.db.bean.Track
+import com.example.music.model.db.repository.SongListRepository
+import com.example.music.model.db.repository.SongsRepository
+import com.example.music.model.db.table.LocalMusic
+import com.example.music.model.db.table.SongList
 import com.example.music.event.RefreshSongList
 import com.example.music.event.SongListEvent
 import com.example.music.event.SongsEvent
@@ -35,6 +35,7 @@ class SongsVM(val songlist: SongList) : ViewModel() {
     val iscollected = MutableLiveData<Boolean>() //该歌单是否已经被收藏过
     var mSongList: SongList? = null //保存组啊数据库的歌单对象
     var creatSongList = MutableLiveData<ArrayList<SongList>>()//创建的歌单
+    var observableSongList = MutableLiveData<SongList>()//从排行榜过来的榜单没有创建者等信息，需要重新获取
 
     init {
         EventBus.getDefault().register(this)
@@ -163,9 +164,9 @@ class SongsVM(val songlist: SongList) : ViewModel() {
             songLists.add(mSongList)
             tag = "NET_NON_URL"
         }
-        if (mSongList.songs.contains(mMusic)){
+        if (mSongList.songs.contains(mMusic)) {
             toast.value = "该歌单已经添加过了，请选择其他歌单"
-        }else {
+        } else {
             mMusic.save()
             toast.value = "正在导入"
             //更新本地该歌单歌曲数量
@@ -205,7 +206,6 @@ class SongsVM(val songlist: SongList) : ViewModel() {
             }
 
 
-
             //通知MainFragment更新数量
             EventBus.getDefault().post(RefreshSongList("creat", true))
         }
@@ -213,7 +213,18 @@ class SongsVM(val songlist: SongList) : ViewModel() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun receiveSongs(event: SongsEvent) {
-        songs.value = event.list
+        songs.value = event.mPlaylist?.tracks as ArrayList
+        //没有创作者的是榜单，重新获取创建者，数目等信息
+        if (songlist.creatorName.isNullOrEmpty()){
+            songlist.apply {
+                creatorAvatar = event.mPlaylist.creator.avatarUrl
+                creatorId = event.mPlaylist.creator.userId
+                creatorName = event.mPlaylist.creator.nickname
+                collectNum = event.mPlaylist.subscribedCount
+                commentNum = event.mPlaylist.commentCount
+            }
+            observableSongList.value = songlist
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

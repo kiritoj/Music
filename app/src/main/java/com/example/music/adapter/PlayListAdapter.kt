@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.example.music.MusicApp
 import com.example.music.R
 import com.example.music.databinding.RecycleItemPlaylistBinding
-import com.example.music.db.table.LocalMusic
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.IndexEvent
 import org.greenrobot.eventbus.EventBus
 
@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus
  * Created by tk on 2019/9/6
  * 播放队列适配器
  */
-class PlayListAdapter(val list: ArrayList<LocalMusic>,var playId: Int) :
+class PlayListAdapter(val list: ArrayList<LocalMusic>, var playId: Int) :
     RecyclerView.Adapter<PlayListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {

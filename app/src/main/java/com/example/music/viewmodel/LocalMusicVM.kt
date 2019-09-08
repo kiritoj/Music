@@ -6,10 +6,10 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import cn.leancloud.AVFile
 import cn.leancloud.AVObject
-import com.example.music.db.repository.LocalMusicRepository
-import com.example.music.db.repository.SongListRepository
-import com.example.music.db.table.LocalMusic
-import com.example.music.db.table.SongList
+import com.example.music.model.db.repository.LocalMusicRepository
+import com.example.music.model.db.repository.SongListRepository
+import com.example.music.model.db.table.LocalMusic
+import com.example.music.model.db.table.SongList
 import com.example.music.event.MusicNumEvene
 import com.example.music.event.RefreshSongList
 import com.example.music.event.SongListEvent

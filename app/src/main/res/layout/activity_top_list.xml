@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="viewmodel"
+                type="com.example.music.viewmodel.BottomStateBarVM" />
+
+        <variable
+                name="topViewModel"
+                type="com.example.music.viewmodel.TopListVM" />
+
+    </data>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <!--toolbar-->
+            <include
+                    android:id="@+id/tool_bar"
+                    layout="@layout/toolbar_with_search" />
+
+            <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/nest_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="9"
+                    android:visibility="invisible">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <!--官方榜tv-->
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="官方榜"
+                            android:textColor="@color/black"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                    <!--官方榜单rv-->
+                    <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_offical_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp" />
+
+                    <!--更多榜单tv-->
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="更多榜单"
+                            android:textColor="@color/black"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                    <!--更多榜单rv-->
+                    <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_more_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp" />
+
+                    <!--歌手榜tv-->
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="歌手榜"
+                            android:textColor="@color/black"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            />
+
+                    <!--歌手榜只有一个，不使用recycleview-->
+                    <include
+                            android:id="@+id/singer_top_list"
+                            layout="@layout/recycle_item_toplist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            bind:toplist="@{topViewModel.singerTopList}"
+                            />
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+
+
+            <!--底部播放栏-->
+            <include
+                    android:id="@+id/top_list_bottom"
+                    layout="@layout/song_info_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    bind:viewmodel="@{viewmodel}"
+                    />
+
+
+
+        </LinearLayout>
+        <!--加载bar-->
+        <ProgressBar
+                android:id="@+id/process_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+
+        <!--加载失败提示-->
+        <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/item_pressed"
+                android:onClick="@{()->topViewModel.reLoad()}"
+                android:padding="10dp"
+                android:text="加载失败?点击重新加载"
+                android:visibility="gone" />
+
+        <!--网络中断提示-->
+        <TextView
+                android:id="@+id/tv_no_internet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/item_pressed"
+                android:onClick="@{()->topViewModel.reLoad()}"
+                android:padding="10dp"
+                android:text="无网络连接，连接网络后点击重试"
+                android:visibility="gone" />
+    </FrameLayout>
+</layout>

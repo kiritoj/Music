@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="song" type="com.example.music.bean.Data"/>
+        <variable name="song" type="com.example.music.model.db.bean.Data"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_latest_song_root"
@@ -33,12 +33,14 @@
                 android:paddingBottom="5dp"
         >
 
-            <com.shehuan.niv.NiceImageView
+            <ImageView
                     android:id="@+id/iv_songlist_cover"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:corner_radius="5dp"
-                    imageUrl="@{song.album.picUrl}"/>
+                    url="@{song.album.picUrl}"
+                    placeholder="@{@drawable/ic_loading}"
+                    error="@{@drawable/ic_loading_error}"
+                    radius="@{10}"/>
 
             <LinearLayout
                     android:layout_width="match_parent"

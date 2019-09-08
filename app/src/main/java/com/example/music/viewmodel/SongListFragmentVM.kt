@@ -2,9 +2,9 @@ package com.example.music.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.example.music.bean.Playlists
-import com.example.music.bean.SongListBean
-import com.example.music.db.repository.SongListRepository
+import com.example.music.model.db.bean.Playlists
+import com.example.music.model.db.bean.SongListBean
+import com.example.music.model.db.repository.SongListRepository
 import com.example.music.event.AssortedSongListEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

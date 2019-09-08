@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="user" type="com.example.music.db.table.User"/>
+        <variable name="user" type="com.example.music.model.db.table.User"/>
         <variable name="viewmodel" type="com.example.music.viewmodel.LoginVM"/>
     </data>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activity.LoginActivity"
+            tools:context=".view.activity.LoginActivity"
     >
 
         <LinearLayout
@@ -31,7 +31,7 @@
                       android:layout_gravity="center_vertical"
             />
         </LinearLayout>
-        <com.example.music.customveiw.MyEditView
+        <com.example.music.view.activity.customveiw.MyEditView
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:drawableRight="@drawable/vector_drawable_edittext_clean"
                 android:background="@drawable/edittext_background"/>
 
-        <com.example.music.customveiw.MyEditView
+        <com.example.music.view.activity.customveiw.MyEditView
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

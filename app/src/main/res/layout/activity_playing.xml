@@ -8,20 +8,29 @@
         <variable
                 name="viewmodel"
                 type="com.example.music.viewmodel.PlayVM" />
+        <variable
+                name="hanlder"
+                type="com.example.music.view.activity.PlayingActivity.MyHanlder" />
     </data>
 
     <FrameLayout
             android:id="@+id/fr_play_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activity.PlayingActivity">
+            tools:context=".view.activity.PlayingActivity">
 
+        <!--歌曲背景-->
         <ImageView
                 android:id="@+id/iv_background"
-                background_utl="@{viewmodel.song.coverUrl}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                url="@{viewmodel.song.coverUrl}"
+                placeholder="@{@drawable/back}"
+                error="@{@drawable/back}"
+                tag="@{2}"
+                radius="@{30}"
+                sampling="@{5}"/>
 
 
         <LinearLayout
@@ -72,7 +81,8 @@
                     android:layout_weight="8"
                     >
 
-                <com.example.music.customveiw.RotationCircleView
+                <!--歌曲封面-->
+                <com.example.music.view.activity.customveiw.RotationCircleView
                         android:id="@+id/iv_song_cover"
                         song="@{viewmodel.song}"
                         android:layout_width="280dp"
@@ -83,7 +93,7 @@
                         app:hasbox="true" />
 
                 <!--&lt;!&ndash;歌词&ndash;&gt;-->
-                <com.example.music.customveiw.LrcView
+                <com.example.music.view.activity.customveiw.LrcView
                         android:id="@+id/lrcview"
                         text="@{viewmodel.lrc}"
                         android:layout_width="match_parent"
@@ -91,15 +101,7 @@
                         android:visibility="gone" />
             </FrameLayout>
 
-<!--            <TextView-->
-<!--                    android:id="@+id/tv_buffer"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="正在缓冲..."-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="12sp"-->
-<!--                    android:gravity="center_horizontal"-->
-<!--                    />-->
+
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -127,12 +129,14 @@
                         android:src="@drawable/vector_drawable_download_white" />
 
 
+                <!--评论-->
                 <ImageView
                         android:id="@+id/iv_comment"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_weight="1"
-                        android:src="@drawable/vector_drawable_comment" />
+                        android:src="@drawable/vector_drawable_comment"
+                        android:onClick="@{()->hanlder.onCommentClick()}"/>
 
             </LinearLayout>
 
@@ -156,8 +160,9 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:textColor="@color/white"
-                        android:textSize="8sp" />
+                        android:textSize="8sp"/>
 
+                <!--进度条-->
                 <SeekBar
                         android:id="@+id/seek_bar"
                         android:layout_width="0dp"
@@ -166,7 +171,8 @@
                         android:progressDrawable="@drawable/seek_bar_process"
                         android:thumb="@drawable/seekbar_thumb_selecter"
                         android:maxHeight="1dp"
-                        android:max="0"/>
+                        android:max="0"
+                        />
 
                 <TextView
                         android:id="@+id/tv_end"
@@ -225,13 +231,15 @@
                         android:padding="5dp"
                         android:src="@drawable/ic_move_forward" />
 
+                <!--弹出播放队列-->
                 <ImageView
                         android:id="@+id/iv_open_songs"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="1"
                         android:padding="8dp"
-                        android:src="@drawable/vector_drawable_playlist" />
+                        android:src="@drawable/vector_drawable_playlist"
+                        android:onClick="@{()->hanlder.onNavClick()}"/>
 
             </LinearLayout>
         </LinearLayout>

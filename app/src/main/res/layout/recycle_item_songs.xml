@@ -1,54 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="song" type="com.example.music.bean.Track"/>
+
+        <variable
+                name="song"
+                type="com.example.music.model.db.bean.Track" />
     </data>
+
     <LinearLayout
             android:id="@+id/ll_song_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:background="@drawable/item_pressed"
-            >
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
+        <!--歌曲序号-->
+        <TextView
+                android:id="@+id/tv_index"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:gravity="end|center_vertical"/>
+
+        <!--播放icon-->
         <ImageView
                 android:id="@+id/iv_playing"
-                android:layout_width="20dp"
+                android:layout_width="30dp"
                 android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/vector_drawable_horn"
-                android:layout_gravity="center_vertical"
-                android:visibility="gone"
-        />
-        <LinearLayout android:layout_width="0dp"
-                      android:layout_weight="9"
-                      android:orientation="vertical"
-                      android:layout_height="wrap_content">
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:textSize="16sp"
-                      android:maxLines="1"
-                      android:ellipsize="end"
-                      android:textColor="@color/black"
-                      android:text="@{song.name}"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:textSize="13sp"
-                      android:text="@{song.ar[0].name}"/>
+                android:visibility="gone" />
+        <!--歌曲名和歌手名-->
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{song.name}"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{song.ar[0].name}"
+                    android:textSize="13sp" />
 
         </LinearLayout>
 
+        <!--更多-->
         <ImageView
                 android:id="@+id/iv_pop_more"
                 android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:padding="10dp"
-                   android:background="@drawable/item_pressed"
-                   android:src="@drawable/vector_drawable_local_music_fun"
-                   android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/item_pressed"
+                android:padding="10dp"
+                android:src="@drawable/vector_drawable_local_music_fun" />
 
     </LinearLayout>
 </layout>

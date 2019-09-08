@@ -2,20 +2,12 @@ package com.example.music.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.EventLog
 import android.util.Log
 import cn.leancloud.AVObject
-import cn.leancloud.AVQuery
 import cn.leancloud.AVUser
-import com.example.music.DEFAULT_COVER
-import com.example.music.MusicApp
-import com.example.music.db.table.SongList
-import com.example.music.checkStringIsNull
+import com.example.music.util.checkStringIsNull
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.litepal.LitePal
-import cn.leancloud.AVException
-import cn.leancloud.callback.GetCallback
 import org.greenrobot.eventbus.EventBus
 
 

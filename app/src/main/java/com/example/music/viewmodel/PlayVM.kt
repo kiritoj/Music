@@ -14,8 +14,8 @@ import cn.leancloud.AVQuery
 import com.example.music.MusicApp
 import com.example.music.PlayManger
 import com.example.music.R
-import com.example.music.db.table.LocalMusic
-import com.example.music.db.table.SongList
+import com.example.music.model.db.table.LocalMusic
+import com.example.music.model.db.table.SongList
 import com.example.music.event.RefreshEvent
 import com.example.music.event.RefreshSongList
 import com.example.music.network.ApiGenerator

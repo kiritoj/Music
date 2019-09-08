@@ -18,12 +18,13 @@
                 >
 
             <!--轮播图-->
-            <com.example.music.customveiw.AutoScrollLayout
+            <com.example.music.view.customveiw.AutoScrollLayout
                     android:id="@+id/auto_scroll_layout"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
+                    android:layout_marginBottom="10dp"
                     >
-            </com.example.music.customveiw.AutoScrollLayout>
+            </com.example.music.view.customveiw.AutoScrollLayout>
 
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"

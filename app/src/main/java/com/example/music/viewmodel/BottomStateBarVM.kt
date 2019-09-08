@@ -6,7 +6,7 @@ import android.databinding.ObservableField
 import android.util.Log
 import com.example.music.PlayManger
 import com.example.music.R
-import com.example.music.db.table.LocalMusic
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.RefreshEvent
 import com.example.music.event.StateEvent
 import org.greenrobot.eventbus.EventBus
@@ -123,4 +123,5 @@ class BottomStateBarVM private constructor(): ViewModel() {
         super.onCleared()
         EventBus.getDefault().unregister(this)
     }
+
 }
