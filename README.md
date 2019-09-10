@@ -8,17 +8,16 @@
 ## 图片
 <div align="center">
 <img src="http://ww1.sinaimg.cn/mw690/006nwaiFly1g6b8vjl7t2g30a00i6kjl.gif" height="400" width="210" >
-
 <img src="http://ww1.sinaimg.cn/mw690/006nwaiFly1g6b9ldi8mmg30a00i6b2a.gif" height="400" width="210" >
-
 <img src="https://i.loli.net/2019/08/27/neursR2y4iKBhY8.png" height="400" width="210" >
-
 <img src="https://i.loli.net/2019/08/30/U5fQegZyW8GzouT.png" height="400" width="210">
 
 <img src="https://i.loli.net/2019/09/02/7gy1OdBn5NlSk6F.png" height="400" width="210">
-
 <img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6pmkpeip6j30u01o048d.jpg" height="400" width="210">
 <img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6q9w0va2nj30u01o0doy.jpg" height="400" width="210">
+<img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6ufkgnh9tj30u01o0k4c.jpg" height="400" width="210">
+<img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6ufltuw02j30u01o0wmi.jpg" height="400" width="210">
+
 </div>
 
 
@@ -48,3 +47,10 @@
 * 新增歌曲/歌单/专辑评论列表，歌单接口又坏了，手动(*￣︶￣)
 ### 9.7
 * 新增弹出播放列表，精简部分代码
+### 9.9
+* 新增排行榜
+### 9.10
+* 解决了快速二次点击歌曲进入播放界面无法播放的问题
+* 首页增加加载失败提示
+* 点击歌曲底部播放栏立即出现、切换音乐立即归零总进度和当前进度，不再等待player准备好以后
+* 增加音乐缓冲提示，缓冲期间禁止滑动seekbar
