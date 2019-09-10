@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import cn.leancloud.AVUser
+import com.example.music.PlayManger
 import com.example.music.PlayService
 import org.jetbrains.anko.startActivity
 import com.example.music.R

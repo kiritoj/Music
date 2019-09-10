@@ -53,9 +53,7 @@ class BinnerAdapter(mList: ArrayList<BannerTable>, val context: Context?) : Page
 
         //imagview两边留出空隙，避免两页粘连在一起
         imageView.setPadding(30,0,30,0)
-        //imageView.scaleType = ImageView.ScaleType.FIT_XY
-        imageView.setBackgroundResource(R.color.yellow)
-
+        imageView.scaleType = ImageView.ScaleType.FIT_XY
         container.addView(imageView)
 
 

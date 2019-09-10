@@ -25,6 +25,7 @@ object PlayManger {
     var playMode: Int
     val quene = ArrayList<LocalMusic>() //播放队列
     var index = 0 //当前播放位置
+    var hasSetDataSource = false //是否已经设置播放源
     //播放模式
     val ORDER = 0 //顺序播放
     val RANDOM = 1 //随机播放
@@ -43,18 +44,66 @@ object PlayManger {
         PREVIOUS//上一曲
     }
 
-    lateinit var timer: Timer //更新进度条
+     var timer: Timer = Timer() //更新进度条
 
     init {
 
         //查找之前的播放模式
         playMode =
             PreferenceManager.getDefaultSharedPreferences(MusicApp.context).getInt("playmode", 0)
+        //播放完成监听
         player.setOnCompletionListener {
             //播放结束更新
             timer.cancel()
             playNext()
         }
+        //准备监听
+        player.setOnPreparedListener {
+            it.start()
+            hasSetDataSource = true
+            //发送歌曲总时长
+            EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
+            //开始更新进度条,在设置播放之前不能调用duration，currentPosition，否则会出现常见错误-38,0
+            timer = Timer()
+            timer.schedule(
+                object : TimerTask() {
+                    override fun run() {
+                        //每隔一秒发送当前播放进度
+                        if (player.isPlaying) {
+                            EventBus.getDefault().postSticky(ProcessEvent("current", player.currentPosition))
+                        }
+                    }
+                }, 0, 1000
+            )
+        }
+        //播放失败监听
+        player.setOnErrorListener { mp, what, extra ->
+            //这里记录一下，常见错误-38,0，在设开始播放之前，不要对player做获取进度等操作
+            Log.d(TAG, "OnError - Error code: " + what + " Extra code: " + extra);
+            when(what){
+                -1004-> Log.d(TAG, "MEDIA_ERROR_IO")
+                -1007-> Log.d(TAG, "MEDIA_ERROR_MALFORMED")
+                 200 -> Log.d(TAG, "MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK")
+                 100 -> Log.d(TAG, "MEDIA_ERROR_SERVER_DIED")
+                -110 -> Log.d(TAG, "MEDIA_ERROR_TIMED_OUT")
+                   1 -> Log.d(TAG, "MEDIA_ERROR_UNKNOWN")
+                -1010-> Log.d(TAG, "MEDIA_ERROR_UNSUPPORTED")
+
+            }
+            when(extra){
+                800-> Log.d(TAG, "MEDIA_INFO_BAD_INTERLEAVING")
+                702-> Log.d(TAG, "MEDIA_INFO_BUFFERING_END")
+                701-> Log.d(TAG, "MEDIA_INFO_METADATA_UPDATE")
+                802-> Log.d(TAG, "MEDIA_INFO_METADATA_UPDATE")
+                801-> Log.d(TAG, "MEDIA_INFO_NOT_SEEKABLE")
+                  1-> Log.d(TAG, "MEDIA_INFO_UNKNOWN")
+                  3-> Log.d(TAG, "MEDIA_INFO_VIDEO_RENDERING_START")
+                700-> Log.d(TAG, "MEDIA_INFO_VIDEO_TRACK_LAGGING")
+            }
+
+            false
+        }
+
 
     }
 
@@ -65,17 +114,7 @@ object PlayManger {
         queneTag = mTag
         quene.clear()
         quene.addAll(mQuene)
-
-        if (mQuene.isNullOrEmpty()){
-
-        }else{
-            for (i in 0 until mQuene.size){
-                Log.d(TAG,mQuene[i].songName+"-------"+mQuene[i].musicId)
-            }
-        }
-
         index = mIndex
-        Log.d(TAG, "setPlayQuene:开始播放")
         play(mQuene[mIndex])
     }
 
@@ -92,6 +131,12 @@ object PlayManger {
      */
     @SuppressLint("CheckResult")
     fun play(song: LocalMusic) {
+        hasSetDataSource = false
+        //立即通知通知其他活动更改底部的音乐信息，不再等待准备之后
+        EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
+        //立即清空进度，以免在网络不佳情况下，总进度迟迟得不到更新
+        EventBus.getDefault().postSticky(ProcessEvent("duration", 0))
+        EventBus.getDefault().postSticky(ProcessEvent("current", 0))
         player.reset()
         when (song.tag) {
             //本地音乐
@@ -99,14 +144,6 @@ object PlayManger {
                 player.apply {
                     setDataSource(song.path)
                     prepareAsync()
-                    setOnPreparedListener {
-                        //发送歌曲总时长
-
-                        it.start()
-                        EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
-                        //通知其他活动更改底部的音乐信息
-                        EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
-                    }
                 }
 
             }
@@ -116,57 +153,35 @@ object PlayManger {
                 player.apply {
                     setDataSource(song.url)
                     prepareAsync()
-                    setOnPreparedListener {
-                        it.start()
-                        //发送音乐进度
-                        EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
-                        //通知其他活动更改底部的音乐信息
-                        EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
-                    }
+
                 }
 
             }
 
             //来自网络的音乐,必须动态获取播放地址，一段时间后地址会失效
             "NET_NON_URL" -> {
-                Log.d(TAG,song.musicId.toString())
+                Log.d(TAG,song.musicId.toString()+"---"+song.songName)
                 ApiGenerator.getApiService(SongPlayService::class.java)
                     .getUrl(song.musicId!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         player.apply {
+                            Log.d(TAG,it.data[0].url)
                             setDataSource(it.data[0].url)
                             prepareAsync()
-                            setOnPreparedListener {
-                                it.start()
-                                EventBus.getDefault().postSticky(ProcessEvent("duration", player.duration))
-                                //通知其他活动更改底部的音乐信息
-                                EventBus.getDefault().postSticky(RefreshEvent(song, index, queneTag))
-                            }
                         }
-
 
                     }, {
                         playNext()
+
                         Log.d(TAG, "获取歌曲播放url失败${it.message}")
                     })
             }
 
         }
 
-        //开始是更新进度条
-        timer = Timer()
-        timer.schedule(
-            object : TimerTask() {
-                override fun run() {
-                    //每隔一秒发送当前播放进度
-                    if (player.isPlaying) {
-                        EventBus.getDefault().postSticky(ProcessEvent("current", player.currentPosition))
-                    }
-                }
-            }, 0, 1000
-        )
+
 
     }
 

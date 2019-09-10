@@ -18,6 +18,7 @@ import com.example.music.model.db.bean.SongListBean
 import com.example.music.model.db.table.SongList
 import com.example.music.event.AssortedSongListEvent
 import com.example.music.event.HotSongListLimit
+import com.example.music.event.LoadEvent
 import com.example.music.event.SongListEvent
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.OtherSongList
@@ -173,6 +174,7 @@ class SongListRepository {
 
                 EventBus.getDefault().post(HotSongListLimit(it.playlists as ArrayList<Playlists>))
             },{
+                EventBus.getDefault().post(LoadEvent(false,"HotSongList"))
                 Log.d(TAG,"获取热门歌单失败--->${it.message}")
             })
     }

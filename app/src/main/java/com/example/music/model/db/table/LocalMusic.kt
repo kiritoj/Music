@@ -15,8 +15,8 @@ class LocalMusic : LitePalSupport(),Serializable {
 
 
     var musicId: Long? = null //网络音乐的id号
-    var songName: String? = null
-    var singerName: String? = null
+    var songName: String = ""
+    var singerName: String = ""
     var length: Int? = null
     var path: String? = null
     var albumID: Int? = null
@@ -35,9 +35,8 @@ class LocalMusic : LitePalSupport(),Serializable {
     var tag: String = ""
 
     override fun equals(other: Any?): Boolean {
-        return songName.equals((other as LocalMusic).songName) && singerName.equals(other.singerName)
+        val otherSong = other as? LocalMusic
+        return songName.equals(otherSong?.songName) && singerName.equals(otherSong?.singerName)
     }
-
-
 
 }

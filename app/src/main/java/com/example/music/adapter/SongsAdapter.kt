@@ -25,7 +25,7 @@ class SongsAdapter(val list: ArrayList<Track>, val context: Context, val tag: St
     RecyclerView.Adapter<SongsAdapter.ViewHolder>() {
     //正在播放的位置
     var playingId = -1
-
+    val quene = ArrayList<LocalMusic>()
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val binding: RecycleItemSongsBinding = DataBindingUtil.inflate(
             LayoutInflater.from(p0.context)
@@ -71,7 +71,7 @@ class SongsAdapter(val list: ArrayList<Track>, val context: Context, val tag: St
                     //第二次点击跳转至详情页
                     context.startActivity<PlayingActivity>()
                 } else {
-                    val quene = ArrayList<LocalMusic>()
+
                     list.forEach {
                         val music = LocalMusic()
                         music.apply {

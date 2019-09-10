@@ -71,7 +71,8 @@ class FindFragment : Fragment() {
 
         //刷新
         refresh_layout.setColorSchemeResources(R.color.yellow)
-        refresh_layout.setOnRefreshListener { mViewModel.getHotSongList()
+        refresh_layout.setOnRefreshListener {
+            mViewModel.refresh()
             refresh_layout.isRefreshing = false
         }
 
@@ -110,6 +111,25 @@ class FindFragment : Fragment() {
             new_music_process_bar.visibility = View.GONE
         })
 
+        //加载歌单失败显示
+        mViewModel.showError1.observe(this, Observer {
+            if (it!!) {
+                tv_error_songlist.visibility = View.VISIBLE
+                process_bar.visibility = View.GONE
+            }else{
+                tv_error_songlist.visibility = View.GONE
+            }
+        })
+
+        //加载新歌失败提示
+        mViewModel.showError2.observe(this, Observer {
+            if (it!!){
+                tv_error_song.visibility = View.VISIBLE
+                new_music_process_bar.visibility = View.GONE
+            }else{
+                tv_error_song.visibility = View.GONE
+            }
+        })
 
     }
 

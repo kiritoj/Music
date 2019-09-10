@@ -31,7 +31,7 @@
                       android:layout_gravity="center_vertical"
             />
         </LinearLayout>
-        <com.example.music.view.activity.customveiw.MyEditView
+        <com.example.music.view.customveiw.MyEditView
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:drawableRight="@drawable/vector_drawable_edittext_clean"
                 android:background="@drawable/edittext_background"/>
 
-        <com.example.music.view.activity.customveiw.MyEditView
+        <com.example.music.view.customveiw.MyEditView
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

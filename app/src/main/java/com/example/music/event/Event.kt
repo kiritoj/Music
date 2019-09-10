@@ -55,3 +55,5 @@ class StateEvent(val state: PlayManger.State)
 
 //播放位置事件
 class IndexEvent(val index:Int)
+//加载状态事件
+class LoadEvent(val state: Boolean,val errorTag: String)

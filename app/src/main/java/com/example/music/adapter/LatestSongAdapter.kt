@@ -23,6 +23,7 @@ import org.jetbrains.anko.startActivity
 class LatestSongAdapter(val list: ArrayList<Data>, val context: Context, val tag: String) :
     RecyclerView.Adapter<LatestSongAdapter.ViewHolder>() {
     var playingId = -1
+    val quene = ArrayList<LocalMusic>()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val binding: RecycleItemLatesMusicBinding = DataBindingUtil
@@ -55,25 +56,25 @@ class LatestSongAdapter(val list: ArrayList<Data>, val context: Context, val tag
                     EventBus.getDefault().post(IndexEvent(p1))
                 }
             } else {
-                //没有发送将网络获取的歌曲包装成LocalMusic类
-                val quene = ArrayList<LocalMusic>()
-                list.forEach {
-                    val music = LocalMusic()
-                    music.apply {
-                        musicId = it.id
-                        songName = it.name
-                        singerName = it.album.artists[0].name
-                        coverUrl = it.album.picUrl
-                        length = it.duration
-                        tag = "NET_NON_URL"
-                    }
-                    quene.add(music)
-                }
+
                 if (playingId == p1) {
                     //第二次点击跳转至详情页
                     context.startActivity<PlayingActivity>()
                 } else {
                     refreshPlayId(p1)
+                    //没有发送将网络获取的歌曲包装成LocalMusic类
+                    list.forEach {
+                        val music = LocalMusic()
+                        music.apply {
+                            musicId = it.id
+                            songName = it.name
+                            singerName = it.album.artists[0].name
+                            coverUrl = it.album.picUrl
+                            length = it.duration
+                            tag = "NET_NON_URL"
+                        }
+                        quene.add(music)
+                    }
                     EventBus.getDefault().post(QueneEvent(quene, p1, tag))
                 }
 

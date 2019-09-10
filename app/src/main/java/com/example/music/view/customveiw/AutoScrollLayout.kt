@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.example.music.adapter.BinnerAdapter
 import com.example.music.R
-import com.example.music.view.activity.customveiw.AutoScrollViewPager
+import com.example.music.view.customveiw.AutoScrollViewPager
 
 
 /**

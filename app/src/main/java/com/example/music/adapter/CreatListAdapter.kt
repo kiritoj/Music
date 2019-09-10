@@ -63,7 +63,6 @@ class CreatListAdapter(val list: ArrayList<LocalMusic>, val context: Context, va
                 refreshPlayId(p1)
                 EventBus.getDefault().post(QueneEvent(list, p1, tag))
             }
-
             //点击右边的弹出更多操作，删除，或添加到歌单
             p0.itembinding.ivPopMore.setOnClickListener {
                 EventBus.getDefault().post(SongEvent("creat", creatSong = list[p1], position = p1))

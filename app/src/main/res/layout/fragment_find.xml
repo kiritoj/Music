@@ -23,6 +23,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     >
             </com.example.music.view.customveiw.AutoScrollLayout>
 
@@ -122,7 +123,17 @@
                     android:layout_margin="20dp"
                     android:layout_height="wrap_content"/>
 
+            <!--加载失败提示-->
+            <TextView
+                    android:id="@+id/tv_error_songlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="加载失败,刷新一下呗"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:visibility="gone"/>
 
+            <!--新歌速递tv-->
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:text="新歌速递"
@@ -131,6 +142,8 @@
                       android:padding="10dp"
                       android:textSize="17sp"
             />
+
+            <!--新歌速递rv-->
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_latest_song"
                     android:layout_width="match_parent"
@@ -138,11 +151,23 @@
                     android:overScrollMode="never"
                     android:nestedScrollingEnabled="false">
             </android.support.v7.widget.RecyclerView>
+
+            <!--加载bar-->
             <ProgressBar
                     android:id="@+id/new_music_process_bar"
                     android:layout_width="match_parent"
                     android:layout_margin="20dp"
                     android:layout_height="wrap_content"/>
+
+            <!--加载新歌失败提示-->
+            <TextView
+                    android:id="@+id/tv_error_song"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="加载失败,刷新一下呗"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:padding="10dp"/>
 
         </LinearLayout>
 

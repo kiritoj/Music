@@ -3,6 +3,7 @@ package com.example.music.model.db.repository
 import android.annotation.SuppressLint
 import android.util.Log
 import com.example.music.event.LatestSongEvent
+import com.example.music.event.LoadEvent
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.LatestSongService
 import io.reactivex.schedulers.Schedulers
@@ -28,6 +29,8 @@ object MusicRepository {
                 Log.d(TAG,it.data.size.toString())
                 EventBus.getDefault().post(LatestSongEvent(it.data as ArrayList))
             }, {
+                //加载失败
+                EventBus.getDefault().postSticky(LoadEvent(false,"latestSong"))
                 Log.d(TAG, "获取最新单曲失败${it.message}")
             })
     }

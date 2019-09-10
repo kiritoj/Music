@@ -13,9 +13,9 @@ import com.example.music.MusicApp
 import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.util.TimeUtil
-import com.example.music.view.activity.customveiw.LrcView
 import com.example.music.model.db.table.LocalMusic
 import com.example.music.util.GlideUtil
+import com.example.music.view.customveiw.LrcView
 
 
 /**

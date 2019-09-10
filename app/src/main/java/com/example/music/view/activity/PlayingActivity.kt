@@ -17,11 +17,12 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.PopupWindow
 import android.widget.SeekBar
-import com.example.music.*
+import com.example.music.PlayManger
+import com.example.music.R
 import com.example.music.adapter.PlayListAdapter
 import com.example.music.databinding.ActivityPlayingBinding
-import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.ProcessEvent
+import com.example.music.model.db.table.LocalMusic
 import com.example.music.util.getScreeHeight
 import com.example.music.util.reduceTransparency
 import com.example.music.util.resetTransparency
@@ -55,11 +56,15 @@ class PlayingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_playing)
+        //注册eventbus
         EventBus.getDefault().register(this)
+
         binding.viewmodel = viewmodel
         binding.hanlder = MyHanlder()
         viewmodel.checkPlaying()
+        //初始化进度为0
         updateProcess(ProcessEvent("duration", 0))
+        updateProcess(ProcessEvent("current", 0))
         //初始化动画
         initPop()
         initAnim()
@@ -68,28 +73,6 @@ class PlayingActivity : AppCompatActivity() {
         hideStateBar()
 
         observe()
-
-        //seekbar拖拽进度
-        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.progress?.let { viewmodel.changeProcess(it) }
-            }
-        })
-
-        binding.ivSongCover.setOnClickListener {
-            binding.ivSongCover.visibility = View.GONE
-            binding.lrcview.visibility = View.VISIBLE
-
-        }
-        binding.lrcview.setOnClickListener {
-            binding.ivSongCover.visibility = View.VISIBLE
-            binding.lrcview.visibility = View.GONE
-        }
-
 
     }
 
@@ -199,6 +182,14 @@ class PlayingActivity : AppCompatActivity() {
         viewmodel.songIndex.observe(this, Observer {
             it?.let { it1 -> mAdapter.setId(it1) }
         })
+        //显示缓冲中text
+        viewmodel.showBuffer.observe(this, Observer {
+            if (it!!){
+                tv_buffer.visibility = View.VISIBLE
+            }else{
+                tv_buffer.visibility = View.INVISIBLE
+            }
+        })
 
 
     }
@@ -214,7 +205,9 @@ class PlayingActivity : AppCompatActivity() {
         val mTime = String.format("%02d:%02d", event.num / 60000, (event.num / 1000) % 60)
         when (event.tag) {
             "duration" -> {
-                //tv_buffer.visibility = View.INVISIBLE
+                if (event.num == 0) {
+                    viewmodel.banSeekBar(binding.seekBar)
+                }
                 //更新歌曲长度
                 binding.seekBar.max = event.num
                 binding.tvEnd.text = mTime
@@ -222,6 +215,9 @@ class PlayingActivity : AppCompatActivity() {
 
             "current" -> {
                 //更新歌曲播放进度
+                if (event.num > 0) {
+                    viewmodel.enableSeekBar(binding.seekBar)
+                }
                 binding.seekBar.progress = event.num
                 binding.tvCurrent.text = mTime
             }
@@ -243,6 +239,36 @@ class PlayingActivity : AppCompatActivity() {
         fun onNavClick() {
             reduceTransparency()
             mPopupWindow.showAtLocation(fr_play_root, Gravity.BOTTOM, 0, 0)
+        }
+
+        //点击歌曲图片，隐藏，显示歌词
+        fun onPicClick() {
+            binding.ivSongCover.visibility = View.GONE
+            binding.lrcview.visibility = View.VISIBLE
+        }
+
+        //点击歌词隐藏自己，显示歌曲图片
+        fun onLrcClick() {
+            binding.ivSongCover.visibility = View.VISIBLE
+            binding.lrcview.visibility = View.GONE
+        }
+
+        init {
+            //seekbar拖拽进度
+            binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    seekBar?.progress?.let { viewmodel.changeProcess(it) }
+                }
+            })
         }
 
     }

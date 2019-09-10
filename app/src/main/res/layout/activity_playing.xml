@@ -82,27 +82,39 @@
                     >
 
                 <!--歌曲封面-->
-                <com.example.music.view.activity.customveiw.RotationCircleView
+                <com.example.music.view.customveiw.RotationCircleView
                         android:id="@+id/iv_song_cover"
                         song="@{viewmodel.song}"
                         android:layout_width="280dp"
                         android:layout_height="280dp"
                         android:layout_gravity="center"
+                        android:onClick="@{()->hanlder.onPicClick()}"
                         app:boxcolor="#CF7C89"
                         app:boxwidth="5dp"
                         app:hasbox="true" />
 
                 <!--&lt;!&ndash;歌词&ndash;&gt;-->
-                <com.example.music.view.activity.customveiw.LrcView
+                <com.example.music.view.customveiw.LrcView
                         android:id="@+id/lrcview"
                         text="@{viewmodel.lrc}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:onClick="@{()->hanlder.onLrcClick()}"
                         android:visibility="gone" />
             </FrameLayout>
 
-
-
+            <!--正在缓冲提示-->
+            <TextView
+                    android:id="@+id/tv_buffer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="正在缓冲..."
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="invisible"/>
+            <!--喜欢、下载、收藏-->
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

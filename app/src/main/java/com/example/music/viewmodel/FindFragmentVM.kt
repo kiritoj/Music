@@ -3,6 +3,7 @@ package com.example.music.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
+import com.example.music.event.*
 import com.example.music.model.db.bean.Data
 import com.example.music.model.db.bean.LastMusicBean
 import com.example.music.model.db.bean.Playlists
@@ -11,10 +12,6 @@ import com.example.music.model.db.repository.BannerRepository
 import com.example.music.model.db.repository.MusicRepository
 import com.example.music.model.db.repository.SongListRepository
 import com.example.music.model.db.table.BannerTable
-import com.example.music.event.AssortedSongListEvent
-import com.example.music.event.BanberEvent
-import com.example.music.event.HotSongListLimit
-import com.example.music.event.LatestSongEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -32,6 +29,11 @@ class FindFragmentVM : ViewModel() {
 
     //最新单曲
     val latestSong = MutableLiveData<ArrayList<Data>>()
+
+    //显示歌单加载失败
+    val showError1 = MutableLiveData<Boolean>()
+    //显示新歌加载失败
+    val showError2 = MutableLiveData<Boolean>()
 
     init {
 
@@ -60,13 +62,25 @@ class FindFragmentVM : ViewModel() {
         SongListRepository.getInstance().getHotSongList(size = 6, offset = mOffset)
     }
 
-
     /**
      * 获取最新单曲
      */
     fun getLatestSong() {
         MusicRepository.getLatestSong()
     }
+
+    /**
+     * 刷新
+     */
+    fun refresh(){
+        showError1.value = false
+        showError2.value = false
+        getHotSongList()
+        getLatestSong()
+    }
+
+
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun receiveBanners(event: BanberEvent) {
@@ -84,6 +98,14 @@ class FindFragmentVM : ViewModel() {
         latestSong.value = event.list
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveLoadState(event: LoadEvent){
+        if (event.errorTag.equals("latestSong")){
+            showError2.value = true
+        }else{
+            showError1.value = true
+        }
+    }
 
 
 }

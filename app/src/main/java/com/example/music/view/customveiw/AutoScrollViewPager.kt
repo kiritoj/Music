@@ -1,4 +1,4 @@
-package com.example.music.view.activity.customveiw
+package com.example.music.view.customveiw
 
 import android.content.Context
 import android.os.Handler

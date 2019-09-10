@@ -8,6 +8,7 @@ import android.databinding.ObservableField
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
+import android.widget.SeekBar
 import cn.leancloud.AVFile
 import cn.leancloud.AVObject
 import cn.leancloud.AVQuery
@@ -58,7 +59,10 @@ class PlayVM : ViewModel() {
     val collectIc = ObservableField<Int>()
 
     val toast = MutableLiveData<String>()
-
+    //是否启用seekbar
+    var seekBarEnable = false
+    //是够显示缓冲
+    val showBuffer = MutableLiveData<Boolean>()
 
     init {
         EventBus.getDefault().register(this)
@@ -72,20 +76,26 @@ class PlayVM : ViewModel() {
      * 检查是否在播放
      */
     fun checkPlaying() {
-        mDuration.value = PlayManger.player.duration
-        mCurrentPosition.value = PlayManger.player.currentPosition
-        if (PlayManger.player.isPlaying) {
-            isPlaying.value = true
-            playIc.set(R.drawable.ic_play_running)
-        } else {
 
-            isPlaying.value = false
-            playIc.set(R.drawable.ic_play_pause)
+        if (PlayManger.hasSetDataSource) {
+            Log.d(TAG,"已设置")
+            mDuration.value = PlayManger.player.duration
+            mCurrentPosition.value = PlayManger.player.currentPosition
+            if (PlayManger.player.isPlaying) {
+                isPlaying.value = true
+                playIc.set(R.drawable.ic_play_running)
+            } else {
 
+                isPlaying.value = false
+                playIc.set(R.drawable.ic_play_pause)
+
+            }
+            //songIndex.value = PlayManger.index
+            //song.set(PlayManger.quene[PlayManger.index])
+            //song.get()?.let { getLrc(it) }
+        }else{
+            Log.d(TAG,"未设置")
         }
-        //songIndex.value = PlayManger.index
-        //song.set(PlayManger.quene[PlayManger.index])
-        //song.get()?.let { getLrc(it) }
         checkIsMyLove()
     }
 
@@ -410,6 +420,33 @@ class PlayVM : ViewModel() {
         }
         //通知MainFragment更新数量
         EventBus.getDefault().post(RefreshSongList("creat", true))
+
+    }
+
+    /**
+     * 禁用seekbar拖动
+     */
+    fun banSeekBar(mSeekBar: SeekBar){
+        mSeekBar.setClickable(false)
+        mSeekBar.setEnabled(false)
+        mSeekBar.setSelected(false)
+        mSeekBar.setFocusable(false)
+        seekBarEnable = false
+        showBuffer.value = true
+    }
+
+    /**
+     * 启用seekBar
+     */
+    fun enableSeekBar(mSeekBar: SeekBar){
+        if (!seekBarEnable) {
+            mSeekBar.setClickable(true)
+            mSeekBar.setEnabled(true)
+            mSeekBar.setSelected(true)
+            mSeekBar.setFocusable(true)
+            seekBarEnable = true
+            showBuffer.value = false
+        }
 
     }
 

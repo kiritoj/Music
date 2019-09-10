@@ -1,4 +1,4 @@
-package com.example.music.view.activity.customveiw
+package com.example.music.view.customveiw
 
 /**
  * Created by tk on 2019/8/15

@@ -1,4 +1,4 @@
-package com.example.music.view.activity.customveiw;
+package com.example.music.view.customveiw;
 
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
