@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.music.databinding.RecycleItemSonglistBinding
 import com.example.music.R
 import com.example.music.view.activity.SongListDetailActivity
-import com.example.music.model.db.bean.Playlists
+import com.example.music.model.bean.Playlists
 import com.example.music.model.db.table.SongList
 import org.jetbrains.anko.startActivity
 

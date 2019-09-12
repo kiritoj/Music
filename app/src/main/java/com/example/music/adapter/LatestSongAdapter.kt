@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.view.activity.PlayingActivity
-import com.example.music.model.db.bean.Data
+import com.example.music.model.bean.Data
 import com.example.music.databinding.RecycleItemLatesMusicBinding
 import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.IndexEvent

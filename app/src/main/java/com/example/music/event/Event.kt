@@ -2,10 +2,10 @@ package com.example.music.event
 
 import com.example.music.PlayManger
 import com.example.music.model.bean.*
-import com.example.music.model.db.bean.Data
-import com.example.music.model.db.bean.Playlist
-import com.example.music.model.db.bean.Playlists
-import com.example.music.model.db.bean.Track
+import com.example.music.model.bean.Data
+import com.example.music.model.bean.Playlist
+import com.example.music.model.bean.Playlists
+import com.example.music.model.bean.Track
 import com.example.music.model.db.table.BannerTable
 import com.example.music.model.db.table.LocalMusic
 import com.example.music.model.db.table.SongList

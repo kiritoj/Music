@@ -166,10 +166,10 @@ object PlayCount {
 
 //歌词控件设置
 object LrcText {
-    @BindingAdapter("text")
+    @BindingAdapter("text","trans")
     @JvmStatic
-    fun init(lrcView: LrcView, text: String?) {
-        text?.let { lrcView.setLrc(it) }
+    fun init(lrcView: LrcView, text: String?,trans: String?) {
+        lrcView.setLrc(text,trans)
         lrcView.bindPlayer(PlayManger.player)
     }
 }

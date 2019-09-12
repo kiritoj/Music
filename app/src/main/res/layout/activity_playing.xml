@@ -96,7 +96,8 @@
                 <!--&lt;!&ndash;歌词&ndash;&gt;-->
                 <com.example.music.view.customveiw.LrcView
                         android:id="@+id/lrcview"
-                        text="@{viewmodel.lrc}"
+                        text="@{viewmodel.lrc.lrc.lyric}"
+                        trans="@{viewmodel.lrc.tlyric.lyric}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:onClick="@{()->hanlder.onLrcClick()}"

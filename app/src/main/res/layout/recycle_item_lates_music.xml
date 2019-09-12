@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="song" type="com.example.music.model.db.bean.Data"/>
+        <variable name="song" type="com.example.music.model.bean.Data"/>
     </data>
     <LinearLayout
             android:id="@+id/ll_latest_song_root"

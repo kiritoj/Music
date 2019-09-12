@@ -3,7 +3,7 @@ package com.example.music.viewmodel
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
-import com.example.music.model.db.bean.Comment
+import com.example.music.model.bean.Comment
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.MusicCommentService
 import com.example.music.network.services.SongListCommentService

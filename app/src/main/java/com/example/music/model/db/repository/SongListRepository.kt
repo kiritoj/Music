@@ -13,8 +13,8 @@ import org.litepal.LitePal
 import cn.leancloud.AVQuery
 import cn.leancloud.AVObject
 import cn.leancloud.AVUser
-import com.example.music.model.db.bean.Playlists
-import com.example.music.model.db.bean.SongListBean
+import com.example.music.model.bean.Playlists
+import com.example.music.model.bean.SongListBean
 import com.example.music.model.db.table.SongList
 import com.example.music.event.AssortedSongListEvent
 import com.example.music.event.HotSongListLimit

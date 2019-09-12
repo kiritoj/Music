@@ -2,7 +2,7 @@ package com.example.music.model.db.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.example.music.model.db.bean.SongsBean
+import com.example.music.model.bean.SongsBean
 import com.example.music.model.db.table.LocalMusic
 import com.example.music.model.db.table.SongList
 import com.example.music.event.SongsEvent

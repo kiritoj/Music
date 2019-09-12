@@ -22,6 +22,9 @@ const val DEFAULT_BACKGROUND = "http://ww1.sinaimg.cn/large/006nB4gFly1g6nuqylyt
 
 const val BASE_URL = "https://music.aityp.com/"
 
+//歌词baseutl
+const val LRC_BASE_URL = "https://api.imjad.cn/cloudmusic/?type=lyric"
+
 //歌曲播放地址BaseUrl
 const val SONG_PLAY_BASE_URL = "https://v1.itooi.cn/netease/url?id="
 

@@ -2,7 +2,7 @@ package com.example.music.model.db.table
 
 import com.example.music.DEFAULT_BACKGROUND
 import com.example.music.DEFAULT_COVER
-import com.example.music.model.db.bean.SongsBean
+import com.example.music.model.bean.SongsBean
 import org.litepal.crud.LitePalSupport
 import java.io.Serializable
 

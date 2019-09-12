@@ -8,7 +8,7 @@ import cn.leancloud.AVObject
 import com.example.music.IMAGE_BASE_URL
 import com.example.music.MusicApp
 import com.example.music.SONG_PLAY_BASE_URL
-import com.example.music.model.db.bean.Track
+import com.example.music.model.bean.Track
 import com.example.music.model.db.repository.SongListRepository
 import com.example.music.model.db.repository.SongsRepository
 import com.example.music.model.db.table.LocalMusic

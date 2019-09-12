@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.util.Log
 import com.example.music.util.NetworkUtils
-import com.example.music.model.db.bean.X
+import com.example.music.model.bean.X
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.TopListService
 import io.reactivex.android.schedulers.AndroidSchedulers

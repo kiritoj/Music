@@ -4,10 +4,10 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.example.music.event.*
-import com.example.music.model.db.bean.Data
-import com.example.music.model.db.bean.LastMusicBean
-import com.example.music.model.db.bean.Playlists
-import com.example.music.model.db.bean.SongListBean
+import com.example.music.model.bean.Data
+import com.example.music.model.bean.LastMusicBean
+import com.example.music.model.bean.Playlists
+import com.example.music.model.bean.SongListBean
 import com.example.music.model.db.repository.BannerRepository
 import com.example.music.model.db.repository.MusicRepository
 import com.example.music.model.db.repository.SongListRepository

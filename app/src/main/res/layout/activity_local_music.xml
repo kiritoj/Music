@@ -29,7 +29,7 @@
                 android:id="@+id/local_song_bottom"
                 layout="@layout/song_info_button"
                 bind:viewmodel="@{viewmodel}"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
 
     </LinearLayout>

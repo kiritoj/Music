@@ -18,6 +18,7 @@ import com.example.music.adapter.BinnerAdapter
 import com.example.music.adapter.LatestSongAdapter
 import com.example.music.adapter.SongListAdapter
 import com.example.music.event.RefreshEvent
+import com.example.music.view.activity.MVActivity
 import com.example.music.viewmodel.FindFragmentVM
 import kotlinx.android.synthetic.main.fragment_find.*
 import org.greenrobot.eventbus.EventBus
@@ -89,6 +90,10 @@ class FindFragment : Fragment() {
         //跳转至排行榜activity
         ll_top.setOnClickListener {
             context?.startActivity<TopListActivity>()
+        }
+        //跳转至MV activity
+        ll_mv.setOnClickListener {
+            context?.startActivity<MVActivity>()
         }
     }
 

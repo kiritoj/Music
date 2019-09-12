@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.music.R
 import com.example.music.view.activity.SongListDetailActivity
-import com.example.music.model.db.bean.X
+import com.example.music.model.bean.X
 import com.example.music.databinding.RecycleItemToplistBinding
 import com.example.music.model.db.table.SongList
 import org.jetbrains.anko.startActivity

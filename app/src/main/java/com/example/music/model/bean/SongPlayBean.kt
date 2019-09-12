@@ -1,4 +1,4 @@
-package com.example.music.model.db.bean
+package com.example.music.model.bean
 
 /**
  * Created by tk on 2019/9/3

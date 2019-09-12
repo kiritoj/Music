@@ -12,6 +12,7 @@ import android.widget.SeekBar
 import cn.leancloud.AVFile
 import cn.leancloud.AVObject
 import cn.leancloud.AVQuery
+import com.example.music.LRC_BASE_URL
 import com.example.music.MusicApp
 import com.example.music.PlayManger
 import com.example.music.R
@@ -19,6 +20,7 @@ import com.example.music.model.db.table.LocalMusic
 import com.example.music.model.db.table.SongList
 import com.example.music.event.RefreshEvent
 import com.example.music.event.RefreshSongList
+import com.example.music.model.bean.Lrc
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.LrcService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -54,7 +56,7 @@ class PlayVM : ViewModel() {
     //当前播放音乐的进度
     val mCurrentPosition = MutableLiveData<Int>()
     //歌词
-    val lrc = ObservableField<String>()
+    val lrc = ObservableField<Lrc>()
     //是否添加到我喜欢的音乐图标
     val collectIc = ObservableField<Int>()
 
@@ -92,7 +94,7 @@ class PlayVM : ViewModel() {
             }
             //songIndex.value = PlayManger.index
             //song.set(PlayManger.quene[PlayManger.index])
-            //song.get()?.let { getLrc(it) }
+            song.get()?.let { getLrc(it) }
         }else{
             Log.d(TAG,"未设置")
         }
@@ -187,13 +189,11 @@ class PlayVM : ViewModel() {
             "NET_WITH_URL" -> Log.d(TAG, "暂无歌词")
             "NET_NON_URL" -> {
                 ApiGenerator.getApiService(LrcService::class.java)
-                    .getLrc(song.musicId!!)
+                    .getLrc(LRC_BASE_URL,song.musicId!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        lrc.set(it.string())
-                        Log.d(TAG, lrc.get())
-
+                        lrc.set(it)
                     }, {
                         Log.d(TAG, "获取歌词失败${it.message}")
                     })

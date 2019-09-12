@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="data" type="com.example.music.model.db.bean.Playlists"/>
+        <variable name="data" type="com.example.music.model.bean.Playlists"/>
     </data>
     <RelativeLayout
             android:id="@+id/rl_songlist_root"

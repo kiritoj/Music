@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!--下拉刷新-->
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/xrv_mv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--加载bar-->
+    <ProgressBar
+            android:id="@+id/process_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    <!--无网络提示-->
+    <TextView
+            android:id="@+id/tv_no_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/item_pressed"
+            android:text="无网络连接，连接网络后点击重试"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+    <!--加载失败提示-->
+    <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加载失败，点击重试"
+            android:padding="10dp"
+            android:background="@drawable/item_pressed"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+</FrameLayout>
