@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="viewmodel"
+                type="com.example.music.viewmodel.MvDetailVM"/>
+        <variable
+                name="id"
+                type="Long" />
+        <variable
+                name="hangdler"
+                type="com.example.music.view.activity.MvDetailActivity.MyHandler" />
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".view.activity.MvDetailActivity"
+            >
+        <!--播放器-->
+        <cn.jzvd.JZVideoPlayerStandard
+                android:id="@+id/jz_video_player"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                mv_url="@{viewmodel.mv.brs.get720()}"
+                cover_url="@{viewmodel.mv.cover}"
+                mvTitle="@{viewmodel.mv.name}"/>
+
+        <ProgressBar
+                android:id="@+id/process_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                />
+        <!--加载失败提示-->
+        <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="加载失败，点击重试"
+                android:gravity="center_horizontal"
+                android:onClick="@{()->viewmodel.getMvDetail(id)}"
+                android:visibility="gone"/>
+
+        <!--mv信息部分-->
+        <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nest_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <!--名字和描述展开按钮-->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                    <!--mv名字-->
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="8"
+                            android:text="@{viewmodel.mv.name}"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+                    <!--展开详情-->
+                    <ImageView
+                            android:id="@+id/iv_open_desc"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="2"
+                            android:padding="5dp"
+                            android:onClick="@{()->viewmodel.openDesc()}"
+                            android:src="@drawable/vector_drawable_dengbian_down" />
+                </LinearLayout>
+
+                <!--上传时间-->
+                <TextView
+                        android:id="@+id/tv_upload_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="@{viewmodel.mv.publishTime}" />
+
+                <!--描述-->
+                <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@{viewmodel.mv.desc}"
+                        android:visibility="gone" />
+
+                <!--点赞，收藏，分享,评论数-->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
+
+                    <com.example.music.view.customveiw.ImageWithTextView
+                            android:id="@+id/custom_dz"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:icon="@drawable/vector_drawable_dz"
+                            app:text="@{viewmodel.mv.likeCount}" />
+
+                    <com.example.music.view.customveiw.ImageWithTextView
+                            android:id="@+id/custom_collect"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:icon="@drawable/vector_drawable_my_collect"
+                            app:text="@{viewmodel.mv.subCount}" />
+
+                    <com.example.music.view.customveiw.ImageWithTextView
+                            android:id="@+id/custom_comment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="@{()->hangdler.scrollToComment()}"
+                            app:icon="@drawable/vector_drawable_comment_black"
+                            app:text="@{viewmodel.mv.commentCount}" />
+
+                    <com.example.music.view.customveiw.ImageWithTextView
+                            android:id="@+id/custom_share"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:icon="@drawable/vector_drawable_share"
+                            app:text="@{viewmodel.mv.shareCount}" />
+                </LinearLayout>
+
+                <!--相关mv-->
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="@color/gray"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="相关mv"
+                        android:textSize="16sp"
+                        android:paddingLeft="10dp"
+                        android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_related_mv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                <!--评论列表-->
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:background="@color/gray"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="更多评论"
+                        android:textStyle="bold"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textSize="16sp"/>
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+</layout>

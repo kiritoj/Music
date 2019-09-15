@@ -163,20 +163,11 @@ class PlayingActivity : AppCompatActivity() {
         })
         //在暂停状态下进入活动初始化歌曲总长度
         viewmodel.mDuration.observe(this, Observer {
-            //tv_buffer.visibility = View.INVISIBLE
-            //设置seekbar最大值
-            binding.seekBar.max = it!!
-            //转换格式
-            val mTime = String.format("%02d:%02d", it / 60000, (it / 1000) % 60)
-            binding.tvEnd.text = mTime
+           updateProcess(ProcessEvent("duration",it!!))
         })
         //暂停状态下进入活动初始化歌曲当前播放长度
         viewmodel.mCurrentPosition.observe(this, Observer {
-            //设置seekbar当前值
-            binding.seekBar.progress = it!!
-            //转换格式
-            val mTime = String.format("%02d:%02d", it / 60000, (it / 1000) % 60)
-            binding.tvCurrent.text = mTime
+            updateProcess(ProcessEvent("current",it!!))
         })
         //更新播放列表正在播放的位置
         viewmodel.songIndex.observe(this, Observer {

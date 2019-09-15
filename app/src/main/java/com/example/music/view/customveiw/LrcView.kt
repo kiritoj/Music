@@ -99,9 +99,8 @@ class LrcView : View {
             if (currentIndex > -1 && player.currentPosition > list[currentIndex].endTime) {
                 scroller.startScroll(0, currentIndex * 110, 0, 110, 1000)
             }
-            if (PlayManger.hasSetDataSource) {
-                getCurrentIndex(player.currentPosition)
-            }
+
+            getCurrentIndex(player.currentPosition)
 
             for (i in 0 until list.size) {
                 if (currentIndex == i) {

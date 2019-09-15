@@ -30,7 +30,7 @@ object MusicRepository {
                 EventBus.getDefault().post(LatestSongEvent(it.data as ArrayList))
             }, {
                 //加载失败
-                EventBus.getDefault().postSticky(LoadEvent(false,"latestSong"))
+                EventBus.getDefault().postSticky(LoadEvent(false,"latestSong","FindFragmentVM"))
                 Log.d(TAG, "获取最新单曲失败${it.message}")
             })
     }

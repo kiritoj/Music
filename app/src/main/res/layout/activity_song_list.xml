@@ -50,14 +50,7 @@
                 android:layout_weight="9">
         </android.support.v4.view.ViewPager>
 
-<!--        <ImageView-->
-<!--                android:id="@+id/iv_error"-->
-<!--                android:layout_width="match_parent"-->
-<!--                   android:layout_height="0dp"-->
-<!--                   android:layout_weight="9"-->
-<!--                   android:padding="50dp"-->
-<!--                   android:src="@drawable/error"-->
-<!--                   android:visibility="gone"/>-->
+
 
         <!--底部播放栏-->
         <include

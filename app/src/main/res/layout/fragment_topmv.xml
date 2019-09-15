@@ -5,7 +5,7 @@
 
         <variable
                 name="viewmodel"
-                type="com.example.music.viewmodel.NewMvFragmentVM" />
+                type="com.example.music.viewmodel.TopMvFragmentVM" />
     </data>
 
     <FrameLayout

@@ -58,9 +58,4 @@ open class BaseActivity : AppCompatActivity() {
 
     }
 
-    override fun onStop() {
-        super.onStop()
-       // stopService(Intent(this,PlayService::class.java))
-        //EventBus.getDefault().unregister(this)
-    }
 }

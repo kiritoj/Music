@@ -17,7 +17,10 @@ import com.example.music.R
 import kotlinx.android.synthetic.main.activity_mv.*
 import cn.jzvd.JZVideoPlayer
 import com.bumptech.glide.request.RequestOptions
+import com.example.music.adapter.FragmentAdapter
 import com.example.music.databinding.ActivityMvBinding
+import com.example.music.view.fragment.NewMvFragment
+import com.example.music.view.fragment.TopMvFragment
 import com.example.music.viewmodel.BottomStateBarVM
 import kotlinx.android.synthetic.main.activity_song_list.*
 import org.jetbrains.anko.startActivity
@@ -28,7 +31,9 @@ class MVActivity : BaseActivity() {
     val TAG = "MVActivity"
     val mList = ArrayList<Fragment>()
     //tablayout标题
-    val mTitles = arrayListOf("推荐","最新","排行榜")
+    val mTitles = arrayOf("最新","排行榜")
+
+    lateinit var adapter: FragmentAdapter
     //底部播放栏VM
     val viewModel = BottomStateBarVM.get()
 
@@ -37,8 +42,8 @@ class MVActivity : BaseActivity() {
         val binding = DataBindingUtil.setContentView<ActivityMvBinding>(this,R.layout.activity_mv)
         binding.viewmodel = viewModel
         viewModel?.checkMusicPlaying()
-
         toolbar.init("MV")
+        addFragment()
         //tablayout绑定viewpager
         tl_mv.setupWithViewPager(vp_mv)
         observe()
@@ -46,25 +51,19 @@ class MVActivity : BaseActivity() {
         mv_song_bottom.setOnClickListener {
             startActivity<PlayingActivity>()
         }
-//        JZVideoPlayer.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE //横向
-//        JZVideoPlayer.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-//        JZVideoPlayer.setVideoImageDisplayType(JZVideoPlayer.VIDEO_IMAGE_DISPLAY_TYPE_FILL_SCROP)
-//        //清晰度
-//        val map = LinkedHashMap<String,String>()
-//
-//        val dataSourceObjects = arrayOfNulls<Any>(1)
-//        dataSourceObjects[0] = map
-//        jz_vedioplayer.setUp("http://vodkgeyttp8.vod.126.net/cloudmusic/7ec3/core/c30f/99a3de75dda9feaa8050053f900645c0.mp4?wsSecret=f376ca582beac21249bc99da11d64b00&wsTime=1568209857",
-//            JZVideoPlayerStandard.SCROLL_AXIS_HORIZONTAL, "嫂子闭眼睛")
-//
-//        jz_vedioplayer.thumbImageView.scaleType = ImageView.ScaleType.CENTER_CROP
-//        Glide.with(this).load("http://p1.music.126.net/gPGygaKPIZimcB6PYNWswg==/109951164353209473.jpg")
-//            .apply(RequestOptions().placeholder(R.drawable.back)
-//                .error(R.drawable.ic_loading_error).dontAnimate())
-//            .into(jz_vedioplayer.thumbImageView)
-//        Log.d(TAG,jz_vedioplayer.currentPositionWhenPlaying.toString())
+
+
+
 
     }
+
+    fun addFragment(){
+        mList.add(NewMvFragment())
+        mList.add(TopMvFragment())
+        adapter = FragmentAdapter(mList,mTitles,supportFragmentManager)
+        vp_mv.adapter = adapter
+    }
+
     fun observe(){
         //底部播放栏可见性控制
         viewModel?.isDisplay?.observe(this, Observer {
@@ -78,15 +77,4 @@ class MVActivity : BaseActivity() {
         return true
     }
 
-    override fun onBackPressed() {
-        if (JZVideoPlayer.backPress()) {
-            return
-        }
-        super.onBackPressed()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        JZVideoPlayer.releaseAllVideos()
-    }
 }

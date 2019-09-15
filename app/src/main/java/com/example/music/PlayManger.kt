@@ -69,9 +69,11 @@ object PlayManger {
                 object : TimerTask() {
                     override fun run() {
                         //每隔一秒发送当前播放进度
-                        if (player.isPlaying) {
-                            EventBus.getDefault().postSticky(ProcessEvent("current", player.currentPosition))
+                        if (hasSetDataSource) {
+                            EventBus.getDefault()
+                                .postSticky(ProcessEvent("current", player.currentPosition))
                         }
+
                     }
                 }, 0, 1000
             )
@@ -291,6 +293,8 @@ object PlayManger {
      * 结束时释放资源
      */
     fun recycle() {
+        Log.d(TAG,"结束")
+        player.stop()
         player.release()
 
     }

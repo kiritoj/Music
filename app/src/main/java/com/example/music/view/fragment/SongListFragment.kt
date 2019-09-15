@@ -93,7 +93,8 @@ class SongListFragment : Fragment() {
         if (event.tag.equals(getCategory())) {
             val size = mAdapter.list.size
             mAdapter.list.addAll(event.list)
-            mAdapter.notifyItemRangeInserted(size,18)
+            //+1?
+            mAdapter.notifyItemRangeInserted(size+1,18)
             recycle.loadMoreComplete()
             process_bar.visibility = View.GONE
         }

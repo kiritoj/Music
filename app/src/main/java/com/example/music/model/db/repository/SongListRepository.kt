@@ -171,10 +171,9 @@ class SongListRepository {
             .getOtherSongList(size,cat,offset)
             .subscribeOn(Schedulers.io())
             .subscribe ({
-
                 EventBus.getDefault().post(HotSongListLimit(it.playlists as ArrayList<Playlists>))
             },{
-                EventBus.getDefault().post(LoadEvent(false,"HotSongList"))
+                EventBus.getDefault().post(LoadEvent(false,"HotSongList","FindFragmentVM"))
                 Log.d(TAG,"获取热门歌单失败--->${it.message}")
             })
     }

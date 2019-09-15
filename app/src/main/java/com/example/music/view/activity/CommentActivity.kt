@@ -49,23 +49,12 @@ class CommentActivity : BaseActivity() {
 
         }
         //加载更多
-        nest_scroll_view.setOnScrollChangeListener(object :
-            NestedScrollView.OnScrollChangeListener {
-            override fun onScrollChange(
-                p0: NestedScrollView?,
-                scrollX: Int,
-                scrollY: Int,
-                oldScrollX: Int,
-                oldScrollY: Int
-            ) {
-                if (p0 != null) {
-                    if (scrollY == p0.getChildAt(0).measuredHeight - p0.measuredHeight) {
-                        mViewmodel.getComment(mTag, mId!!, mAdapter2.list.size)
-                    }
+        nest_scroll_view.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { p0, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (p0 != null) {
+                if (scrollY == p0.getChildAt(0).measuredHeight - p0.measuredHeight) {
+                    mViewmodel.getComment(mTag, mId!!, mAdapter2.list.size)
                 }
-
             }
-
         })
     }
 

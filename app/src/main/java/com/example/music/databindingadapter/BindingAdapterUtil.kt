@@ -6,16 +6,23 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
+import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.TextView
+import cn.jzvd.JZVideoPlayer
+import cn.jzvd.JZVideoPlayerStandard
 import com.example.music.MusicApp
 import com.example.music.PlayManger
 import com.example.music.R
-import com.example.music.util.TimeUtil
 import com.example.music.model.db.table.LocalMusic
 import com.example.music.util.GlideUtil
+import com.example.music.util.TimeUtil
+import com.example.music.util.checkStringIsNull
 import com.example.music.view.customveiw.LrcView
+import kotlinx.android.synthetic.main.activity_mv_detail.*
 
 
 /**
@@ -88,9 +95,11 @@ object SongAlbumAdapter {
                 }
                 "NET_NON_URL" ->
                     //否则从网络加载
-                    GlideUtil.loadPic(view,song.coverUrl
-                        ,ContextCompat.getDrawable(MusicApp.context,R.drawable.disk)!!
-                        ,ContextCompat.getDrawable(MusicApp.context,R.drawable.disk)!!)
+                    GlideUtil.loadPic(
+                        view, song.coverUrl
+                        , ContextCompat.getDrawable(MusicApp.context, R.drawable.disk)!!
+                        , ContextCompat.getDrawable(MusicApp.context, R.drawable.disk)!!
+                    )
             }
         }
     }
@@ -158,7 +167,7 @@ object PlayCount {
         if (count < 10000) {
             view.setText(count.toString())
         } else {
-            view.setText(String.format("%.1f",(count.toFloat() / 10000f))+"万")
+            view.setText(String.format("%.1f", (count.toFloat() / 10000f)) + "万")
         }
     }
 }
@@ -166,10 +175,10 @@ object PlayCount {
 
 //歌词控件设置
 object LrcText {
-    @BindingAdapter("text","trans")
+    @BindingAdapter("text", "trans")
     @JvmStatic
-    fun init(lrcView: LrcView, text: String?,trans: String?) {
-        lrcView.setLrc(text,trans)
+    fun init(lrcView: LrcView, text: String?, trans: String?) {
+        lrcView.setLrc(text, trans)
         lrcView.bindPlayer(PlayManger.player)
     }
 }
@@ -180,5 +189,26 @@ object Time {
     @JvmStatic
     fun getTime(view: TextView, timeStamp: Long) {
         view.setText(TimeUtil.timestampToTime(timeStamp))
+    }
+}
+
+//video播放器设置
+object videoSetting {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @BindingAdapter("mv_url", "cover_url", "mvTitle")
+    @JvmStatic
+    fun seturl(player: JZVideoPlayerStandard, mvUrl: String?, coverUrl: String?, mvTitle: String?) {
+        player.thumbImageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        if (!checkStringIsNull(mvUrl,coverUrl,mvTitle)) {
+            GlideUtil.loadPic(
+                player.thumbImageView,
+                coverUrl!!,
+                MusicApp.context.resources.getDrawable(R.drawable.back),
+                MusicApp.context.resources.getDrawable(R.drawable.back)
+            )
+            player.setUp(mvUrl, JZVideoPlayerStandard.SCROLL_AXIS_HORIZONTAL, mvTitle)
+            player.startVideo()
+        }
+
     }
 }

@@ -20,6 +20,7 @@ class PlayService : Service() {
     override fun onCreate() {
         EventBus.getDefault().register(this)
 
+
     }
 
 
@@ -43,6 +44,7 @@ class PlayService : Service() {
     }
 
     override fun onDestroy() {
+        Log.d(TAG,"服务被关闭")
         PlayManger.recycle()
         EventBus.getDefault().unregister(this)
     }

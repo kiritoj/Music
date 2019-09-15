@@ -102,7 +102,7 @@ class FindFragmentVM : ViewModel() {
     fun receiveLoadState(event: LoadEvent){
         if (event.errorTag.equals("latestSong")){
             showError2.value = true
-        }else{
+        }else if(event.errorTag.equals("HotSongList")){
             showError1.value = true
         }
     }
