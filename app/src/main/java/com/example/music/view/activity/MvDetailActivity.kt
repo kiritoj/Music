@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import cn.jzvd.JZVideoPlayer
+import com.bumptech.glide.request.target.NotificationTarget
 import com.example.music.R
 import com.example.music.adapter.CommentsAdapter
 import com.example.music.adapter.RelatedMvAdapter
@@ -52,6 +53,7 @@ class MvDetailActivity : AppCompatActivity() {
         initRecycle()
 
         observe()
+
     }
 
 

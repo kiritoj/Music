@@ -1,5 +1,8 @@
 package com.example.music.view.activity
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.DrawableRes
@@ -8,6 +11,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.example.music.PlayManger
 
 import kotlinx.android.synthetic.main.toolbar_with_search.*
 import com.example.music.R
@@ -22,6 +26,9 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
         //注册eventbus
         //EventBus.getDefault().register(this)
+
+
+
 
     }
 
@@ -55,7 +62,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     open fun onSearch(){
-
     }
+
 
 }

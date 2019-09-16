@@ -2,6 +2,7 @@ package com.example.music.view.activity
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.content.IntentFilter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -11,6 +12,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import cn.leancloud.AVUser
+import com.example.music.PlayControlReceiver
 import com.example.music.PlayService
 import org.jetbrains.anko.startActivity
 import com.example.music.R
@@ -53,6 +55,12 @@ class MainActivity : BaseActivity() {
         observe()
         mViewmodel?.checkMusicPlaying()
 
+//        //注册播放控制广播，用于前台服务进行播放控制
+//        val intentFilter = IntentFilter()
+//        intentFilter.addAction(PlayControlReceiver.ACTION1)
+//        intentFilter.addAction(PlayControlReceiver.ACTION2)
+//        intentFilter.addAction(PlayControlReceiver.ACTION3)
+//        registerReceiver(PlayControlReceiver.get(), intentFilter)
 
 
     }

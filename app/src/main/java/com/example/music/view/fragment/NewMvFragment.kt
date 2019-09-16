@@ -15,6 +15,9 @@ import com.example.music.viewmodel.NewMvFragmentVM
 import com.jcodecraeer.xrecyclerview.XRecyclerView
 import org.jetbrains.anko.toast
 
+import android.support.v7.widget.DividerItemDecoration
+
+
 /**
  * Created by tk on 2019/9/13
  */
@@ -49,6 +52,7 @@ class NewMvFragment : Fragment() {
                     viewmodel.loadMore()
                 }
             })
+
         }
 
 

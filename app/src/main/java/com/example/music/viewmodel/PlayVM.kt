@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.ContentValues
+import android.content.Intent
 import android.databinding.ObservableField
 import android.preference.PreferenceManager
 import android.text.TextUtils
@@ -20,6 +21,7 @@ import com.example.music.model.db.table.LocalMusic
 import com.example.music.model.db.table.SongList
 import com.example.music.event.RefreshEvent
 import com.example.music.event.RefreshSongList
+import com.example.music.event.StateEvent
 import com.example.music.model.bean.Lrc
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.LrcService
@@ -92,8 +94,6 @@ class PlayVM : ViewModel() {
                 playIc.set(R.drawable.ic_play_pause)
 
             }
-            //songIndex.value = PlayManger.index
-            //song.set(PlayManger.quene[PlayManger.index])
             song.get()?.let { getLrc(it) }
         }else{
             Log.d(TAG,"未设置")
@@ -128,6 +128,7 @@ class PlayVM : ViewModel() {
             playIc.set(R.drawable.ic_play_running)
             PlayManger.resume()
         }
+
     }
 
     /**
@@ -160,6 +161,17 @@ class PlayVM : ViewModel() {
 
         getLrc(event.mSong)
         checkIsMyLove()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    fun receiveState(event: StateEvent){
+        //更新播放按钮icon
+        Log.d(TAG,"音乐状态变化")
+        when(event.state){
+            PlayManger.State.PLAY -> playIc.set(R.drawable.ic_play_running)
+            PlayManger.State.PAUSE -> playIc.set(R.drawable.ic_play_pause)
+
+        }
     }
 
 

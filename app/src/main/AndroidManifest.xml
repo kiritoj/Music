@@ -18,12 +18,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.MvDetailActivity"
-                android:launchMode="singleTop"
-                android:configChanges="orientation|screenSize|keyboardHidden"
-                android:screenOrientation="portrait"></activity>
         <activity
-                android:name=".view.activity.MVActivity"></activity>
+                android:name=".view.activity.MvDetailActivity"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"></activity>
+        <activity android:name=".view.activity.MVActivity"></activity>
         <activity android:name=".view.activity.TopListActivity" />
         <activity android:name=".view.activity.CommentActivity" />
 
@@ -50,7 +50,13 @@
                 android:launchMode="singleTask"
                 android:theme="@style/TransparentTheme" />
         <activity android:name=".view.activity.LocalMusicActivity" />
-        <activity android:name=".view.activity.TestActivity"></activity>
+        <activity android:name=".view.activity.TestActivity">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
         <activity android:name=".view.activity.SearchActivity" />
         <activity android:name=".view.activity.MainActivity" />
         <activity
@@ -84,6 +90,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--播放控制广播-->
+        <receiver android:name=".PlayControlReceiver"
+                android:enabled="true"/>
     </application>
 
 </manifest>

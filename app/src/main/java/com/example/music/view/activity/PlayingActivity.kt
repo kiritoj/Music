@@ -3,6 +3,7 @@ package com.example.music.view.activity
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Build
@@ -17,6 +18,7 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.PopupWindow
 import android.widget.SeekBar
+import com.example.music.PlayControlReceiver
 import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.adapter.PlayListAdapter
@@ -33,6 +35,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 /**
  * 音乐详情界面
@@ -73,6 +76,8 @@ class PlayingActivity : AppCompatActivity() {
         hideStateBar()
 
         observe()
+
+
 
     }
 

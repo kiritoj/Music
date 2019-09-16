@@ -52,7 +52,7 @@
                 android:id="@+id/nest_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible">
+                android:visibility="visible">
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -64,7 +64,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="5dp">
 
                     <!--mv名字-->
                     <TextView
@@ -108,7 +111,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                        android:paddingRight="10dp"
+                        android:layout_marginTop="10dp">
 
                     <com.example.music.view.customveiw.ImageWithTextView
                             android:id="@+id/custom_dz"
