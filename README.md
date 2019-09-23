@@ -17,6 +17,8 @@
 <img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6ufkgnh9tj30u01o0k4c.jpg" height="400" width="210">
 <img src="http://ww1.sinaimg.cn/large/006nB4gFly1g6ufltuw02j30u01o0wmi.jpg" height="400" width="210">
 
+<img src="http://ww1.sinaimg.cn/mw690/006nB4gFly1g71hyky2x0j30de0m5gr9.jpg" height="400" width="210">
+<img src="http://ww1.sinaimg.cn/mw690/006nB4gFly1g71i3otgz4j30u01o0tjc.jpg" height="400" width="210">
 </div>
 
 
@@ -55,3 +57,8 @@
 * 增加音乐缓冲提示，缓冲期间禁止滑动seekbar
 ### 9.13
 * 更换歌词接口，恢复歌词显示
+### 9.15
+* 新增mv播放
+### 9.16
+* 新增前台播放服务
+* mv评论接口又挂了
