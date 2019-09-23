@@ -48,7 +48,7 @@
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
                         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                        app:contentScrim="@color/yellow"
+                        app:contentScrim="#FBCFD0"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed"
                         app:titleEnabled="false">
 
@@ -172,7 +172,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         playcount="@{data.commentNum}"
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        />
                             </LinearLayout>
 
                             <!--下载-->
@@ -185,6 +186,7 @@
                                     android:padding="7dp">
 
                                 <ImageView
+                                        android:id="@+id/iv_download"
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:src="@drawable/vector_drawable_download_white"
@@ -236,7 +238,6 @@
                             android:clickable="false"
                             app:layout_collapseMode="pin"
                             app:title="详情">
-
                     </android.support.v7.widget.Toolbar>
 
 

@@ -62,4 +62,8 @@ class LoadEvent(val state: Boolean,val errorTag: String,val receiver: String)
 class  MvEvent(val tag: String,val cat: String,val mvList: ArrayList<MvData>)
 
 //
-class ClickEvent(val id: Long)
+class MvClickEvent(val data: MvData)
+
+class RefreshMvEvent(val refresh: Boolean)
+
+class MvListEvent(val list: ArrayList<MvData>)

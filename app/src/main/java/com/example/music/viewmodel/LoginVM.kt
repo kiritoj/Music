@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import cn.leancloud.AVObject
 import cn.leancloud.AVUser
+import com.example.music.model.db.table.SongList
 import com.example.music.util.checkStringIsNull
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -82,7 +83,6 @@ class LoginVM : ViewModel() {
                                 Log.d(TAG,it.message)
                             })
                     }
-
 
                 }, {
                     isRegistering.value = false

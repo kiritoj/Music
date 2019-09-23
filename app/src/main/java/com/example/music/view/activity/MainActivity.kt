@@ -4,6 +4,8 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.content.IntentFilter
 import android.databinding.DataBindingUtil
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -23,6 +25,8 @@ import com.example.music.view.fragment.MineFragment
 import com.example.music.viewmodel.BottomStateBarVM
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
+import org.jetbrains.anko.longToast
+
 class MainActivity : BaseActivity() {
 
     val TAG = "MainActivity"
@@ -40,6 +44,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+
         binding.viewmodel = mViewmodel
         initToolBar()
         initFragment()
@@ -54,14 +59,6 @@ class MainActivity : BaseActivity() {
         startService(Intent(this, PlayService::class.java))
         observe()
         mViewmodel?.checkMusicPlaying()
-
-//        //注册播放控制广播，用于前台服务进行播放控制
-//        val intentFilter = IntentFilter()
-//        intentFilter.addAction(PlayControlReceiver.ACTION1)
-//        intentFilter.addAction(PlayControlReceiver.ACTION2)
-//        intentFilter.addAction(PlayControlReceiver.ACTION3)
-//        registerReceiver(PlayControlReceiver.get(), intentFilter)
-
 
     }
 
@@ -120,6 +117,11 @@ class MainActivity : BaseActivity() {
         main_song_bottom.setOnClickListener {
             startActivity<PlayingActivity>()
         }
+
+    }
+
+    override fun onSearch() {
+        longToast("由于接口原因，暂时不能使用搜索功能")
     }
 
 

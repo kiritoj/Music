@@ -85,7 +85,6 @@ class SongListDetailActivity : AppCompatActivity() {
         setSupportActionBar(tool_bar)
         tool_bar.setNavigationIcon(R.drawable.vector_drawable_back)
         tool_bar.setNavigationOnClickListener { finish() }
-
         //防止CollapsingToolbarLayout中其他控件的事件被toobar消费
         tool_bar.setOnTouchListener { v, event ->
             ll_root.dispatchTouchEvent(event)
@@ -107,13 +106,15 @@ class SongListDetailActivity : AppCompatActivity() {
             }
         }
 
+
+
         //点击评论icon跳转至评论activity
         fun onCommentClick(){
             startActivity<CommentActivity>("id" to mSonglist.netId,"tag" to "songList")
         }
         //下载
         fun onDownloadClick(){
-            toast("该功能暂未开放")
+            toast("暂时不支持全部下载,请前往播放界面下载单曲")
         }
 
     }

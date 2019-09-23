@@ -9,10 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.PopupWindow
 import com.example.music.*
 import com.example.music.adapter.CategrayAdapter
@@ -35,7 +32,7 @@ import org.jetbrains.anko.startActivity
  * 分类展示歌单
  */
 
-class SongListActivity : AppCompatActivity() {
+class SongListActivity : BaseActivity() {
 
     val TAG = "SongListActivity"
     //分类viewpager的适配器
@@ -58,14 +55,14 @@ class SongListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivitySongListBinding = DataBindingUtil
             .setContentView(this,R.layout.activity_song_list)
+
+        toolbar.init("歌单广场")
         //注册EventBUs
         EventBus.getDefault().register(this)
         binding.viewmodel = viewModel
-
         //检查底部播放栏的可见性
         viewModel?.checkMusicPlaying()
 
-        initToolbar()
         addFragment()
         tl_songlist.setupWithViewPager(vp_songlist)
         observe()
@@ -75,13 +72,6 @@ class SongListActivity : AppCompatActivity() {
         }
     }
 
-    fun initToolbar() {
-        setSupportActionBar(tb_songlist)
-        tb_songlist.setTitleTextColor(resources.getColor(R.color.white))
-        tb_songlist.setNavigationIcon(R.drawable.vector_drawable_back)
-        tb_songlist.setNavigationOnClickListener { finish() }
-
-    }
 
     //初始化viewpager，添加用户保存的5个分类fragment
     fun addFragment() {
@@ -199,6 +189,10 @@ class SongListActivity : AppCompatActivity() {
             mViewModel.update(newName)
             popwindow.dismiss()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return true
     }
 
     override fun onDestroy() {

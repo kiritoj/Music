@@ -48,9 +48,6 @@ class LocalMusicVM : ViewModel() {
      * 重新扫描
      */
     fun reScanning() {
-        //清空数据库
-        LitePal.deleteAll(LocalMusic::class.java)
-
         //从本地扫描
         repository.getLocalMusicFromCursor()
     }

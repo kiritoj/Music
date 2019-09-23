@@ -15,6 +15,7 @@ import com.example.music.util.checkStringIsNull
 import com.example.music.event.MusicNumEvene
 import com.example.music.event.RefreshSongList
 import com.example.music.event.SongListEvent
+import com.example.music.model.db.repository.MvRepository
 import com.example.music.model.db.repository.SongListRepository
 import com.example.music.model.db.table.SongList
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -77,7 +78,7 @@ class MineFragmentVM : ViewModel() {
 
         getSonList()
         getCollectSongList()
-
+        getCollectMv()
 
     }
 
@@ -89,6 +90,11 @@ class MineFragmentVM : ViewModel() {
     //获取收藏的歌单的列表
     fun getCollectSongList(){
         repository.getUserCollectSongList()
+    }
+
+    //获取收藏的mv
+    fun getCollectMv(){
+        MvRepository.getCollectMv()
     }
 
 

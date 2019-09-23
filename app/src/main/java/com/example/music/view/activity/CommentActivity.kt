@@ -1,6 +1,7 @@
 package com.example.music.view.activity
 
 import android.arch.lifecycle.Observer
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +9,7 @@ import android.view.Menu
 import android.view.View
 import com.example.music.R
 import com.example.music.adapter.CommentsAdapter
+import com.example.music.databinding.ActivityCommentBinding
 import com.example.music.viewmodel.CommentVM
 import kotlinx.android.synthetic.main.activity_comment.*
 
@@ -24,9 +26,9 @@ class CommentActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comment)
+        val binding:ActivityCommentBinding = DataBindingUtil.setContentView(this,R.layout.activity_comment)
+        binding.viewmodel = mViewmodel
         toolbar.init("评论")
-
         mTag = intent.getStringExtra("tag")
         mId = intent.getLongExtra("id", 0)
         initRecycler()
@@ -60,22 +62,7 @@ class CommentActivity : BaseActivity() {
 
 
     fun observe() {
-        mViewmodel.isShowText.observe(this, Observer {
-            tv_note.visibility = View.VISIBLE
-        })
-        mViewmodel.isShowBar.observe(this, Observer {
-            process_bar.visibility = View.GONE
-        })
-        mViewmodel.isShowList.observe(this, Observer {
-            if (it!!){
-                nest_scroll_view.visibility = View.VISIBLE
-            }else{
-                nest_scroll_view.visibility = View.GONE
-            }
-        })
-        mViewmodel.isShowNoHot.observe(this, Observer {
-            tv_no_hotcomment.visibility = View.VISIBLE
-        })
+
         //加载热门评论
         mViewmodel.hotConments.observe(this, Observer {
             mAdapter1.list.clear()

@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.media.MediaPlayer
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.Scroller
 import com.example.music.PlayManger
@@ -75,9 +74,10 @@ class LrcView : View {
      *
      */
     fun setLrc(text: String?, trans: String?) {
+        currentIndex = -1
+        scrollTo(0,0)
         list.clear()
         list.addAll(LrcUtil.analyzeLrc(text, trans))
-        Log.d(TAG, "setLrc")
     }
 
     /**
@@ -86,7 +86,6 @@ class LrcView : View {
     fun bindPlayer(mPlayer: MediaPlayer) {
         player = mPlayer
         invalidate()
-
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -94,6 +93,7 @@ class LrcView : View {
             canvas?.drawText("暂无歌词", width / 2f, height / 2f, nPaint)
             return
         }
+        //歌词滚动
         if (PlayManger.hasSetDataSource) {
             // 绘制静态歌词
             if (currentIndex > -1 && player.currentPosition > list[currentIndex].endTime) {
@@ -102,42 +102,40 @@ class LrcView : View {
 
             getCurrentIndex(player.currentPosition)
 
-            for (i in 0 until list.size) {
-                if (currentIndex == i) {
-                    //绘制高亮歌词
-                    if (list[i].hasTranslation) {
-                        //如果有翻译歌词需绘制两行
-                        canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, sPaint)
-                        canvas?.drawText(
-                            list[i].text[1],
-                            width / 2f,
-                            height / 2f + 110 * i + 35,
-                            sPaint
-                        )
-                    } else {
-                        canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, sPaint)
-                    }
+        }
+        //绘制歌词
+        for (i in 0 until list.size) {
+            if (currentIndex == i) {
+                //绘制高亮歌词
+                if (list[i].hasTranslation) {
+                    //如果有翻译歌词需绘制两行
+                    canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, sPaint)
+                    canvas?.drawText(
+                        list[i].text[1],
+                        width / 2f,
+                        height / 2f + 110 * i + 35,
+                        sPaint
+                    )
                 } else {
-                    //绘制普通歌词
-                    if (list[i].hasTranslation) {
-                        //如果有翻译歌词需绘制两行
-                        canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, nPaint)
-                        canvas?.drawText(
-                            list[i].text[1],
-                            width / 2f,
-                            height / 2f + 110 * i + 35,
-                            nPaint
-                        )
-                    } else {
-                        canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, nPaint)
-                    }
+                    canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, sPaint)
+                }
+            } else {
+                //绘制普通歌词
+                if (list[i].hasTranslation) {
+                    //如果有翻译歌词需绘制两行
+                    canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, nPaint)
+                    canvas?.drawText(
+                        list[i].text[1],
+                        width / 2f,
+                        height / 2f + 110 * i + 35,
+                        nPaint
+                    )
+                } else {
+                    canvas?.drawText(list[i].text[0], width / 2f, height / 2f + 110 * i, nPaint)
                 }
             }
-
-
-
-            postInvalidateDelayed(200)
         }
+        postInvalidateDelayed(100)
 
     }
 

@@ -67,7 +67,8 @@ class PlayVM : ViewModel() {
     var seekBarEnable = false
     //是够显示缓冲
     val showBuffer = MutableLiveData<Boolean>()
-
+    //显示添加到我喜欢的
+    val showProcessBar = ObservableField<Boolean>(false)
     init {
         EventBus.getDefault().register(this)
         //获取上次结束时的模式(默认顺序播放)
@@ -187,7 +188,6 @@ class PlayVM : ViewModel() {
      */
     fun changeMode() {
         modeIndex.value = (1 + modeIndex.value!!) % 3
-        // Log.d(TAG, modeIndex.value.toString())
         PlayManger.setMode(modeIndex.value!!)
     }
 
@@ -197,8 +197,10 @@ class PlayVM : ViewModel() {
     @SuppressLint("CheckResult")
     fun getLrc(song: LocalMusic) {
         when (song.tag) {
-            "LOCAL" -> Log.d(TAG, "暂无歌词")
-            "NET_WITH_URL" -> Log.d(TAG, "暂无歌词")
+            "LOCAL","NET_WITH_URL" -> {
+                Log.d(TAG, "暂无歌词")
+                lrc.set(null)
+            }
             "NET_NON_URL" -> {
                 ApiGenerator.getApiService(LrcService::class.java)
                     .getLrc(LRC_BASE_URL,song.musicId!!)
@@ -206,6 +208,7 @@ class PlayVM : ViewModel() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         lrc.set(it)
+                        Log.d(TAG,it.lrc.lyric)
                     }, {
                         Log.d(TAG, "获取歌词失败${it.message}")
                     })
@@ -220,6 +223,7 @@ class PlayVM : ViewModel() {
      */
     @SuppressLint("CheckResult")
     fun addToMyLove() {
+        showProcessBar.set(true)
         //添加到当前用户‘我喜欢的音乐’歌单
         val mSongList = LitePal.where("name = ?", "我喜欢的音乐").findFirst(SongList::class.java, true)
         val avSongList = AVObject.createWithoutData("SongList", mSongList.objectId)
@@ -261,11 +265,13 @@ class PlayVM : ViewModel() {
                                             put("tag", "NET_WITH_URL")
                                             saveInBackground()
                                                 .subscribe({
+                                                    showProcessBar.set(false)
                                                     toast.value = "添加成功"
                                                     collectIc.set(R.drawable.vector_drawable_collect_red)
                                                     mSong.objectID = it.objectId
                                                     mSong.save()
                                                 }, {
+                                                    showProcessBar.set(false)
                                                     toast.value = "添加失败"
                                                     Log.d(TAG, "PlayVM:保存avMusic失败${it.message}")
                                                 })
@@ -286,9 +292,11 @@ class PlayVM : ViewModel() {
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe({
+                                            showProcessBar.set(false)
                                             toast.value = "添加成功"
                                             collectIc.set(R.drawable.vector_drawable_collect_red)
                                         }, {
+                                            showProcessBar.set(false)
                                             toast.value = "添加失败"
                                             Log.d(TAG, "PlayVM:保存代带有url的avMusic失败${it.message}")
                                         })
@@ -309,9 +317,11 @@ class PlayVM : ViewModel() {
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
+                                        showProcessBar.set(false)
                                         toast.value = "添加成功"
                                         collectIc.set(R.drawable.vector_drawable_collect_red)
                                     }, {
+                                        showProcessBar.set(false)
                                         toast.value = "添加失败"
                                         Log.d(TAG, "PlayVM:保存代带有url的avMusic失败${it.message}")
                                     })
@@ -331,9 +341,11 @@ class PlayVM : ViewModel() {
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe({
+                                        showProcessBar.set(false)
                                         toast.value = "添加成功"
                                         collectIc.set(R.drawable.vector_drawable_collect_red)
                                     }, {
+                                        showProcessBar.set(false)
                                         toast.value = "添加失败"
                                         Log.d(TAG, "PlayVM:保存代带有url的avMusic失败${it.message}")
                                     })
@@ -360,6 +372,7 @@ class PlayVM : ViewModel() {
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
+                                showProcessBar.set(false)
                                 toast.value = "添加成功"
                                 collectIc.set(R.drawable.vector_drawable_collect_red)
                                 //上传成功保存objectID
@@ -369,6 +382,7 @@ class PlayVM : ViewModel() {
                                     LocalMusic::class.java, value, "songName = ?", name
                                 )
                             }, {
+                                showProcessBar.set(false)
                                 toast.value = "添加失败"
                                 Log.d(TAG, "PlayVM:保存不带url的avmusic失败，${it.message}")
                             })
@@ -405,8 +419,12 @@ class PlayVM : ViewModel() {
                     .subscribe({
                         it.deleteInBackground().subscribeOn(Schedulers.io())
                             .subscribe({
+                                showProcessBar.set(false)
+                                toast.value = "已移除"
                                 collectIc.set(R.drawable.vector_drawable_collect_white)
                             }, {
+                                showProcessBar.set(false)
+                                toast.value = "移除失败"
                                 Log.d(TAG, "PlayVM:删除目标歌曲失败${it.message}")
                             })
                     }, {

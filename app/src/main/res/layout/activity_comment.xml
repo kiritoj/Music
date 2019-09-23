@@ -1,90 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".view.activity.CommentActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <!--toolbar-->
-    <include
-            android:id="@+id/tool_bar"
-            layout="@layout/toolbar_with_search" />
+    <data>
+        <import type="android.view.View"/>
+        <variable
+                name="viewmodel"
+                type="com.example.music.viewmodel.CommentVM" />
+    </data>
 
-    <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nest_scroll_view"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tool_bar"
-            android:visibility="invisible">
+            android:orientation="vertical"
+            tools:context=".view.activity.CommentActivity">
 
-        <LinearLayout
+        <!--toolbar-->
+        <include
+                android:id="@+id/tool_bar"
+                layout="@layout/toolbar_with_search" />
+
+        <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nest_scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_below="@id/tool_bar"
+                android:visibility="@{viewmodel.isShowList() ? View.VISIBLE : View.GONE}">
 
-            <!--热评tv-->
-            <TextView
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="让我康康是谁上了热评"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <!--热评rv-->
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_hot_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
+                <!--热评tv-->
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="让我康康是谁上了热评"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
-            <!--无热评-->
-            <TextView
-                    android:id="@+id/tv_no_hotcomment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="还没有人上墙"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:visibility="gone"/>
+                <!--热评rv-->
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_hot_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
 
-            <!--更多评论tv-->
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="更多评论"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                <!--无热评-->
+                <TextView
+                        android:id="@+id/tv_no_hotcomment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="还没有人上墙"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:visibility="@{viewmodel.isShowNoHot() ? View.VISIBLE : View.GONE}"/>
 
-            <!--更过评论rv-->
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_more_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
-        </LinearLayout>
+                <!--更多评论tv-->
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="更多评论"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
-    </android.support.v4.widget.NestedScrollView>
-    <!--暂无评论-->
-    <TextView
-            android:id="@+id/tv_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="40dp"
-            android:text="暂无评论"
-            android:visibility="gone" />
+                <!--更过评论rv-->
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_more_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
+            </LinearLayout>
 
-    <ProgressBar
-            android:id="@+id/process_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+        </android.support.v4.widget.NestedScrollView>
+        <!--暂无评论-->
+        <TextView
+                android:id="@+id/tv_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="40dp"
+                android:text="暂无评论"
+                android:visibility="@{viewmodel.isShowText() ? View.VISIBLE : View.GONE}" />
 
-</RelativeLayout>
+        <ProgressBar
+                android:id="@+id/process_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="@{viewmodel.isShowBar() ? View.VISIBLE : View.GONE}"/>
+
+    </RelativeLayout>
+</layout>

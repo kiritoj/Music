@@ -11,6 +11,7 @@
         <variable
                 name="hanlder"
                 type="com.example.music.view.activity.PlayingActivity.MyHanlder" />
+        <import type="android.view.View"/>
     </data>
 
     <FrameLayout
@@ -137,9 +138,11 @@
                         android:src="@drawable/vector_drawable_collect_white" />
 
                 <ImageView
+                        android:id="@+id/iv_download"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_weight="1"
+                        android:onClick="@{()->hanlder.startDownload()}"
                         android:src="@drawable/vector_drawable_download_white" />
 
 
@@ -257,6 +260,13 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <ProgressBar
+                android:id="@+id/process_bar_add_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewmodel.showProcessBar ? View.VISIBLE : View.GONE}"/>
 
     </FrameLayout>
 </layout>

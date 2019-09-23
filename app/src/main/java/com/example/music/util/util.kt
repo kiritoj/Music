@@ -1,6 +1,7 @@
 package com.example.music.util
 
 import android.app.Activity
+import android.app.Service
 import android.content.Context
 import android.net.ConnectivityManager
 import android.text.TextUtils
@@ -75,5 +76,8 @@ object NetworkUtils {
 }
 
 
+fun Service.test(){
+
+}
 
 

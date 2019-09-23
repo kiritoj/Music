@@ -30,7 +30,7 @@
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:orientation="horizontal"
-                          android:paddingTop="15dp">
+                          >
                 <!--歌单-->
                 <LinearLayout
                         android:id="@+id/ll_songlist"
@@ -39,9 +39,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/item_pressed"
                         android:orientation="vertical"
-                        android:gravity="center_horizontal">
-                    <ImageView android:layout_width="50dp"
-                               android:layout_height="50dp"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp">
+                    <ImageView android:layout_width="40dp"
+                               android:layout_height="40dp"
 
                                android:src="@drawable/vector_drawable_songlist"/>
                     <TextView android:layout_width="wrap_content"
@@ -59,9 +60,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/item_pressed"
                         android:orientation="vertical"
+                        android:paddingTop="10dp"
                         android:gravity="center_horizontal">
-                    <ImageView android:layout_width="50dp"
-                               android:layout_height="50dp"
+                    <ImageView android:layout_width="40dp"
+                               android:layout_height="40dp"
                                android:src="@drawable/vector_drawable_top"/>
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -79,9 +81,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/item_pressed"
                         android:orientation="vertical"
+                        android:paddingTop="10dp"
                         android:gravity="center_horizontal">
-                    <ImageView android:layout_width="50dp"
-                               android:layout_height="50dp"
+                    <ImageView android:layout_width="40dp"
+                               android:layout_height="40dp"
 
                                android:src="@drawable/vector_drawable_mv"/>
                     <TextView android:layout_width="wrap_content"
@@ -95,17 +98,22 @@
 
             </LinearLayout>
 
+
+            <!--分割线-->
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    />
+            <!--热门歌单-->
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:text="热门歌单"
                       android:textStyle="bold"
                       android:textColor="@color/black"
                       android:padding="10dp"
-                      android:layout_marginTop="10dp"
                       android:textSize="17sp"/>
-
-            <!--热门歌单-->
-
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_hot_songlist_limit"
@@ -132,6 +140,14 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:visibility="gone"/>
+
+            <!--分割线-->
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:background="@color/gray"
+                    android:layout_marginTop="10dp"
+                    />
 
             <!--新歌速递tv-->
             <TextView android:layout_width="match_parent"

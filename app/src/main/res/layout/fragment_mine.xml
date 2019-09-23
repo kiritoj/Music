@@ -3,6 +3,9 @@
         >
     <data>
         <variable name="viewmodel" type="com.example.music.viewmodel.MineFragmentVM"/>
+        <variable
+                name="hanlder"
+                type="com.example.music.view.fragment.MineFragment.MyHanlder" />
 
     </data>
     <ScrollView
@@ -17,6 +20,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_margin="20dp"
+
                     url="@{viewmodel.mUserAvatar}"
                     placeholder="@{@drawable/ic_loading}"
                     error="@{@drawable/ic_loading_error}"
@@ -37,10 +41,11 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:text="退出登录"
-                    android:textColor="@color/yellow"
+                    android:textColor="#F8A1A4"
                     android:layout_below="@id/tv_user_name"
                     android:layout_alignLeft="@id/tv_user_name"
-                    android:background="@drawable/button_edit_data_tellow"/>
+                    android:background="@drawable/button_edit_data_tellow"
+                    android:onClick="@{()->hanlder.logout()}"/>
 
             <LinearLayout
                     android:id="@+id/ll_music_parent"
@@ -85,7 +90,7 @@
                         android:gravity="center_horizontal">
                     <ImageView android:layout_width="40dp"
                                android:layout_height="50dp"
-                               android:src="@drawable/vector_drawable_my_collect"/>
+                               android:src="@drawable/vector_drawable_my_collect_red"/>
                     <TextView
 
                             android:layout_width="wrap_content"
@@ -93,42 +98,36 @@
                             android:text="我的收藏"
                             android:textColor="@color/black"
                             android:layout_marginTop="5dp"/>
-                    <TextView
-                            android:id="@+id/tv_local_music_collect"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="14"
-                    />
 
                 </LinearLayout>
 
-                <LinearLayout
-                        android:id="@+id/ll_download_music"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/item_pressed"
-                        android:gravity="center_horizontal">
-                    <ImageView android:layout_width="40dp"
-                               android:layout_height="50dp"
-                               android:src="@drawable/vector_drawable_music_downloaded"/>
-                    <TextView
+<!--                <LinearLayout-->
+<!--                        android:id="@+id/ll_download_music"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@drawable/item_pressed"-->
+<!--                        android:gravity="center_horizontal">-->
+<!--                    <ImageView android:layout_width="40dp"-->
+<!--                               android:layout_height="50dp"-->
+<!--                               android:src="@drawable/vector_drawable_music_downloaded"/>-->
+<!--                    <TextView-->
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="已下载"
-                            android:textColor="@color/black"
-                            android:layout_marginTop="5dp"/>
-                    <TextView
-                            android:id="@+id/tv_local_music_download_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="14"
-                    />
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="已下载"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:layout_marginTop="5dp"/>-->
+<!--                    <TextView-->
+<!--                            android:id="@+id/tv_local_music_download_num"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="14"-->
+<!--                    />-->
 
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
             </LinearLayout>
 

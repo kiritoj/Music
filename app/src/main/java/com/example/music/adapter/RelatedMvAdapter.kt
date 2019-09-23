@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.music.databinding.RecycleItmRelatedMvBinding
 import com.example.music.model.bean.MvData
 import com.example.music.R
-import com.example.music.event.ClickEvent
+import com.example.music.event.MvClickEvent
 import com.example.music.view.activity.MvDetailActivity
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.startActivity
@@ -30,7 +30,7 @@ class RelatedMvAdapter(var list: List<MvData>,val context: Context): RecyclerVie
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.binding.mv = list[p1]
         p0.binding.root.setOnClickListener {
-           EventBus.getDefault().post(ClickEvent(list[p1].id))
+           EventBus.getDefault().post(MvClickEvent(list[p1]))
         }
     }
 

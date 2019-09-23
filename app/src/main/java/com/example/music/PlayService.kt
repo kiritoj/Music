@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat
 import android.util.Log
 import android.widget.RemoteViews
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.NotificationTarget
 import com.example.music.databindingadapter.getAlbumArt
 import com.example.music.event.*
@@ -66,8 +67,8 @@ class PlayService : Service() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationChannel("play", "音乐播放", NotificationManager.IMPORTANCE_DEFAULT)
                 notification = NotificationCompat.Builder(this, "play")
-                    .setContentTitle("标题")
-                    .setContentText("内容")
+                    .setContentTitle("Music")
+                    .setContentText("正在后台播放音乐")
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.mipmap.ic_music)
                     .setContentIntent(pi)
@@ -76,8 +77,8 @@ class PlayService : Service() {
             } else {
                 //android 8.0已下不用设置渠道
                 notification = NotificationCompat.Builder(this)
-                    .setContentTitle("标题")
-                    .setContentText("内容")
+                    .setContentTitle("Music")
+                    .setContentText("正在后台播放音乐")
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.mipmap.ic_music)
                     .setContentIntent(pi)
@@ -85,6 +86,7 @@ class PlayService : Service() {
                     .build()
 
             }
+
             startForeground(1, notification)
 
         }
@@ -120,11 +122,17 @@ class PlayService : Service() {
             )
             "NET_WITH_URL" ->
                 remoteView.setImageViewResource(R.id.notifi_music_cover,R.drawable.back)
-            "NET_NON_URL" ->
+            "NET_NON_URL" -> {
+                val requestOptions = RequestOptions()
+                    .placeholder(R.drawable.disk)
+                    .error(R.drawable.disk)
+                    .dontAnimate()
                 Glide.with(this)
                     .asBitmap()
                     .load(event.mSong.coverUrl)
+                    .apply(requestOptions)
                     .into(target)
+            }
         }
 
         manger.notify(1, notification)
@@ -150,9 +158,10 @@ class PlayService : Service() {
         manger.notify(1, notification)
     }
 
+
     //android 8.0以上创建通知渠道
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createNotificationChannel(channerId: String, channelName: String, importance: Int) {
+    fun Service.createNotificationChannel(channerId: String, channelName: String, importance: Int) {
         val channel = NotificationChannel(channerId, channelName, importance)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -160,8 +169,10 @@ class PlayService : Service() {
     }
 
 
+
     override fun onDestroy() {
         Log.d(TAG, "服务被关闭")
+
         PlayManger.recycle()
         EventBus.getDefault().unregister(this)
     }

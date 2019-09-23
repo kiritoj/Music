@@ -25,11 +25,14 @@ import com.example.music.view.activity.LoginActivity
 import com.example.music.adapter.UserSongListAdapter
 import com.example.music.databinding.FragmentMineBinding
 import com.example.music.databinding.PopWindowSonglistMoreBinding
+import com.example.music.model.bean.MvData
 import com.example.music.model.db.table.SongList
 import com.example.music.util.getScreenWidth
 import com.example.music.util.reduceTransparency
 import com.example.music.util.resetTransparency
 import com.example.music.util.MyGlideEngine
+import com.example.music.view.activity.MyCollectActivity
+import com.example.music.view.activity.MyDownloadActivity
 import com.example.music.viewmodel.MineFragmentVM
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
@@ -42,6 +45,7 @@ import kotlinx.android.synthetic.main.pop_window_sure.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.litepal.LitePal
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by tk on 2019/8/16
@@ -52,8 +56,8 @@ class MineFragment : Fragment() {
     lateinit var viewModel: MineFragmentVM
     lateinit var creatAdapter: UserSongListAdapter //创建歌单的适配器
     lateinit var collectAdapter: UserSongListAdapter//收藏歌单的适配器
-    //lateinit var collectListener: UserSongListAdapter.OnSongListItemMoreListener
     lateinit var mListener: UserSongListAdapter.OnSongListItemMoreListener
+    lateinit var binding:FragmentMineBinding
     val progressDialog by lazy { ProgressDialog(context) }
 
     override fun onCreateView(
@@ -61,11 +65,11 @@ class MineFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentMineBinding = DataBindingUtil
+        binding = DataBindingUtil
             .inflate(inflater, R.layout.fragment_mine, container, false)
         viewModel = MineFragmentVM()
         binding.viewmodel = viewModel
-
+        binding.hanlder = MyHanlder()
         //初始化recycleview
         initListener()
         creatAdapter = UserSongListAdapter(ArrayList<SongList>(), context!!)
@@ -85,47 +89,10 @@ class MineFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initClick()
-
-    }
 
 
-    /**
-     * 初始化部分控件的点击事件
-     */
-    fun initClick() {
-        iv_user_avatar.setOnClickListener { requestPermission() }
-        tv_user_name.setOnClickListener { showPopupWindow() }
-        ll_local_music.setOnClickListener {
-            startActivity(
-                Intent(
-                    activity,
-                    LocalMusicActivity::class.java
-                )
-            )
-        }
-        iv_add_songlist.setOnClickListener { showAddSongListWindow() }
 
-        //退出登录
-        bt_quit_login.setOnClickListener {
-            //清空本地用户名和头像
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            preferences.edit().apply {
-                remove("username")
-                remove("useravatar")
-                apply()
-            }
-            //将当前用户的全部歌单清空
-            LitePal.deleteAll(SongList::class.java)
 
-            //用户退出
-            AVUser.logOut()
-            activity?.startActivity<LoginActivity>()
-            activity?.finish()
-        }
-
-    }
 
     /**
      * viewmode与fragment绑定,刷新视图
@@ -346,6 +313,49 @@ class MineFragment : Fragment() {
             }
         }
 
+
+    }
+
+    /**
+     * 初始化部分控件的点击事件
+     */
+    inner class MyHanlder(){
+        init {
+            binding.ivUserAvatar.setOnClickListener { requestPermission() }
+            binding.tvUserName.setOnClickListener { showPopupWindow() }
+            //创建歌单
+            binding.ivAddSonglist.setOnClickListener { showAddSongListWindow() }
+            //进入本地音乐活动
+            binding.llLocalMusic.setOnClickListener {
+                context?.startActivity<LocalMusicActivity>()
+            }
+            //进入我的收藏活动
+            binding.llMyCollect.setOnClickListener {
+                context?.startActivity<MyCollectActivity>()
+            }
+//            //进入我的下载活动
+//            binding.llDownloadMusic.setOnClickListener {
+//                context?.startActivity<MyDownloadActivity>()
+//            }
+
+        }
+        fun logout(){
+            //清空本地用户名和头像
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            preferences.edit().apply {
+                remove("username")
+                remove("useravatar")
+                apply()
+            }
+            //将当前用户的全部歌单清空
+            LitePal.deleteAll(SongList::class.java)
+            //清空收藏mv
+            LitePal.deleteAll(MvData::class.java)
+            //用户退出
+            AVUser.logOut()
+            activity?.startActivity<LoginActivity>()
+            activity?.finish()
+        }
 
     }
 

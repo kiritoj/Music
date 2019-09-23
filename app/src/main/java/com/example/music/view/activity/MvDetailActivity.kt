@@ -12,16 +12,18 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import cn.jzvd.JZVideoPlayer
-import com.bumptech.glide.request.target.NotificationTarget
+import com.example.music.PlayManger
 import com.example.music.R
 import com.example.music.adapter.CommentsAdapter
 import com.example.music.adapter.RelatedMvAdapter
 import com.example.music.databinding.ActivityMvDetailBinding
-import com.example.music.event.ClickEvent
+import com.example.music.event.MvClickEvent
+import com.example.music.model.bean.MvData
 import com.example.music.viewmodel.MvDetailVM
 import kotlinx.android.synthetic.main.activity_mv_detail.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.jetbrains.anko.toast
 
 class MvDetailActivity : AppCompatActivity() {
 
@@ -32,12 +34,12 @@ class MvDetailActivity : AppCompatActivity() {
     //评论适配器
     val comAdapter by lazy { CommentsAdapter(ArrayList()) }
     //
-    var mvID: Long = 0
+    lateinit var mv : MvData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_mv_detail)
-
+        PlayManger.pause()
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(Color.BLACK)
         }
@@ -45,9 +47,9 @@ class MvDetailActivity : AppCompatActivity() {
         EventBus.getDefault().register(this)
         binding.viewmodel = viewmodel
         //接受mvid
-        mvID = intent.getLongExtra("mvid",0)
-        viewmodel.getAllAboutMv(mvID)
-        binding.id = mvID
+        mv = intent.getSerializableExtra("mv") as MvData
+        viewmodel.getAllAboutMv(mv)
+        binding.mv = mv
         binding.hangdler = MyHandler()
         initPlayer()
         initRecycle()
@@ -79,32 +81,7 @@ class MvDetailActivity : AppCompatActivity() {
     }
 
     fun observe(){
-        //展开详细介绍
-        viewmodel.isOpenDesc.observe(this, Observer {
-            if (it!!){
-                binding.ivOpenDesc.setImageResource(R.drawable.vector_drawable_dengbian)
-                binding.tvDesc.visibility = View.VISIBLE
-            }else{
-                binding.ivOpenDesc.setImageResource(R.drawable.vector_drawable_dengbian_down)
-                binding.tvDesc.visibility = View.GONE
-            }
-        })
-        //加载失败
-        viewmodel.isError.observe(this, Observer {
-            if (it!!){
-                binding.tvError.visibility = View.VISIBLE
-            }else{
-                binding.tvError.visibility = View.GONE
-            }
-        })
-        //
-        viewmodel.showProcessBar.observe(this, Observer {
-            if (it!!){
-                binding.processBar.visibility = View.VISIBLE
-            }else{
-                binding.processBar.visibility = View.GONE
-            }
-        })
+
         //相关mv
         viewmodel.relatedMv.observe(this, Observer {
             mvAdapter.list = it!!
@@ -116,6 +93,10 @@ class MvDetailActivity : AppCompatActivity() {
             val size = comAdapter.list.size
             comAdapter.list.addAll(it!!)
             comAdapter.notifyItemRangeInserted(size,it.size)
+        })
+        //toast
+        viewmodel.toast.observe(this, Observer {
+            toast(it!!)
         })
     }
 
@@ -136,7 +117,7 @@ class MvDetailActivity : AppCompatActivity() {
             binding.nestScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { p0, scrollX, scrollY, oldScrollX, oldScrollY ->
                 if (p0 != null) {
                     if (scrollY == p0.getChildAt(0).measuredHeight - p0.measuredHeight) {
-                        viewmodel.getMvComment(mvID,offset = comAdapter.list.size)
+                        viewmodel.getMvComment(mv.mvId,offset = comAdapter.list.size)
                     }
                 }
             })
@@ -156,8 +137,8 @@ class MvDetailActivity : AppCompatActivity() {
     }
 
     @Subscribe
-    fun onRelatedItemClick(event: ClickEvent){
-        mvID = event.id
+    fun onRelatedItemClick(event: MvClickEvent){
+        mv = event.data
         binding.nestScrollView.scrollTo(0,0)
         //停止播放当前视频
         jz_video_player.release()
@@ -166,8 +147,7 @@ class MvDetailActivity : AppCompatActivity() {
         comAdapter.notifyDataSetChanged()
         //隐藏详情信息
         binding.nestScrollView.visibility = View.INVISIBLE
-        binding.processBar.visibility = View.VISIBLE
-        viewmodel.getAllAboutMv(event.id)
+        viewmodel.reload(mv)
     }
 }
 

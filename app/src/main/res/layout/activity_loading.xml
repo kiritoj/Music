@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.activity.LoadingActivity"
-        android:background="#FF7F27"
+        android:background="@drawable/toolbar_background"
         android:orientation="vertical"
 
 >

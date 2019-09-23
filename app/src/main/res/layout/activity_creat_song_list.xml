@@ -42,7 +42,7 @@
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
                         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                        app:contentScrim="@color/yellow"
+                        app:contentScrim="#FBCFD0"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed"
                         app:titleEnabled="false">
 

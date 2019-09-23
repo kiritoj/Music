@@ -2,6 +2,7 @@ package com.example.music.viewmodel
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
 import android.util.Log
 import com.example.music.model.bean.Comment
 import com.example.music.network.ApiGenerator
@@ -15,14 +16,14 @@ import io.reactivex.schedulers.Schedulers
  */
 class CommentVM {
     val TAG = "CommentVM"
-    //是否显示‘暂无歌单’
-    val isShowText = MutableLiveData<Boolean>()
+    //是否显示‘暂无评论’
+    val isShowText = ObservableField<Boolean>(false)
     //是否显示加载bar
-    val isShowBar = MutableLiveData<Boolean>()
+    val isShowBar = ObservableField<Boolean>(true)
     //是否显示列表
-    val isShowList = MutableLiveData<Boolean>()
+    val isShowList = ObservableField<Boolean>(false)
     //是否显示暂无热评
-    val isShowNoHot = MutableLiveData<Boolean>()
+    val isShowNoHot = ObservableField<Boolean>(false)
     //热门评论列表
     val hotConments = MutableLiveData<List<Comment>>()
     //普通评论列表
@@ -48,9 +49,9 @@ class CommentVM {
                 }
             }
         } else {
-            isShowBar.value = false
-            isShowList.value = false
-            isShowText.value = true
+            isShowBar.set(false)
+            isShowList.set(false)
+            isShowText.set(true)
         }
     }
 
@@ -62,19 +63,19 @@ class CommentVM {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                isShowBar.value = false
+                isShowBar.set(false)
                 if (it.hotComments.isNullOrEmpty() and it.comments.isNullOrEmpty() and !flagN) {
-                    isShowList.value = false
-                    isShowText.value = true
+                    isShowList.set(false)
+                    isShowText.set(true)
                 } else {
                     if (it.hotComments.isNullOrEmpty() and !flagH) {
                         Log.d(TAG, "test")
-                        isShowNoHot.value = true
+                        isShowNoHot.set(true)
                     }else{
                         flagH = true
                     }
                     Log.d(TAG, "test1")
-                    isShowList.value = true
+                    isShowList.set(true)
                     hotConments.value = it.hotComments
                     comments.value = it.comments
                     flagN = true
@@ -93,19 +94,19 @@ class CommentVM {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                isShowBar.value = false
+                isShowBar.set(false)
                 if (it.hotComments.isNullOrEmpty() and it.comments.isNullOrEmpty() and !flagN) {
-                    isShowList.value = false
-                    isShowText.value = true
+                    isShowList.set(false)
+                    isShowText.set(true)
                 } else {
                     if (it.hotComments.isNullOrEmpty() and !flagH) {
                         Log.d(TAG, "test")
-                        isShowNoHot.value = true
+                        isShowNoHot.set(true)
                     }else{
                         flagH = true
                     }
                     Log.d(TAG, "test1")
-                    isShowList.value = true
+                    isShowList.set(true)
                     hotConments.value = it.hotComments
                     comments.value = it.comments
                     flagN = true

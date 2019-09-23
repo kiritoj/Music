@@ -143,6 +143,7 @@ object PlayManger {
         when (song.tag) {
             //本地音乐
             "LOCAL" -> {
+                Log.d(TAG,"LOCAL")
                 player.apply {
                     setDataSource(song.path)
                     prepareAsync()
@@ -152,6 +153,7 @@ object PlayManger {
 
             //带有url的歌曲
             "NET_WITH_URL" -> {
+                Log.d(TAG,"NET_WITH_URL")
                 player.apply {
                     setDataSource(song.url)
                     prepareAsync()
@@ -162,6 +164,7 @@ object PlayManger {
 
             //来自网络的音乐,必须动态获取播放地址，一段时间后地址会失效
             "NET_NON_URL" -> {
+                Log.d(TAG,"NET_NON_URL")
                 Log.d(TAG,song.musicId.toString()+"---"+song.songName)
                 ApiGenerator.getApiService(SongPlayService::class.java)
                     .getUrl(song.musicId!!)
@@ -170,7 +173,9 @@ object PlayManger {
                     .subscribe({
                         player.apply {
                             Log.d(TAG,it.data[0].url)
+                            quene[index].url = it.data[0].url
                             setDataSource(it.data[0].url)
+
                             prepareAsync()
                         }
 
@@ -213,9 +218,12 @@ object PlayManger {
      *暂停
      */
     fun pause() {
-        player.pause()
-        //通知音乐已暂停
-        EventBus.getDefault().post(StateEvent(PlayManger.State.PAUSE))
+        if (player.isPlaying) {
+            player.pause()
+            //通知音乐已暂停
+            EventBus.getDefault().post(StateEvent(PlayManger.State.PAUSE))
+        }
+
 
 
 
@@ -225,8 +233,11 @@ object PlayManger {
      * 继续播放
      */
     fun resume() {
-        player.start()
-        EventBus.getDefault().post(StateEvent(PlayManger.State.PLAY))
+        if (!player.isPlaying) {
+            player.start()
+            EventBus.getDefault().post(StateEvent(PlayManger.State.PLAY))
+        }
+
     }
 
     /**

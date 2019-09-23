@@ -2,12 +2,17 @@ package com.example.music.view.activity
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -18,6 +23,7 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.PopupWindow
 import android.widget.SeekBar
+import com.example.music.DownloadService
 import com.example.music.PlayControlReceiver
 import com.example.music.PlayManger
 import com.example.music.R
@@ -29,6 +35,7 @@ import com.example.music.util.getScreeHeight
 import com.example.music.util.reduceTransparency
 import com.example.music.util.resetTransparency
 import com.example.music.viewmodel.PlayVM
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_playing.*
 import kotlinx.android.synthetic.main.pop_playlist.view.*
 import org.greenrobot.eventbus.EventBus
@@ -55,6 +62,15 @@ class PlayingActivity : AppCompatActivity() {
     //pop布局
     lateinit var mRootView: View
 
+    //与服务绑定
+    private var downloadBinder: DownloadService.DownloadBinder? = null
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            downloadBinder = service as DownloadService.DownloadBinder
+        }
+        override fun onServiceDisconnected(name: ComponentName) {}
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +90,9 @@ class PlayingActivity : AppCompatActivity() {
         initToolbar()
         //隐藏状态栏
         hideStateBar()
-
+        //绑定下载服务
+        val intent = Intent(this,DownloadService::class.java)
+        bindService(intent,connection, Context.BIND_AUTO_CREATE)
         observe()
 
 
@@ -186,8 +204,9 @@ class PlayingActivity : AppCompatActivity() {
                 tv_buffer.visibility = View.INVISIBLE
             }
         })
-
-
+        viewmodel.toast.observe(this, Observer {
+            toast(it!!)
+        })
     }
 
 
@@ -249,6 +268,25 @@ class PlayingActivity : AppCompatActivity() {
             binding.lrcview.visibility = View.GONE
         }
 
+        @SuppressLint("CheckResult")
+        fun startDownload(){
+            //检查权限再下载
+            RxPermissions(this@PlayingActivity)
+                .request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe {
+                    if (it) {
+                        PlayManger.quene[PlayManger.index].apply {
+                            url?.let {
+                                downloadBinder?.startDownload(it,this.songName)
+                            }
+                        }
+                    } else {
+                        toast("拒绝授权将无法下载歌曲")
+                    }
+                }
+
+        }
+
         init {
             //seekbar拖拽进度
             binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -268,6 +306,8 @@ class PlayingActivity : AppCompatActivity() {
         }
 
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

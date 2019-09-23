@@ -8,11 +8,12 @@
                 name="viewmodel"
                 type="com.example.music.viewmodel.MvDetailVM"/>
         <variable
-                name="id"
-                type="Long" />
+                name="mv"
+                type="com.example.music.model.bean.MvData"/>
         <variable
                 name="hangdler"
                 type="com.example.music.view.activity.MvDetailActivity.MyHandler" />
+        <import type="android.view.View"/>
     </data>
 
     <LinearLayout
@@ -36,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
+                android:visibility="@{viewmodel.showProcessBar ? View.VISIBLE : View.GONE}"
                 />
         <!--加载失败提示-->
         <TextView
@@ -43,9 +45,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="加载失败，点击重试"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/item_pressed"
                 android:gravity="center_horizontal"
-                android:onClick="@{()->viewmodel.getMvDetail(id)}"
-                android:visibility="gone"/>
+                android:onClick="@{()->viewmodel.getAllAboutMv(mv)}"
+                android:visibility="@{viewmodel.isError() ? View.VISIBLE : View.GONE}"/>
 
         <!--mv信息部分-->
         <android.support.v4.widget.NestedScrollView
@@ -85,7 +89,8 @@
                             android:layout_weight="2"
                             android:padding="5dp"
                             android:onClick="@{()->viewmodel.openDesc()}"
-                            android:src="@drawable/vector_drawable_dengbian_down" />
+                            android:src="@{viewmodel.isOpenDesc() ? @drawable/vector_drawable_dengbian : @drawable/vector_drawable_dengbian_down}"/>
+
                 </LinearLayout>
 
                 <!--上传时间-->
@@ -103,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="@{viewmodel.mv.desc}"
-                        android:visibility="gone" />
+                        android:visibility="@{viewmodel.isOpenDesc() ? View.VISIBLE : View.GONE}" />
 
                 <!--点赞，收藏，分享,评论数-->
                 <LinearLayout
@@ -127,8 +132,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:icon="@drawable/vector_drawable_my_collect"
+                            android:onClick="@{()->viewmodel.collectMv()}"
+                            app:icon="@{viewmodel.isCollect() ? @drawable/vector_drawable_collect_red : @drawable/vector_drawable_my_collect}"
                             app:text="@{viewmodel.mv.subCount}" />
+
 
                     <com.example.music.view.customveiw.ImageWithTextView
                             android:id="@+id/custom_comment"

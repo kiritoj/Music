@@ -71,10 +71,9 @@ class FindFragment : Fragment() {
         observe()
 
         //刷新
-        refresh_layout.setColorSchemeResources(R.color.yellow)
+        refresh_layout.setColorSchemeResources(R.color.pink)
         refresh_layout.setOnRefreshListener {
             mViewModel.refresh()
-            refresh_layout.isRefreshing = false
         }
 
     }
@@ -108,6 +107,7 @@ class FindFragment : Fragment() {
             songListAdapter.list.addAll(it!!)
             songListAdapter.notifyDataSetChanged()
             process_bar.visibility = View.GONE
+            refresh_layout.isRefreshing = false
         })
         mViewModel.latestSong.observe(this, Observer {
             latestSongAdapter.list.clear()

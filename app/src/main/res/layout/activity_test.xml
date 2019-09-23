@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-            android:id="@+id/bt_save"
+    <data>
+        <variable
+                name="viewmodel"
+                type="com.example.music.viewmodel.TestVM" />
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+            android:id="@+id/frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="发送广播"/>
-<!--    <Button-->
-<!--        android:id="@+id/bt_get"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--             android:text="删除数据"/>-->
-<!--    <Button-->
-<!--        android:id="@+id/bt_jian"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--             android:text="减少一个数据"/>-->
-<!--    <Button-->
-<!--        android:id="@+id/other"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="增加作者"/>-->
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@{viewmodel.isVisiable() ? @drawable/vector_drawable_collect_red :  @drawable/vector_drawable_pause_black}"
+                />
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="改变"
+                android:visibility="visible"
+                android:onClick="@{()->viewmodel.changeV()}"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+</layout>
 
 

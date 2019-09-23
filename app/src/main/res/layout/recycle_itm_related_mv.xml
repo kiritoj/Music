@@ -21,7 +21,7 @@
                 url="@{mv.cover}"
                 placeholder="@{@drawable/ic_loading}"
                 error="@{@drawable/ic_loading_error}"
-                radius="@{10}"/>
+                />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -35,12 +35,14 @@
                     android:id="@+id/tv_related_mv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="@{mv.name}" />
 
             <TextView
                     android:id="@+id/tv_related_mv_author"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:layout_marginTop="7dp"
                     android:text="@{mv.artistName}" />
         </LinearLayout>

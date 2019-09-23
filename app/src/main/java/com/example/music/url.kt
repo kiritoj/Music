@@ -20,7 +20,7 @@ const val DEFAULT_BACKGROUND = "http://ww1.sinaimg.cn/large/006nB4gFly1g6nuqylyt
 
 //接口baseurl
 
-const val BASE_URL = "https://music.aityp.com/"
+const val BASE_URL = "http://www.china-4s.com"
 
 //歌词baseutl
 const val LRC_BASE_URL = "https://api.imjad.cn/cloudmusic/?type=lyric"
@@ -36,3 +36,6 @@ const val Lrc_BASE_URL = "https://v1.itooi.cn/netease/lrc?id="
 
 //加载失败的图片url
 const val LOADING_ERROR = "http://ww1.sinaimg.cn/large/006nwaiFly1g6gcuepj8oj30au0590sj.jpg"
+
+////获取评论的url
+//const val COMMENT_URL = "http://www.china-4s.com/comment/"

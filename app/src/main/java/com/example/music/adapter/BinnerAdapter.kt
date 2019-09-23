@@ -14,9 +14,13 @@ import org.jetbrains.anko.startActivity
 import com.example.music.view.activity.PlayingActivity
 import com.example.music.model.db.table.LocalMusic
 import com.example.music.event.QueneEvent
+import com.example.music.model.bean.MvData
+import com.example.music.model.db.table.SongList
 import com.example.music.network.ApiGenerator
 import com.example.music.network.services.MusicService
 import com.example.music.util.GlideUtil
+import com.example.music.view.activity.MvDetailActivity
+import com.example.music.view.activity.SongListDetailActivity
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 
@@ -92,6 +96,11 @@ class BinnerAdapter(mList: ArrayList<BannerTable>, val context: Context?) : Page
                             Log.d(TAG,"BinnerAdapter:获取banner歌曲信息失败${it.message}")
                         })
                 }
+                1004 -> {
+                    val mv = MvData(0,"","",list[position].imageUrl,list[position].targetId,"视频",0)
+                    context.startActivity<MvDetailActivity>("mv" to mv)
+                }
+
 //                mUrl.startsWith("/song") -> {
 //                    val mId = mUrl.substring(9).toLong()
 //                    ApiGenerator.getApiService(MusicService::class.java)

@@ -1,6 +1,7 @@
 package com.example.music.view.customveiw
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -35,8 +36,11 @@ class ImageWithTextView : FrameLayout {
         typeArray.recycle()
     }
 
-    fun setImag(resourceId: Int){
+    fun setIcon(resourceId: Int){
         imageView.setImageResource(resourceId)
+    }
+    fun setIcon(drawable: Drawable){
+        imageView.setImageDrawable(drawable)
     }
 
     fun setText(num: Int){

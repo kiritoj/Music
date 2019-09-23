@@ -28,7 +28,7 @@ class MvAdapter(val list: ArrayList<MvData>,val context: Context) : RecyclerView
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.binding.mv = list[p1]
         p0.binding.ivMvCover.setOnClickListener {
-            context.startActivity<MvDetailActivity>("mvid" to list[p1].id)
+            context.startActivity<MvDetailActivity>("mv" to list[p1])
         }
 
 

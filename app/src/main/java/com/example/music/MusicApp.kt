@@ -16,8 +16,11 @@ import org.litepal.LitePalApplication
  * Created by tk on 2019/8/15
  */
 class MusicApp : Application() {
-    val APP_ID = "nmLtmSAsfQWMFwSByifhcukR-gzGzoHsz"
-    val APP_KEY = "V1SIQsUIBLMdMREIWWNvJssh"
+    val APP_ID = "l9OMvWgQ58e8kpo3SV4G1AFv-MdYXbMMI"
+    val APP_KEY = "QzQOxu0hQ9dc0093UJgySOrC"
+    //国内版
+    //val APP_ID = "nmLtmSAsfQWMFwSByifhcukR-gzGzoHsz"
+    //val APP_KEY = "V1SIQsUIBLMdMREIWWNvJssh"
 
     override fun onCreate() {
         super.onCreate()

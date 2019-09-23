@@ -28,7 +28,7 @@
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center_vertical"
-                      android:textColor="#515151"
+                      android:textColor="#BFBFBF"
                       android:text="下载"
                       android:textSize="16sp"
                       android:layout_marginLeft="10dp"/>
@@ -50,7 +50,7 @@
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center_vertical"
-                      android:textColor="#515151"
+                      android:textColor="#BFBFBF"
                       android:text="编辑歌单"
                       android:textSize="16sp"
                       android:layout_marginLeft="10dp"/>

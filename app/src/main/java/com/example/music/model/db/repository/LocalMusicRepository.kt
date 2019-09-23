@@ -17,7 +17,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.greenrobot.eventbus.EventBus
 import org.litepal.LitePal
-import java.io.ByteArrayOutputStream
 
 
 /**

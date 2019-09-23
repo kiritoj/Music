@@ -22,8 +22,8 @@
                 android:id="@+id/tl_mv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabSelectedTextColor="@color/yellow"
-                app:tabIndicatorColor="@color/yellow"/>
+                app:tabSelectedTextColor="#F47378"
+                app:tabIndicatorColor="#F47378"/>
 
         <!--viewpager-->
         <android.support.v4.view.ViewPager
