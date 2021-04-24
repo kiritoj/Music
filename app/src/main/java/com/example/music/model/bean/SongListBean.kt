@@ -61,7 +61,7 @@ data class Playlists(
     //val trackUpdateTime: Long,
     //val tracks: Any,
     //val updateTime: Long,
-    val userId: Int
+    val userId: Long
 )
 
 /**
@@ -93,7 +93,7 @@ data class Creator(
     val province: Int,
     //val remarkName: Any,
     val signature: String,
-    val userId: Int
+    val userId: Long
     //val userType: Int,
     //val vipType: Int
 )

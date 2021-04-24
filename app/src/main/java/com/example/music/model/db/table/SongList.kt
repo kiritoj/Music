@@ -24,7 +24,7 @@ class SongList : LitePalSupport(),Serializable {
      var num: Int = 0
      var isNetSongList: Int = 1
      var netId: Long? = null
-     var creatorId: Int? = null
+     var creatorId: Long? = null
      var creatorAvatar: String? = null
      var creatorName: String? = null
      var description: String? = null

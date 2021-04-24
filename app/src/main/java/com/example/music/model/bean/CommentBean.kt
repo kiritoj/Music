@@ -95,7 +95,7 @@ data class UserX(
     //val locationInfo: Any,
     val nickname: String,
     //val remarkName: Any,
-    val userId: Int
+    val userId: Long
     //val userType: Int
     //val vipRights: VipRightsX,
     //val vipType: Int

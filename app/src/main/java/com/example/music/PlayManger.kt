@@ -166,8 +166,9 @@ object PlayManger {
             "NET_NON_URL" -> {
                 Log.d(TAG,"NET_NON_URL")
                 Log.d(TAG,song.musicId.toString()+"---"+song.songName)
+
                 ApiGenerator.getApiService(SongPlayService::class.java)
-                    .getUrl(song.musicId!!)
+                    .getUrl(MUSIC_BASE_URL,song.musicId!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({

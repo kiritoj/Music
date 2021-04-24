@@ -145,7 +145,7 @@ class SongListRepository {
                     netId = it.getLong("netID")
                     creatorName = it.getString("creatorName")
                     commentNum = it.getInt("commentNum")
-                    creatorId = it.getInt("creatorId")
+                    creatorId = it.getLong("creatorId")
                     save()
                 }
                 list.add(mSongList)
@@ -190,7 +190,7 @@ class SongListRepository {
             .subscribe ({
                 EventBus.getDefault().post(AssortedSongListEvent(cat,it.playlists as ArrayList<Playlists>))
             },{
-                Log.d(TAG,"获取分类歌单失败")
+                Log.d(TAG,"获取分类歌单失败,${it.message}")
             })
     }
 

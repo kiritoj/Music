@@ -29,7 +29,7 @@ data class Playlist(
     val name: String,
     //val newImported: Boolean,
     //val ordered: Boolean,
-    val playCount: Int,
+    val playCount: Long,
     //val privacy: Int,
     //val shareCount: Int,
     //val specialType: Int,
@@ -45,7 +45,7 @@ data class Playlist(
     val tracks: List<Track>,
     //val updateFrequency: String,
     //val updateTime: Long,
-    val userId: Int
+    val userId: Long
 )
 
 data class TrackId(
